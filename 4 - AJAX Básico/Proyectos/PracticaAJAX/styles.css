@@ -1,0 +1,15 @@
+﻿label {
+    display: inline-block;
+    width: 50px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+input {
+    margin: 10px;
+}
+
+button {
+    margin: 10px;
+    margin-left: 100px;
+}

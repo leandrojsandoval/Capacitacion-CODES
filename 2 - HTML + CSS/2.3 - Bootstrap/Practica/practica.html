@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+    <style>
+        .col {
+            border: 2px solid grey;
+        }
+
+        .col-verde-sup {
+            background-color: lime;
+            border: 3px solid grey;
+            height: 40px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .col-verde-inf {
+            background-color: lime;
+            border: 3px solid grey;
+            height: 20px;
+            margin-top: 10px;
+        }
+
+        .col-roja {
+            background-color: red;
+            border: 3px solid grey;
+            margin: 3px;
+        }
+
+        .col-fucsia {
+            background-color: fuchsia;
+            border: 3px solid grey;
+            height: 50px;
+            margin: 3px;
+
+        }
+
+        .col-naranja {
+            background-color: coral;
+            border: 3px solid grey;
+            height: 150px;
+            margin: 3px;
+        }
+
+        .col-azul {
+            background-color: blue;
+            border: 3px solid grey;
+            height: 75px;
+            margin: 2px;
+        }
+
+    </style>
+
+    <title>Practica Bootstrap</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- COLUMNA VERDE -->
+
+        <div class="row">
+            <div class="col col-verde-sup"></div>
+        </div>
+
+        <div class="row">
+
+            <!-- COLUMNA ROJA -->
+
+            <div class="col-lg-2 col-md-2 col-sm-2 d-none d-sm-block col-roja"></div>
+
+            <!-- COLUMNA FUCSIA -->
+
+            <div class="col">
+                <div class="row">
+
+                    <div class="col col-fucsia"></div>
+
+                    <div class="w-100"></div>
+
+                    <!-- COLUMNAS NARANJAS -->
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 p-1"><div class="col-naranja"></div></div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 p-1"><div class="col-naranja"></div></div>
+
+                    <div class="w-100"></div>
+
+                    <!-- COLUMNAS AZULES - PRIMERA FILA -->
+
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+
+                    <!-- COLUMNAS AZULES - SEGUNDA FILA -->
+
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-6 p-1"><div class="col-azul"></div></div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMNA VERDE -->
+
+        <div class="row">
+            <div class="col col-verde-inf"></div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

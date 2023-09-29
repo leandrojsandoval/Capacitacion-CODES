@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Práctica AJAX Básico</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <h1>Práctica AJAX Básico</h1>
+    <h2>Ingrese nombre y apellido</h2>
+
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre"/>
+    <br />
+
+    <label for="apellido">Apellido</label>
+    <input type="text" id="apellido"/>
+    <br />
+
+    <button id="botonSaludo">Saludar</button>
+
+    <div id="container"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $("#botonSaludo").click(function () {
+            var nombre = $("#nombre").val().trim();
+            var apellido = $("#apellido").val().trim();
+            if (nombre && apellido) {
+                $.post("saludoHandler.ashx", { nombre: nombre, apellido: apellido }, function (data) {
+                    var $spanElement = $("<span>").text(data);
+                    $("#container").empty().append($spanElement);
+                });
+            }
+            else {
+                alert("Por favor, ingrese tanto el nombre como el apellido.");
+            }
+        });
+    </script>
+
+</body>
+
+</html>

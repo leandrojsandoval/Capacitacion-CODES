@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticaAJAX-3", "PracticaAJAX-3.csproj", "{C96CE129-0D53-4BBE-80DB-BA3F46FA89E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C96CE129-0D53-4BBE-80DB-BA3F46FA89E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96CE129-0D53-4BBE-80DB-BA3F46FA89E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96CE129-0D53-4BBE-80DB-BA3F46FA89E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96CE129-0D53-4BBE-80DB-BA3F46FA89E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64DC9192-A98A-4007-AD25-BBF4D328A7C8}
+	EndGlobalSection
+EndGlobal
