@@ -1,0 +1,33 @@
+﻿body {
+    background-color: lightgreen;
+}
+
+label {
+    display: inline-block;
+    font-weight: bold;
+    width: 50px;
+    margin-right: 5px;
+}
+
+button {
+    margin: 10px;
+    margin-left: 100px;
+}
+
+#datosConfirmados {
+    background-color: lightblue;
+    border: 1px solid black;
+    color: white;
+    display: none;
+    font-family: monospace;
+    font-size: 20px;
+    left: 50%;
+    padding: 10px;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.campo {
+    margin: 10px;
+}

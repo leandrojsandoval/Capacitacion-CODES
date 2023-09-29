@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        label {
+            display: inline-block;
+            width: 50px;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        .campo {
+            margin: 10px;
+        }
+
+        button {
+            margin: 10px;
+            margin-left: 100px;
+        }
+    </style>
+    <title>Formulario HTML</title>
+</head>
+
+<body style="background-color: lightsteelblue;">
+    <h1>Complete los datos</h1>
+    <form id="formulario">
+
+        <label for="nombre">Nombre</label>
+        <input type="text" class="campo" id="nombre" name="nombre" required><br>
+
+        <label for="apellido">Apellido</label>
+        <input type="text" class="campo" id="apellido" name="apellido" required><br>
+
+        <label for="dni">DNI</label>
+        <input type="text" class="campo" id="dni" name="dni" required><br>
+
+        <label for="email">Email</label>
+        <input type="text" class="campo" id="email" name="email" required><br>
+
+        <button type="submit" id="enviarDatos">Enviar Datos</button>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        var bloqueDiv = $("<div>");
+        bloqueDiv.attr("id", "datosConfirmados");
+        $("body").append(bloqueDiv);
+
+        function limpiarResultados() {
+            $("#datosConfirmados").html('');
+        }
+
+        $("#formulario").on("submit", function (event) {
+            event.preventDefault();
+            limpiarResultados();
+            var $campos = $(this).find('input');
+            /*for(var i = 0; i < $campos.length; i++) {
+                var campo = $campos[i];
+                var $campo = $(campo);
+                $("#datosConfirmados").append($campo.val() + '<br>');
+            }*/
+            $("#datosConfirmados").append('Los datos ingresados son: <br><br>');
+            $campos.each(function (index, element) {
+                var $campo = $(element);
+                $("#datosConfirmados").append($campo.val() + '<br>');
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+﻿body {
+    background-color: lightblue;
+}
+
+.row-item {
+    padding: 10px;
+    border: 1px solid #CCC;
+    color: green;
+    background-color: lightgreen;
+}

@@ -1,0 +1,42 @@
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing...</title>
+    <script language="javascript" type="text/javascript">
+        function IrAGoogle() { if (confirm("Desea abandonarnos?")) { window.location.href = "http://www.google.com.ar"; } }
+        function LeerValor() { alert(document.getElementById("txtValor1").value); }
+        function LeerCombo() {
+            alert("value: " + document.getElementById("cboValores").value);
+            var comboAux = document.getElementById("cboValores");
+            alert("text: " + comboAux.options[comboAux.selectedIndex].text);
+        }
+        function VerOpcion() {
+            var optionAux = document.getElementsByName("opciones");
+            if (optionAux[0].checked) { alert("Seleccionó " + optionAux[0].value); }
+            else if (optionAux[1].checked) { alert("Seleccionó " + optionAux[1].value); }
+            else { alert("Seleccionó " + optionAux[2].value); }
+        }
+    </script>
+</head>
+
+<body>
+    <input type="button" value="ir a google" onclick="IrAGoogle();">
+    <br />
+    <input type="text" value="Valor1" id="txtValor1"><input type="button" value="Leer Valor" onclick="LeerValor();">
+    <br />
+    <select id="cboValores">
+        <option value="1">Valor 1</option>
+        <option value="2">Valor 2</option>
+        <option value="3">Valor 3</option>
+    </select>
+    <input type="button" value="Leer combo" onclick="LeerCombo();">
+    <br />
+    <input type="radio" name="opciones" value="opcionA" />Opci&oacute;n A
+    <input type="radio" name="opciones" value="opcionB" />Opci&oacute;n B
+    <input type="radio" name="opciones" value="opcionNinguna" />Ninguna
+    <input type="button" value="Ver opci&oacute;n" onclick="VerOpcion();">
+</body>
+
+</html>

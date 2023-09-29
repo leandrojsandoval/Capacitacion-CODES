@@ -1,0 +1,11 @@
+﻿body {
+}
+
+#container {
+    background-color: aqua;
+    padding: 10px;
+}
+
+    #container:empty {
+        display: none;
+    }

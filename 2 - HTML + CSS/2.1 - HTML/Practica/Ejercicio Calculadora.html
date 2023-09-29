@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Operaciones Matem&aacute;ticas</title>
+</head>
+
+<body>
+    <script>
+        function getAction() {
+            var opcion = document.querySelector('input[name="operacion"]:checked');
+            var numero1 = parseFloat(document.getElementById("numero1").value);
+            var numero2 = parseFloat(document.getElementById("numero2").value);
+
+            if (isNaN(numero1) || isNaN(numero2)) {
+                alert("Es necesario ingresar ambos números válidos.");
+                return;
+            }
+
+            if (!opcion) {
+                alert("No se ha seleccionado ninguna operación.");
+                return;
+            }
+
+            var resultado;
+            switch (opcion.value) {
+                case "sumar":
+                    resultado = numero1 + numero2;
+                    break;
+                case "restar":
+                    resultado = numero1 - numero2;
+                    break;
+                case "multiplicar":
+                    resultado = numero1 * numero2;
+                    break;
+                case "dividir":
+                    if (numero2 === 0) {
+                        alert("No es posible realizar la división por 0.");
+                        return;
+                    }
+                    resultado = numero1 / numero2;
+                    break;
+            }
+
+            alert("El resultado es " + resultado);
+        }
+    </script>
+
+    <form>
+        N&uacute;mero 1 <input type="text" id="numero1" name="numero1" required><br><br>
+        N&uacute;mero 2 <input type="text" id="numero2" name="numero2" required><br><br>
+
+        <input type="radio" name="operacion" value="sumar">Sumar
+        <input type="radio" name="operacion" value="restar">Restar
+        <input type="radio" name="operacion" value="multiplicar">Multiplicar
+        <input type="radio" name="operacion" value="dividir">Dividir
+        <br><br>
+        <button type="button" onclick="getAction();">Aceptar</button>
+
+    </form>
+
+</body>
+
+</html>
