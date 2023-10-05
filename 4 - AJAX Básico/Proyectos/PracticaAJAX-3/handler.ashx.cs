@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 
 namespace PracticaAJAX_3 {
-    public class handler : IHttpHandler {
+    public class Handler : IHttpHandler {
 
         public void ProcessRequest(HttpContext context) {
             context.Response.ContentType = "text/plain";

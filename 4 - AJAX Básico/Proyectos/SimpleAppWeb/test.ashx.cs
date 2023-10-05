@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 
 namespace SimpleAppWeb {
-    /// <summary>
-    /// Manejador del servidor Test01
-    /// </summary>
     public class test : IHttpHandler {
 
         public void ProcessRequest(HttpContext context) {
