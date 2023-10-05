@@ -1,1 +1,1 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="handler.ashx.cs" Class="PracticaAJAX_3.handler" %>
+﻿<%@ WebHandler Language="C#" CodeBehind="Handler.ashx.cs" Class="PracticaAJAX_3.Handler" %>

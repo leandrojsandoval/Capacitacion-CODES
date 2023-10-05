@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 
 namespace PracticaAJAX_3 {
-    /// <summary>
-    /// Summary description for handler
-    /// </summary>
-    public class handler : IHttpHandler {
+    public class Handler : IHttpHandler {
 
         public void ProcessRequest(HttpContext context) {
             context.Response.ContentType = "text/plain";
