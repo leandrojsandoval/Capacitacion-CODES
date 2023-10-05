@@ -12,17 +12,18 @@ namespace PracticaBaseDeDatos {
 
             List<Persona> listaPersonas = new List<Persona>();
 
+            // Aca se deberia cambiar por el servidor de la VM
             var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
                         + "Database=DBPracticaCODES;"
                         + "Integrated Security=True;";
 
-            using(SqlConnection conexion = new SqlConnection(datosBD)) { 
+            using (SqlConnection conexion = new SqlConnection(datosBD)) {
                 conexion.Open();
                 var comandoSeleccion = "SELECT * FROM Persona";
-                using(SqlCommand comando = new SqlCommand(comandoSeleccion, conexion)) {
+                using (SqlCommand comando = new SqlCommand(comandoSeleccion, conexion)) {
                     SqlDataReader reader = comando.ExecuteReader();
                     while (reader.Read()) {
-                        
+
                         string nombre = reader["Nombre"].ToString();
                         string apellido = reader["Apellido"].ToString();
                         int edad = Convert.ToInt32(reader["Edad"]);

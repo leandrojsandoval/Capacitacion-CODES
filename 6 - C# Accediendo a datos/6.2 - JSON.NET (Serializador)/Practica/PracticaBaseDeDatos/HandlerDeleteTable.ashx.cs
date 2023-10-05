@@ -7,6 +7,7 @@ namespace PracticaBaseDeDatos {
         public void ProcessRequest(HttpContext context) {
             context.Response.ContentType = "text/plain";
 
+            // Aca se deberia cambiar por el servidor de la VM
             var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
             + "Database=DBPracticaCODES;"
             + "Integrated Security=True;";
