@@ -15,15 +15,18 @@ namespace PracticaBaseDeDatos {
             var serializer = new JavaScriptSerializer();
             dynamic datosObj = serializer.DeserializeObject(JSONReceived);
 
+            string responseJSON;
+
             try {
                 Persona persona = new Persona(datosObj["nombre"], datosObj["apellido"], Convert.ToInt32(datosObj["edad"]), datosObj["dni"], datosObj["email"]);
 
                 if (persona.Edad < 18) {
-                    context.Response.StatusCode = 400;
-                    context.Response.Write("{\"result\": -1, \"message\": \"ERROR: El campo [Edad] no es válido, debe tener al menos 18 años\"}");
+                    responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [Edad] no es válido, debe tener al menos 18 años" });
+                    context.Response.Write(responseJSON);
                     return;
                 }
 
+                // Aca se deberia cambiar por el servidor de la VM
                 var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
                             + "Database=DBPracticaCODES;"
                             + "Integrated Security=True;";
@@ -42,17 +45,17 @@ namespace PracticaBaseDeDatos {
                     }
                 }
 
-                var responseJSON = serializer.Serialize(new { result = 0, message = "" });
+                responseJSON = serializer.Serialize(new { result = 0, message = " " });
                 context.Response.Write(responseJSON);
             }
             catch (DniInvalidoException) {
-                context.Response.StatusCode = 400;
-                context.Response.Write("{\"result\": -1, \"message\": \"ERROR: El campo [DNI] no es válido, debe tener digitos sin guiones\"}");
+                responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [DNI] no es válido, debe tener digitos sin guiones" });
+                context.Response.Write(responseJSON);
                 return;
             }
             catch (EmailInvalidoException) {
-                context.Response.StatusCode = 400;
-                context.Response.Write("{\"result\": -1, \"message\": \"ERROR: El campo [Email] no es válido, dominio en el e-mail debe ser gmail.com ó hotmail.com\"}");
+                responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [Email] no es válido, dominio en el e-mail debe ser gmail.com ó hotmail.com" });
+                context.Response.Write(responseJSON);
                 return;
             }
         }

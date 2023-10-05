@@ -23,6 +23,7 @@ button {
     background-color: limegreen;
     border: 1px solid black;
     color: white;
+    display: none;
     font-family: monospace;
     font-size: 20px;
     left: 50%;
@@ -34,6 +35,8 @@ button {
 
 #listaPersonas {
     background-color: darkslategrey;
+    font-family: monospace;
+    font-size: 20px;
 }
 
 li {
