@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Cargar";
+}
+
+<h2>Cargar</h2>
+
+<script type="text/javascript">
+
+function ObtenerDatosPopup() {
+    var datos = {
+        'IdTipoTrabajo': $("#ddlTiposTrabajo").val(),
+        'InSitu': $("#InSitu").attr("checked"),
+        'Tercerizado': $("#Tercerizado").attr("checked")
+    };
+    return datos;
+}
+
+function CargarView() {
+    $.ajax({
+        url: '@Url.Action("CargarPopup", "Provincia")',
+        success: function (respuesta) {
+            $("#popup").html(respuesta);
+            $("#popup").dialog({
+                modal: true,
+                buttons: [{
+                    text: "Aceptar",
+                    id: "btnAceptarDetalle",
+                    click: function () {
+                        $.ajax({
+                            url: '@Url.Action("GuardarDatosPopup", "Provincia")',
+                            type: 'POST',
+                            data: ObtenerDatosPopup(),
+                            success: function (jsonResponse) {
+                                alert(jsonResponse);
+                                $("#popup").dialog("close");
+                            },
+                            error: function (e) { alert("Error: " + e); },
+                            dataType: 'text'
+                        })
+                    }
+                }]
+            });
+        },
+        error: function (error) { }
+    });
+}
+</script>
+
