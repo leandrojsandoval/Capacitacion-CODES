@@ -32,7 +32,20 @@
 
     <button type="button" id="listarPersonas">Listar Personas</button><br>
 
-    <button type="button" id="borrarDatos">Borrar Datos</button>
+    <button type="button" id="borrarDatos">Borrar Datos</button><br>
+
+    <form action="/" method="get">
+        <label for="columnaFiltro">Filtrar</label>
+        <select id="columnaFiltro">
+            <option value="nombre">Nombre</option>
+            <option value="apellido">Apellido</option>
+            <option value="edad">Edad</option>
+            <option value="email">Email</option>
+            <option value="dni">DNI</option>
+        </select>
+        <input type="text" id="valorFitro" placeholder="Ingrese un término de búsqueda" required><br>
+        <button type="button" id="filtrarDatos">Buscar</button>
+    </form>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script language="JavaScript" src="app.js" charset="utf-8"></script>

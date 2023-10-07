@@ -26,7 +26,7 @@ namespace PracticaBaseDeDatos {
                     return;
                 }
 
-                // Aca se deberia cambiar por el servidor de la VM
+                // Aca se debería cambiar por el servidor de la VM
                 var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
                             + "Database=DBPracticaCODES;"
                             + "Integrated Security=True;";
@@ -49,12 +49,12 @@ namespace PracticaBaseDeDatos {
                 context.Response.Write(responseJSON);
             }
             catch (DniInvalidoException) {
-                responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [DNI] no es válido, debe tener digitos sin guiones" });
+                responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [DNI] no es válido, debe tener dígitos sin guiones" });
                 context.Response.Write(responseJSON);
                 return;
             }
             catch (EmailInvalidoException) {
-                responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [Email] no es válido, dominio en el e-mail debe ser gmail.com ó hotmail.com" });
+                responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [Email] no es válido, dominio en el e-mail debe ser Gmail.com ó Hotmail.com" });
                 context.Response.Write(responseJSON);
                 return;
             }

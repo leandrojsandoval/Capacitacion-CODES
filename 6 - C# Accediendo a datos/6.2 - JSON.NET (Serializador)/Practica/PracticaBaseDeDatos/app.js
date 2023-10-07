@@ -42,7 +42,7 @@ $("#formulario").on("submit", function (event) {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-           alert(errorMessage);
+            alert(errorMessage);
         }
     });
 });
@@ -85,4 +85,31 @@ $("#borrarDatos").on("click", function () {
             $("#resultadoValidacion").text(errorMessage);
         }
     })
+});
+
+$("#filtrarDatos").on("click", function () {
+    var columna = $("#columnaFiltro").val();
+    var filtro = $("#valorFitro").val();
+
+    $.ajax({
+        type: "GET",
+        url: "HandlerFiltro.ashx",
+        data: { columna: columna, filtro: filtro },
+        success: function (data) {
+
+            $("#listaPersonas").show();
+            $("#resultadoValidacion").hide();
+
+            var personas = JSON.parse(data);
+            var lista = $("#listaPersonas");
+            lista.empty();
+            personas.forEach(function (persona) {
+                var campo = $("<li>").text(persona.Nombre + " " + persona.Apellido + " " + persona.Edad + " " + persona.Dni + " " + persona.Email);
+                lista.append(campo);
+            });
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            alert(errorMessage);
+        }
+    });
 });

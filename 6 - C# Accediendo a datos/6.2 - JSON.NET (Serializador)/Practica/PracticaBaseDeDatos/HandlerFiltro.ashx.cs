@@ -5,12 +5,15 @@ using System.Data.SqlClient;
 using System.Web;
 
 namespace PracticaBaseDeDatos {
-    public class HandlerGet : IHttpHandler {
+    public class HandlerFiltro : IHttpHandler {
 
         public void ProcessRequest(HttpContext context) {
             context.Response.ContentType = "text/plain";
 
-            List<Persona> listaPersonas = new List<Persona>();
+            string columna = context.Request["columna"];
+            string filtro = context.Request["filtro"];
+
+            List<Persona> resultados = new List<Persona>();
 
             // Aca se debería cambiar por el servidor de la VM
             var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
@@ -18,10 +21,15 @@ namespace PracticaBaseDeDatos {
                         + "Integrated Security=True;";
 
             using (SqlConnection conexion = new SqlConnection(datosBD)) {
+                
                 conexion.Open();
-                var comandoSeleccion = "SELECT * FROM Persona";
+                var comandoSeleccion = "SELECT * FROM Persona WHERE " + columna + " LIKE @filtro";
+                
                 using (SqlCommand comando = new SqlCommand(comandoSeleccion, conexion)) {
+                    
+                    comando.Parameters.AddWithValue("@filtro", "%" + filtro + "%");
                     SqlDataReader reader = comando.ExecuteReader();
+                    
                     while (reader.Read()) {
 
                         string nombre = reader["Nombre"].ToString();
@@ -30,12 +38,12 @@ namespace PracticaBaseDeDatos {
                         string dni = reader["Dni"].ToString();
                         string email = reader["Email"].ToString();
 
-                        listaPersonas.Add(new Persona(nombre, apellido, edad, dni, email));
+                        resultados.Add(new Persona(nombre, apellido, edad, dni, email));
                     }
                 }
             }
 
-            string json = JsonConvert.SerializeObject(listaPersonas);
+            string json = JsonConvert.SerializeObject(resultados);
             context.Response.Write(json);
         }
 

@@ -79,6 +79,9 @@
     <Compile Include="HandlerDeleteTable.ashx.cs">
       <DependentUpon>HandlerDeleteTable.ashx</DependentUpon>
     </Compile>
+    <Compile Include="HandlerFiltro.ashx.cs">
+      <DependentUpon>HandlerFiltro.ashx</DependentUpon>
+    </Compile>
     <Compile Include="HandlerGet.ashx.cs">
       <DependentUpon>HandlerGet.ashx</DependentUpon>
     </Compile>
@@ -92,6 +95,7 @@
     <Content Include="HandlerPost.ashx" />
     <Content Include="HandlerGet.ashx" />
     <Content Include="HandlerDeleteTable.ashx" />
+    <Content Include="HandlerFiltro.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

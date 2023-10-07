@@ -1,7 +1,14 @@
-﻿body {
+﻿/* Elementos HTML */
+
+body {
     background-color: darkgreen;
     color: white;
     font-family: monospace;
+}
+
+button {
+    margin: 10px;
+    margin-left: 100px;
 }
 
 label {
@@ -10,13 +17,20 @@ label {
     font-family: monospace;
     font-size: 13px;
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 10px;
     width: 50px;
 }
 
-button {
-    margin: 10px;
-    margin-left: 100px;
+li {
+    padding: 5px;
+}
+
+/* ID */
+
+#listaPersonas {
+    background-color: darkslategrey;
+    font-family: monospace;
+    font-size: 20px;
 }
 
 #resultadoValidacion {
@@ -33,15 +47,11 @@ button {
     transform: translate(-50%, -50%);
 }
 
-#listaPersonas {
-    background-color: darkslategrey;
-    font-family: monospace;
-    font-size: 20px;
+#valorFitro {
+    width: 200px;
 }
 
-li {
-    padding: 5px;
-}
+/* Clases */
 
 .campo {
     margin: 10px;
