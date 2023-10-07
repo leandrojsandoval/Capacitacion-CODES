@@ -14,7 +14,6 @@ namespace PracticaMVC.Controllers {
             return View(provincias);
         }
 
-        // METODO MIO
         [NonAction]
         public IList<ProvinciaModel> ObtenerProvincias() {
             IList<ProvinciaModel> provincias = new List<ProvinciaModel>

@@ -1,4 +1,5 @@
-﻿@model IList<PracticaMVC.Models.ProvinciaModel>
+﻿@using PracticaMVC.Models
+@model IList<ProvinciaModel>
 
 @{
     ViewBag.Title = "Index";
@@ -16,8 +17,7 @@
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { idProvincia = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { idProvincia = item.Id })
+                @Html.ActionLink("Edit", "Edit", new { idProvincia = item.Id }) | @Html.ActionLink("Delete", "Delete", new { idProvincia = item.Id })
             </td>
         </tr>
     }

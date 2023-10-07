@@ -5,7 +5,6 @@ using System.Web.Mvc;
 
 namespace PracticaMVC.Controllers {
     public class DatosPopupController : Controller {
-        // GET: DatosPopup
         public ActionResult Index() {
             return View();
         }
