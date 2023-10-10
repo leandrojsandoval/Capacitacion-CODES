@@ -10,3 +10,6 @@ CREATE TABLE Persona (
 	DNI VARCHAR(8),
 	Email VARCHAR(50)
 );
+
+SELECT * FROM Persona
+SELECT * FROM Persona WHERE Edad LIKE ' ';

@@ -1,0 +1,30 @@
+﻿body {
+    background-color: palegreen;
+}
+
+.bloque-opcion {
+    margin: 50px;
+    text-align: center;
+}
+
+.boton-regreso {
+    background-color: darkslategrey;
+    color: white;
+    padding: 10px 20px;
+    /* Le saca los subrayados de enlace */
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilos cuando se coloca el cursor en el enlace */
+    .boton-regreso:hover {
+        background-color: lightgreen;
+        color: white;
+    }
+
+.mensajes-validacion {
+    min-height: 20px;
+    margin-top: 5px;
+}

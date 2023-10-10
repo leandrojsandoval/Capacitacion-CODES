@@ -1,0 +1,51 @@
+﻿@* Ejercicio Integrador MVC 1
+
+En base al ejercicio "Integración Vista - Base de Datos" realizado en el curso "C#, accediendo a datos":
+
+1) Eliminar el campo "dni" y agregar los campos "Id_tipo_doc" (int) y "nro_doc" (nvarchar 15) a la tabla "Persona". 
+   El campo "id_tipo_doc" deberá tener relación con una nueva tabla "TipoDocumento" que contendrá los tipos de 
+   documento DNI, LE, LC.
+2) Armar un proyecto Web MVC mediante el uso de Controllers y el motor de vistas Razor que permita:
+
+a) Listar todas las personas (Nombre, Apellido, Tipo Doc, Nro Doc).
+b) Agregar una nueva persona (Formulario de Alta) y guardarla en la tabla Persona de la base de datos.
+c) Modificar una persona existente (Formulario de Modificación) y actualizarla en la tabla Persona de la base de datos.
+
+Al momento de guardar ambos formularios, verificar que:
+
+1) Los campos nombre y apellido no superen los 100 caracteres y que hayan sido ingresados.
+2) Que el usuario haya seleccionado un tipo de documento e ingresado un nro de documento.
+
+NOTA: El tipo de documento debe ser un combo desplegable cargado a partir de la tabla en Base de Datos
+Recordar subir el proyecto entero, eliminando las carpetas bin, obj y packages.*@
+
+@{
+    ViewBag.Title = "Ejercicio Integrador MVC - 1";
+}
+
+<head>
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<h2>Ejercicio Integrador MVC - 1</h2>
+<hr />
+
+<div class="bloque-opcion">
+    <form action="@Url.Action("ListarPersonas", "Persona")" method="get">
+        <button id="listarPersonas">Listar personas</button>
+    </form>
+</div>
+<div class="bloque-opcion">
+    <form action="@Url.Action("AgregarPersona", "Persona")" method="post">
+        <button id="agregarPersona">Agregar nueva persona</button>
+    </form>
+</div>
+<div class="bloque-opcion">
+    <form action="@Url.Action("ModificarPersona", "Persona")" method="post">
+        <button id="modificarPersona">Modificar persona existente</button>
+    </form>
+</div>
+
+
+
+
