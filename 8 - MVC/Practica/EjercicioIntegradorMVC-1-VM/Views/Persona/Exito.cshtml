@@ -1,0 +1,56 @@
+﻿@using EjercicioIntegradorMVC_1.Models
+@model Persona
+@{
+    ViewBag.Title = "Exito";
+}
+
+<head>
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<h2>La persona se agrego / modifico a la base de datos correctamente</h2>
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoDoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NroDoc)
+        </th>
+        <th></th>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.TipoDoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.NroDoc)
+        </td>
+    </tr>
+
+</table>
+
+<br />
+
+<a class="boton-regreso" href="@Url.Action("Index", "Persona")">Regresar al menu principal</a>

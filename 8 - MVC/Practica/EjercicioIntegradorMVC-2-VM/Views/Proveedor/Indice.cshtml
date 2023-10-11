@@ -1,0 +1,39 @@
+﻿@using EjercicioIntegradorMVC_2_VM.Models
+@model IEnumerable<Proveedor>
+
+@{
+    ViewBag.Title = "Ejercicio Integrador MVC - 2";
+}
+
+<h2>Ejercicio Integrador MVC - 2</h2>
+
+<p>
+    @Html.ActionLink("Agregar Proveedor", "Edit")
+</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Id)</th>
+        <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+        <th>@Html.DisplayNameFor(model => model.Domicilio)</th>
+        <th>Provincia</th>
+        <th>Localidad</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+
+        var provincia = (ViewData["Provincias"] as List<Provincia>).FirstOrDefault(p => p.Id == item.IdProvincia);
+        var localidad = (ViewData["Localidades"] as List<Localidad>).FirstOrDefault(p => p.Id == item.IdLocalidad);
+
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+            <td>@Html.DisplayFor(modelItem => item.Domicilio)</td>
+            <td>@provincia.Descripcion</td>
+            <td>@localidad.Descripcion</td>
+            <td>@Html.ActionLink("Eliminar", "EliminarProveedor", new { id = item.Id })</td>
+        </tr>
+    }
+
+</table>

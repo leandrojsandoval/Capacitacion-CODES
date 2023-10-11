@@ -1,0 +1,82 @@
+﻿@using EjercicioIntegradorMVC_1.Models
+@model Persona
+@{
+    ViewBag.Title = "Agregar Persona";
+}
+
+<head>
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<h2>Agregar Persona</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="mensajes-validacion">
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="mensajes-validacion">
+                    @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TipoDoc, "Tipo de Documento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TipoDoc, new SelectList(new[]
+                {
+                    new SelectListItem { Text = "DNI", Value = "1" },
+                    new SelectListItem { Text = "LE", Value = "2" },
+                    new SelectListItem { Text = "LC", Value = "3" },
+                }, "Value", "Text"), "Seleccione un tipo de documento", new { @class = "form-control" })
+                <div class="mensajes-validacion">
+                    @Html.ValidationMessageFor(model => model.TipoDoc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NroDoc, "Número de Documento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NroDoc, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="mensajes-validacion">
+                    @Html.ValidationMessageFor(model => model.NroDoc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear Persona" />
+            </div>
+        </div>
+
+    </div>
+}
+
+<br />
+<a class="boton-regreso" href="@Url.Action("Index", "Persona")">Regresar al menu principal</a>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
