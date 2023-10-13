@@ -1,4 +1,5 @@
-﻿@model PracticaMVC.Models.DatosPopup
+﻿@using PracticaMVC.Models
+@model DatosPopup
 @{
     ViewBag.Title = "DatosPopup";
 }
@@ -21,3 +22,16 @@
 @Html.CheckBoxFor(x => x.Tercerizado)
 @Html.TextBoxFor(x => x.IdTipoTrabajo)
 @Html.ValidationMessageFor(x => x.IdTipoTrabajo)
+
+<script type="text/javascript">
+
+    function ObtenerDatosPopup() {
+        var datos = {
+            'IdTipoTrabajo': $("#ddlTiposTrabajo").val(),
+            'InSitu': $("#InSitu").attr("checked"),
+            'Tercerizado': $("#Tercerizado").attr("checked")
+        };
+        return datos;
+    }
+
+</script>

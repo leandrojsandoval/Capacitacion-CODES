@@ -129,13 +129,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\DatosPopupController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProvinciaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="GlobalResources.Designer.cs">
+    <Compile Include="Recursos\GlobalResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GlobalResources.resx</DependentUpon>
@@ -192,17 +190,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Provincia\Index.cshtml" />
     <Content Include="Views\Provincia\Edit.cshtml" />
-    <Content Include="Views\Popup\DatosPopup.cshtml" />
-    <Content Include="Views\Popup\Cargar.cshtml" />
+    <Content Include="Views\Provincia\DatosPopup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DatosPopup\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -232,10 +225,11 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GlobalResources.en-US.resx" />
-    <EmbeddedResource Include="GlobalResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+    <EmbeddedResource Include="Recursos\GlobalResources.en-US.resx" />
+    <EmbeddedResource Include="Recursos\GlobalResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GlobalResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Recursos</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

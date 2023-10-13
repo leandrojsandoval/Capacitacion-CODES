@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Recursos;
 
 namespace PracticaMVC.Models {
 
     public class ProvinciaModel {
+
         [Required]
         [IsValidIdProvincia(ErrorMessage = "El Id de la provincia es inválido")]
         public int Id { get; set; }
@@ -12,7 +14,6 @@ namespace PracticaMVC.Models {
         [Display(Name ="NombreProvincia", ResourceType =typeof(GlobalResources))]
         [StringLength(20)]
         public string Descripcion { get; set; }
-
     }
 
     public class IsValidIdProvinciaAttribute : ValidationAttribute {

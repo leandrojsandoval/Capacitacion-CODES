@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VueJs</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head> 
+
+<body>
+    <section id="app" class="hero is-light is-bold is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Vue</h1>
+                <h2 class="subtitle">By KODOTI</h2>
+                <table>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td>{{item.name}}</td>
+                            <td>
+                                <span v-if="item.enabled" class="has-text-success">Activo</span>
+                                <span v-else class="has-text-danger">Inactivo</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+                <!--
+                    <p>{{message.toUpperCase()}}</p>
+                    <p>{{currentBalance.toFixed(2)}}</p>
+                    <p>{{subscribedToCourse ? 'Si esta suscrito' : 'No esta suscrito'}}</p>
+                    <p v-html="myHtml"></p>
+                    <p v-text="myText"></p>
+                -->
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: "KODOTI apunta a ser la mejor plataforma e-learning and you know it !!",
+                    currentBalance: 5000,
+                    subscribedToCourse: true,
+                    myHtml: 'Holi <b>boli</b>',
+                    myText: 'Holi boli',
+                    items: [
+                        {name: 'Eduardo', enabled: true},
+                        {name: 'Sandra', enabled: true},
+                        {name: 'Carla', enabled: true},
+                        {name: 'Fiorela', enabled: false}
+                    ]
+                };
+            }
+        });
+        app.mount("#app");
+    </script>
+</body>
+
+</html>
