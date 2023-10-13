@@ -1,38 +1,68 @@
 ﻿@using EjercicioIntegradorMVC_2_VM.Models
+@using Recursos
 @model IEnumerable<Proveedor>
 
 @{
-    ViewBag.Title = "Ejercicio Integrador MVC - 2";
+    ViewBag.Title = @GlobalResources.Titulo_Indice;
 }
 
-<h2>Ejercicio Integrador MVC - 2</h2>
+<head>
+    <link href="~/Content/styles.css" rel="stylesheet" />
+</head>
 
-<p>
-    @Html.ActionLink("Agregar Proveedor", "Edit")
-</p>
+
+<h2>@GlobalResources.Titulo_Indice</h2>
+<hr />
+
+<div class="form-horizontal">
+    
+    @using (Html.BeginForm("FiltrarProveedores", "Proveedor", FormMethod.Post)) {
+        
+        <div class="form-group">
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Nombre_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.TextBox("nombre", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Nombre })
+        </div>
+        
+        <div class="form-group">
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Provincia_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.TextBox("provincia", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Provincia })
+        </div>
+        
+        <div class="form-group">
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Localidad_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.TextBox("localidad", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Localidad })
+        </div>
+        
+        <button type="submit" class="btn btn-primary boton-accion">@GlobalResources.Boton_Buscar</button>
+    }
+
+</div>
+
+<button type="button" class="btn btn-primary boton-accion" onclick="location.href='@Url.Action("Edit", "Proveedor")'">@GlobalResources.Boton_Agregar_Proveedor</button>
 
 <table class="table">
+
     <tr>
         <th>@Html.DisplayNameFor(model => model.Id)</th>
         <th>@Html.DisplayNameFor(model => model.Nombre)</th>
         <th>@Html.DisplayNameFor(model => model.Domicilio)</th>
-        <th>Provincia</th>
-        <th>Localidad</th>
+        <th>@Html.DisplayNameFor(model => model.IdProvincia)</th>
+        <th>@Html.DisplayNameFor(model => model.IdLocalidad)</th>
         <th></th>
     </tr>
 
     @foreach (var item in Model) {
 
-        var provincia = (ViewData["Provincias"] as List<Provincia>).FirstOrDefault(p => p.Id == item.IdProvincia);
-        var localidad = (ViewData["Localidades"] as List<Localidad>).FirstOrDefault(p => p.Id == item.IdLocalidad);
+        var provincia = (ViewBag.Provincias as List<Provincia>).FirstOrDefault(p => p.Id == item.IdProvincia);
+        var localidad = (ViewBag.Localidades as List<Localidad>).FirstOrDefault(p => p.Id == item.IdLocalidad);
 
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.ActionLink(item.Id.ToString(), "DetalleProveedor", "Proveedor", new { id = item.Id }, null)</td>
             <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
             <td>@Html.DisplayFor(modelItem => item.Domicilio)</td>
             <td>@provincia.Descripcion</td>
             <td>@localidad.Descripcion</td>
-            <td>@Html.ActionLink("Eliminar", "EliminarProveedor", new { id = item.Id })</td>
+            <td>@Html.ActionLink(GlobalResources.Accion_Eliminar, "EliminarProveedor", new { id = item.Id })</td>
         </tr>
     }
 

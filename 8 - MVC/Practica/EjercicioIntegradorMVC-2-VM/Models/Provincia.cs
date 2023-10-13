@@ -10,8 +10,7 @@ namespace EjercicioIntegradorMVC_2_VM.Models {
         [StringLength(30)]
         public string Descripcion { get; set; }
 
-        public Provincia(int id, string descripcion)
-        {
+        public Provincia (int id, string descripcion) {
             Id = id;
             Descripcion = descripcion;
         }

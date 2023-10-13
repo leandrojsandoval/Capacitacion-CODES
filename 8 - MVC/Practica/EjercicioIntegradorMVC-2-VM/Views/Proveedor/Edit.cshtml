@@ -1,19 +1,26 @@
-﻿@model EjercicioIntegradorMVC_2_VM.Models.Proveedor
+﻿@using EjercicioIntegradorMVC_2_VM.Models
+@using Recursos
+@model Proveedor
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = @GlobalResources.Titulo_Edit;
 }
 
-<h2>Edit</h2>
+<head>
+    <link href="~/Content/styles.css" rel="stylesheet" />
+</head>
 
-@using (Html.BeginForm()) 
-{
+
+<h2>@GlobalResources.Titulo_Edit</h2>
+
+@using (Html.BeginForm()) {
+
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Proveedor</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
             @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -31,29 +38,65 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdProvincia, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IdProvincia, htmlAttributes: new { @class = "control-label col-md-2", @for = "selectProvincia" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IdProvincia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.IdProvincia, (SelectList)ViewBag.ProvinciasSelect, GlobalResources.Select_Provincia_Mensaje, new { @class = "form-control", id = "selectProvincia" })
                 @Html.ValidationMessageFor(model => model.IdProvincia, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdLocalidad, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IdLocalidad, htmlAttributes: new { @class = "control-label col-md-2", @for = "selectLocalidad" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IdLocalidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.IdLocalidad, (SelectList)ViewBag.LocalidadesSelect, GlobalResources.Select_Localidad_Mensaje, new { @class = "form-control", id = "selectLocalidad", disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.IdLocalidad, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+            <div class="col-md-offset-2 col-md-10"><input type="submit" value=@GlobalResources.Boton_Aceptar class="btn btn-default" /></div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<div>@Html.ActionLink(GlobalResources.Accion_Cancelar, "Indice")</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval");
+
+    <script>
+        $("#selectProvincia").change(function () {
+            var idProvincia = $(this).val();
+            var localidades = $("#selectLocalidad");
+
+            if (idProvincia) {
+                $("#selectProvincia option[value='']").remove();
+                localidades.prop("disabled", false);
+            } else {
+                if ($("#selectProvincia option[value='']").length === 0) {
+                    $("#selectProvincia").prepend($("<option>", {
+                        value: "",
+                        text: "Seleccione una provincia"
+                    }));
+                    localidades.prop("disabled", true);
+                }
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ObtenerLocalidadesPorProvincia", "Proveedor")",
+                data: { idProvincia: idProvincia },
+                success: function (data) {
+                    localidades.empty();
+                    $.each(data, function (i, item) {
+                        localidades.append($("<option>").text(item.Descripcion).val(item.Id));
+                    });
+                    localidades.find('option:contains("Seleccione una localidad")').remove();
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    alert("Error: " + errorMessage);
+                }
+            });
+        });
+    </script>
+}

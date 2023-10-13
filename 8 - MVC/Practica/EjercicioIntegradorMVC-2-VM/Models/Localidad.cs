@@ -2,7 +2,7 @@
 
 namespace EjercicioIntegradorMVC_2_VM.Models {
     public class Localidad {
-        
+
         [Required]
         public int Id { get; set; }
 
@@ -13,7 +13,7 @@ namespace EjercicioIntegradorMVC_2_VM.Models {
         [Required]
         public int IdProvincia { get; set; }
 
-        public Localidad(int id, string descripcion, int idProvincia) {
+        public Localidad (int id, string descripcion, int idProvincia) {
             Id = id;
             Descripcion = descripcion;
             IdProvincia = idProvincia;
