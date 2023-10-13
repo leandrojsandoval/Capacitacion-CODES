@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VueJs</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+    <section id="app" class="hero is-light is-bold is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+
+                <h1 class="title">Vue</h1>
+                <h2 class="subtitle">By KODOTI</h2>
+
+                <table class="table is-fullwidth">
+                    <tbody>
+
+                        <tr v-if="items.length === 0">
+                            <td class="has-text-centered" colspan="4">No se han encontrado registros ...</td>
+                        </tr>
+
+                        <tr v-for="item in items">
+                            <td :class="item.enabled? '' : 'has-text-grey-light'">{{item.name}}</td>
+                            <td><a :href="item.web">Visitar Web</a></td>
+                            <td>{{item.salary}}</td>
+                            <td style="width: 100px;">
+                                <button @click="changeStatus(item)"
+                                    :class="{'is-danger' : !item.enabled, 'is-primary' : item.enabled}"
+                                    class="button is-small is-fullwidth" type="button">
+                                    {{item.enabled ? 'Activo' : 'Inactivo'}}
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                    <tfoot>
+                        <td><input v-model="newEntry.name" type="text" class="input" placeholder="Nombre"></td>
+                        <td><input v-model="newEntry.web" type="text" class="input" placeholder="Web"></td>
+                        <td><input v-model="newEntry.salary" type="number" class="input" placeholder="Sueldo"></td>
+                        <td class="text-right">
+                            <button @click="add" type="button" class="button is-fullwidth"
+                                title="button">Agregar</button>
+                        </td>
+                    </tfoot>
+
+                </table>
+
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Activos</p>
+                            <p class="title">{{countActiveUsers}}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Inactivos</p>
+                            <p class="title">{{countInactiveUsers}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    items: [
+
+                    ],
+                    newEntry: {
+                        name: '',
+                        web: '',
+                        salary: 0,
+                        enabled: true
+                    }
+                };
+            },
+            methods: {
+                add() {
+                    this.items.push({
+                        name: this.newEntry.name,
+                        web: this.newEntry.web,
+                        salary: this.currency(parseFloat(this.newEntry.salary)),
+                        enabled: this.newEntry.enabled
+                    });
+                    this.newEntry.name = '';
+                    this.newEntry.web = '';
+                    this.newEntry.salary = 0;
+                    this.newEntry.enabled = true;
+                },
+                changeStatus(item) {
+                    item.enabled = !item.enabled;
+                },
+                currency(value) {
+                    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                }
+            },
+            watch: {
+                countActiveUsers(newValue, oldValue) {
+                    console.log('------------- Usuarios Activos -------------');
+                    console.log(`Nuevo valor: ${newValue} Valor antiguo: ${oldValue}`);
+                    console.log('------------- Usuarios Activos -------------');
+                }
+            },
+            computed: {
+                countActiveUsers() {
+                    return this.items.filter(x => x.enabled).length;
+                },
+                countInactiveUsers() {
+                    return this.items.filter(x => !x.enabled).length;
+                }
+            }
+        })
+        app.mount("#app");
+    </script>
+</body>
+
+</html>

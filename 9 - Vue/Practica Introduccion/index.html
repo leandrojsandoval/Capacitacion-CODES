@@ -15,11 +15,11 @@
             <div class="container">
                 <h1 class="title">Vue</h1>
                 <h2 class="subtitle">By KODOTI</h2>
-                <table>
+                <table class="table is-fullwidth">
                     <tbody>
                         <tr v-for="item in items">
                             <td>{{item.name}}</td>
-                            <td>
+                            <td style="width: 100px;">
                                 <span v-if="item.enabled" class="has-text-success">Activo</span>
                                 <span v-else class="has-text-danger">Inactivo</span>
                             </td>
