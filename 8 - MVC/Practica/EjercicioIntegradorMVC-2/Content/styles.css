@@ -1,0 +1,18 @@
+﻿body {
+    background-color: honeydew;
+}
+
+h2 {
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+    margin: 10px;
+}
+
+.boton-accion {
+    margin: 15px;
+    background-color: forestgreen;
+    border: none;
+}
