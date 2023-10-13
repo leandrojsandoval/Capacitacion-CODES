@@ -144,6 +144,15 @@
   <data name="Label_Filtro_Proveedor_Provincia_Texto" xml:space="preserve">
     <value>Provincia</value>
   </data>
+  <data name="Mensaje_Error_Required" xml:space="preserve">
+    <value>El campo {0} es obligatorio.</value>
+  </data>
+  <data name="Mensaje_Error_Select_Required" xml:space="preserve">
+    <value>Debe seleccionar una {0} de la lista.</value>
+  </data>
+  <data name="Mensaje_Error_String_Length" xml:space="preserve">
+    <value> El campo {1} debe ser menor que {0} caracteres.</value>
+  </data>
   <data name="Proveedor_Domicilio_Texto_Mostrar" xml:space="preserve">
     <value>Domicilio</value>
   </data>

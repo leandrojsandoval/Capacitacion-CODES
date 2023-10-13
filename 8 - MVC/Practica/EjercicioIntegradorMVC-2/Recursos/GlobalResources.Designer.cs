@@ -142,6 +142,33 @@ namespace Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El campo {0} es obligatorio..
+        /// </summary>
+        public static string Mensaje_Error_Required {
+            get {
+                return ResourceManager.GetString("Mensaje_Error_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debe seleccionar una {0} de la lista..
+        /// </summary>
+        public static string Mensaje_Error_Select_Required {
+            get {
+                return ResourceManager.GetString("Mensaje_Error_Select_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  El campo {1} debe ser menor que {0} caracteres..
+        /// </summary>
+        public static string Mensaje_Error_String_Length {
+            get {
+                return ResourceManager.GetString("Mensaje_Error_String_Length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Domicilio.
         /// </summary>
         public static string Proveedor_Domicilio_Texto_Mostrar {

@@ -1,5 +1,6 @@
 ﻿using Recursos;
 using System.ComponentModel.DataAnnotations;
+using System.Security.AccessControl;
 
 namespace EjercicioIntegradorMVC_2.Models {
     public class Proveedor {
@@ -8,21 +9,21 @@ namespace EjercicioIntegradorMVC_2.Models {
         public int Id { get; set; }
 
         [Display(Name = "Proveedor_Nombre_Texto_Mostrar", ResourceType =typeof(GlobalResources))]
-        [Required(ErrorMessage = "El nombre del proveedor es requerido.")]
-        [StringLength(30, ErrorMessage = "El nombre del proveedor debe ser menor que {1} caracteres.")]
+        [Required(ErrorMessageResourceType = typeof(GlobalResources), ErrorMessageResourceName = "Mensaje_Error_Required")]
+        [StringLength(30, ErrorMessageResourceType = typeof(GlobalResources), ErrorMessageResourceName = "Mensaje_Error_String_Length")]
         public string Nombre { get; set; }
 
         [Display(Name = "Proveedor_Domicilio_Texto_Mostrar", ResourceType = typeof(GlobalResources))]
-        [Required(ErrorMessage = "El domicilio no puede quedar vacio.")]
-        [StringLength(50, ErrorMessage = "El domicilio debe ser menor que {1} caracteres.")]
+        [Required(ErrorMessageResourceType = typeof(GlobalResources), ErrorMessageResourceName = "Mensaje_Error_Required")]
+        [StringLength(50, ErrorMessageResourceType = typeof(GlobalResources) ,ErrorMessageResourceName = "Mensaje_Error_String_Length")]
         public string Domicilio { get; set; }
 
         [Display(Name = "Proveedor_Provincia_Texto_Mostrar", ResourceType = typeof(GlobalResources))]
-        [Required(ErrorMessage = "Debe indicar una provincia")]
+        [Required(ErrorMessageResourceType = typeof(GlobalResources), ErrorMessageResourceName = "Mensaje_Error_Select_Required")]
         public int IdProvincia { get; set; }
 
         [Display(Name = "Proveedor_Localidad_Texto_Mostrar", ResourceType = typeof(GlobalResources))]
-        [Required(ErrorMessage = "Debe indicar una localidad")]
+        [Required(ErrorMessageResourceType = typeof(GlobalResources), ErrorMessageResourceName = "Mensaje_Error_Select_Required")]
         public int IdLocalidad { get; set; }
 
         public Proveedor() {
