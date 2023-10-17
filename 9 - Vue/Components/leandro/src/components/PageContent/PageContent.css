@@ -1,0 +1,10 @@
+.page-content {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: red;
+    color: white;
+}
+
+.title {
+    color: black;
+}
