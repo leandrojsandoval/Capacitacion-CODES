@@ -1,7 +1,7 @@
 USE LS_Practica_SQL_Basico_2
 GO
 
-------------------------- Práctica de T-SQL -------------------------
+----------------------------------- Práctica de T-SQL -----------------------------------
 
 /* 1) Hacer una función que dado un artículo y un deposito devuelva un string que indique el estado 
 del depósito según el artículo. Si la cantidad almacenada es menor al límite retornar “OCUPACION DEL
@@ -16,7 +16,8 @@ RETURNS VARCHAR(50)
 AS
 BEGIN
 	DECLARE @resultado VARCHAR(50);
-	DECLARE @cantidad DECIMAL(12,2) = (SELECT s.Cantidad FROM Stock AS s WHERE s.Producto = @articulo AND s.Deposito = @deposito);	DECLARE @stockMaximo DECIMAL(12,2) = (SELECT s.StockMaximo FROM Stock AS s WHERE s.Producto = @articulo AND s.Deposito = @deposito);
+	DECLARE @cantidad DECIMAL(12,2) = (SELECT s.Cantidad FROM Stock AS s WHERE s.Producto = @articulo AND s.Deposito = @deposito);
+	DECLARE @stockMaximo DECIMAL(12,2) = (SELECT s.StockMaximo FROM Stock AS s WHERE s.Producto = @articulo AND s.Deposito = @deposito);
 	IF(@cantidad IS NULL OR @stockMaximo IS NULL)
 		SET @resultado = 'ARTICULO Y/O DEPOSITO NO ENCONTRADO';
 	ELSE
@@ -104,37 +105,74 @@ CREATE TABLE Fact_table (
 
 ALTER TABLE Fact_table ADD CONSTRAINT PK_Fact_Table PRIMARY KEY (Anio, Mes, Familia, Rubro, Zona, Cliente, Producto);
 
-CREATE OR ALTER PROCEDURE P_Completar_Fact_Table 
-	@anio CHAR(4), @mes CHAR(2), @familia CHAR(3), @rubro CHAR(4), 
-	@zona CHAR(3), @cliente CHAR(6), @producto CHAR(8), 
-	@cantidad DECIMAL(12,2),@monto DECIMAL(12,2)
+-- https://learn.microsoft.com/en-us/sql/t-sql/functions/month-transact-sql?view=sql-server-ver16
+-- https://learn.microsoft.com/es-es/sql/t-sql/functions/left-transact-sql?view=sql-server-ver16
+
+CREATE OR ALTER PROCEDURE P_Completar_Fact_Table
 AS
-    INSERT INTO Fact_table (Anio, Mes, Familia, Rubro, Zona, Cliente, Producto, Cantidad, Monto) VALUES
-	(@anio, @mes, @familia, @rubro, @zona, @cliente, @producto, @cantidad, @monto);
+BEGIN
+    INSERT INTO Fact_table (Anio, Mes, Familia, Rubro, Zona, Cliente, Producto, Cantidad, Monto)
+    SELECT
+        CONVERT(CHAR(4), YEAR(f.Fecha)) AS Anio,
+        LEFT('0' + CONVERT(CHAR(2), MONTH(f.Fecha)), 2) AS Mes,
+        p.IdFamilia AS Familia,
+        p.IdRubro AS Rubro,
+        d.Zona AS Zona,
+        f.Cliente AS Cliente,
+        i.Producto AS Producto,
+        i.Cantidad AS Cantidad,
+        i.Precio * i.Cantidad AS Monto
+    FROM Factura AS f INNER JOIN ItemFactura AS i ON f.Tipo = i.Tipo AND f.Sucursal = i.Sucursal AND f.Numero = i.Numero
+    INNER JOIN Producto AS p ON i.Producto = p.Codigo
+    INNER JOIN Stock AS s ON p.Codigo = s.Producto
+	INNER JOIN Deposito AS d ON s.Deposito = d.Codigo
+END;
 
-SELECT * FROM Fact_table;
+EXECUTE P_Completar_Fact_Table
 
-EXEC P_Completar_Fact_Table '2023', '01', 'F01', 'R001', 'Z01', 'C001', 'P001', 10.5, 100.0;
-EXEC P_Completar_Fact_Table '2022', '01', 'F01', 'R001', 'Z01', 'C001', 'P001', 10.5, 100.0;
-
-SELECT * FROM Fact_table;
+SELECT * FROM Fact_table
 
 /* 5) Realizar los triggers para las distintas operaciones (Alta, Baja, Modificación) sobre la 
 tabla “clientes”, generando un nuevo registro en la tabla de auditoría. */
 
-SELECT * FROM Cliente
-
-CREATE OR ALTER TRIGGER TG_Alta_Clientes ON Cliente AFTER INSERT AS (
-
+CREATE TABLE AuditoriaCliente (
+	Operacion VARCHAR(20),
+	FechaOperacion SMALLDATETIME,
+	Codigo VARCHAR(6),
+	CONSTRAINT PK_AudotoriaCliente PRIMARY KEY (Operacion, FechaOperacion, Codigo)
 )
 
-CREATE OR ALTER TRIGGER TG_Baja_Clientes ON Cliente AFTER DELETE AS (
+CREATE OR ALTER TRIGGER TG_Alta_Clientes ON Cliente AFTER INSERT AS
+BEGIN
+	INSERT INTO AuditoriaCliente (Operacion, FechaOperacion, Codigo)
+	SELECT 'Alta', GETDATE(), Codigo
+	FROM Inserted
+END
 
-)
+CREATE OR ALTER TRIGGER TG_Baja_Clientes ON Cliente AFTER DELETE AS
+BEGIN
+	INSERT INTO AuditoriaCliente (Operacion, FechaOperacion, Codigo)
+	SELECT 'Baja', GETDATE(), Codigo
+	FROM Deleted
+END
 
-CREATE OR ALTER TRIGGER TG_Modificacion_Clientes ON Cliente AFTER UPDATE AS (
+CREATE OR ALTER TRIGGER TG_Modificacion_Clientes ON Cliente AFTER UPDATE AS
+BEGIN
+	INSERT INTO AuditoriaCliente (Operacion, FechaOperacion, Codigo)
+	SELECT 'Modificacion', GETDATE(), Codigo
+	FROM Inserted
+END
 
-)
+INSERT INTO Cliente (Codigo, RazonSocial, Telefono, Domicilio, LimiteCredito, Vendedor) 
+VALUES ('C006', 'Tienda A', '555-123-4567', '789 Oak St', 3000, 1002);
+
+UPDATE Cliente 
+SET Telefono = '11-3949-0820'
+WHERE Codigo = 'C006';
+
+DELETE FROM Cliente WHERE Codigo = 'C006';
+
+SELECT * FROM AuditoriaCliente;
 
 /* 6) Realizar una vista de los siguientes datos del producto:
 	- Código
@@ -150,7 +188,7 @@ CREATE OR ALTER VIEW V_Datos_Del_Producto AS (
 	FROM Producto AS p INNER JOIN Familia AS f ON p.IdFamilia = f.Id 
 	INNER JOIN Rubro AS r ON p.IdRubro = r.Id
 	INNER JOIN Envase AS e ON p.CodigoEnvase = e.Codigo
-)
+);
 
 SELECT *
-FROM V_Datos_Del_Producto
+FROM V_Datos_Del_Producto;
