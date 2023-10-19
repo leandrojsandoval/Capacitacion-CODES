@@ -156,8 +156,8 @@ INSERT INTO Departamento (Codigo, Detalle, Zona) VALUES
 (103, 'Soporte', 'Z03');
 
 INSERT INTO Empleado (Codigo, Nombre, Apellido, Nacimiento, Ingreso, Tareas, Salario, Comision, Jefe, Departamento) VALUES
-(1001, 'Juan', 'Pérez', '1980-05-15', '2020-02-10', 'Ventas', 35000.00, 0.05, NULL, 101),
-(1002, 'Ana', 'López', '1990-11-20', '2021-04-05', 'Almacén', 28000.00, 0.03, NULL, 102);
+(1001, 'Juan', 'Pérez', '15-05-1980', '10-02-2020', 'Ventas', 35000.00, 0.05, NULL, 101),
+(1002, 'Ana', 'López', '20-11-1990', '05-04-2021', 'Almacén', 28000.00, 0.03, NULL, 102);
 
 INSERT INTO Deposito (Codigo, Detalle, Domicilio, Telefono, Encargado, Zona) VALUES
 ('01', 'Depósito Central', '123 Main St', '123-456-7890', 1002, 'Z02'),
@@ -171,16 +171,16 @@ INSERT INTO Cliente (Codigo, RazonSocial, Telefono, Domicilio, LimiteCredito, Ve
 ('C005', 'Bodega B', '555-111-2222', '789 Pine St', 800.00, 1002);
 
 INSERT INTO Stock (Producto, Deposito, Cantidad, PuntoReposicion, StockMaximo, Detalle, ProximaReposicion) VALUES
-('P001', '01', 1000.00, 200.00, 5000.00, 'Stock de refrescos', '2023-10-20'),
-('P002', '01', 500.00, 100.00, 2000.00, 'Stock de papas fritas', '2023-10-22'),
-('P003', '01', 1000.00, 200.00, 5000.00, 'Stock de refrescos', '2023-10-20'),
-('P004', '01', 800.00, 100.00, 2000.00, 'Stock de papas fritas', '2023-10-22'),
-('P005', '01', 50.00, 20.00, 200.00, 'Stock de televisores', '2023-10-15'),
-('P001', '02', 500.00, 200.00, 3000.00, 'Stock de refrescos', '2023-10-20'),
-('P002', '02', 600.00, 100.00, 1500.00, 'Stock de papas fritas', '2023-10-22'),
-('P003', '02', 30.00, 20.00, 150.00, 'Stock de televisores', '2023-10-15'),
-('P004', '02', 100.00, 20.00, 300.00, 'Stock de lámparas', '2023-10-15'),
-('P005', '02', 50.00, 20.00, 200.00, 'Stock de lámparas', '2023-10-15');
+('P001', '01', 1000.00, 200.00, 5000.00, 'Stock de refrescos', '20-10-2023'),
+('P002', '01', 500.00, 100.00, 2000.00, 'Stock de papas fritas', '22-10-2023'),
+('P003', '01', 1000.00, 200.00, 5000.00, 'Stock de refrescos', '20-10-2023'),
+('P004', '01', 800.00, 100.00, 2000.00, 'Stock de papas fritas', '22-10-2023'),
+('P005', '01', 50.00, 20.00, 200.00, 'Stock de televisores', '15-10-2023'),
+('P001', '02', 500.00, 200.00, 3000.00, 'Stock de refrescos', '20-10-2023'),
+('P002', '02', 600.00, 100.00, 1500.00, 'Stock de papas fritas', '22-10-2023'),
+('P003', '02', 30.00, 20.00, 150.00, 'Stock de televisores', '15-10-2023'),
+('P004', '02', 100.00, 20.00, 300.00, 'Stock de lámparas', '15-10-2023'),
+('P005', '02', 50.00, 20.00, 200.00, 'Stock de lámparas', '15-10-2023');
 
 INSERT INTO Composicion (Producto, Componente, Cantidad) VALUES
 ('P003', 'P001', 1.00),
@@ -225,7 +225,8 @@ INSERT INTO ItemFactura (Tipo, Sucursal, Numero, Producto, Cantidad, Precio) VAL
 ('V', 'S001', '20110103', 'P002', 90.00, 0.99),
 ('V', 'S002', '20110104', 'P001', 200.00, 1.99),
 ('V', 'S002', '20110104', 'P002', 120.00, 0.99),
-('V', 'S001', '20120105', 'P001', 120.00, 1.99);
+('V', 'S001', '20120105', 'P001', 120.00, 1.99),
+('V', 'S002', '20120105', 'P001', 120.00, 1.99);
 
 /* Práctica de SQL 
 Según el modelo dado resuelva:*/
