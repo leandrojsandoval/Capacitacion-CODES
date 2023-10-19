@@ -1,0 +1,92 @@
+Envases
+enva_codigo: numeric(6)
+enva_detalle: char(50)
+
+Familia
+fami_id: char(3)
+fami_detalle: char(50)
+
+Rubro
+rubr_id: char(4)
+rubr_detalle: char(50)
+
+Producto
+prod_codigo: char(8)
+prod_detalle: char(50)
+prod_precio: decimal(12,2)
+prod_familia: char(3) (FK)
+prod_rubro: char(4) (FK)
+prod_envase: numeric(6) (FK)
+
+Zona
+zona_codigo: char(3)
+zona_detalle: char(50)
+
+Departamento
+depa_codigo: numeric(6)
+depa_detalle: char(50)
+depa_zona: char(3) (FK)
+
+Empleado
+empl_codigo: numeric(6)
+empl_nombre: char(50)
+empl_apellido: char(50)
+empl_nacimiento: smalldatetime
+empl_ingreso: smalldatetime
+empl_tareas: char(100)
+empl_salario: decimal(12,2)
+empl_comision: decimal(12,2)
+empl_jefe: numeric(6)
+empl_departamento: numeric(6) (FK)
+
+Deposito
+depo_codigo: char(2)
+depo_detalle: char(50)
+depo_domicilio: char(50)
+depo_telefono: char(50)
+depo_encargado: numeric(6) (FK)
+depo_zona: char(3) (FK)
+
+Cliente
+clie_codigo: char(6)
+clie_razon_social: char(100)
+clie_telefono: char(100)
+clie_domicilio: char(100)
+clie_limite_credito: decimal(12,2)
+clie_vendedor: numeric(6)
+
+Stock
+stoc_producto: char(8) (FK)
+stoc_deposito: char(2) (FK)
+stoc_cantidad: decimal(12,2)
+stoc_punto_reposicion: decimal(12,2)
+stoc_stock_maximo: decimal(12,2)
+stoc_detalle: char(100)
+stoc_proxima_reposicion: smalldatetime
+
+Composicion
+comp_producto: char(8) (FK)
+comp_componente: char(8) (FK)
+comp_cantidad: decimal(12,2)
+
+Factura
+fact_tipo: char(1)
+fact_sucursal: char(4)
+fact_numero: char(8)
+fact_fecha: smalldatetime
+fact_vendedor: numeric(6)
+fact_total: decimal(12,2)
+fact_total_impuestos: decimal(12,2)
+fact_cliente: char(6) (FK)
+
+Item_Factura
+item_tipo: char(1) (FK)
+item_sucursal: char(4) (FK)
+item_numero: char(8) (FK)
+item_producto: char(8) (FK)
+item_cantidad: decimal(12,2)
+item_precio: decimal(12,2)
+
+
+
+
