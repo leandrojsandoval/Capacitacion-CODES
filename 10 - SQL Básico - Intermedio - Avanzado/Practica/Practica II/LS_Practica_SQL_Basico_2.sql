@@ -16,21 +16,18 @@ CREATE TABLE Rubro (
 	Detalle CHAR(50)
 );
 
-CREATE TABLE Producto (
-	Codigo CHAR(8) PRIMARY KEY,
-	Detalle CHAR(50),
-	Precio DECIMAL(12,2),
-	IdFamilia CHAR(3),
-	IdRubro CHAR(4),
-	CodigoEnvase NUMERIC(6),
-	CONSTRAINT FK_Producto_IdRubro FOREIGN KEY (IdRubro) REFERENCES Rubro(Id),
-	CONSTRAINT FK_Producto_IdFamilia FOREIGN KEY (IdFamilia) REFERENCES Familia(Id),
-	CONSTRAINT FK_Producto_CodigoEnvase FOREIGN KEY (CodigoEnvase) REFERENCES Envase(Codigo)
-);
-
 CREATE TABLE Zona (
 	Codigo CHAR(3) PRIMARY KEY,
 	Detalle CHAR(50)
+);
+
+CREATE TABLE Cliente (
+	Codigo CHAR(6) PRIMARY KEY,
+	RazonSocial CHAR(100),
+	Telefono CHAR(100),
+	Domicilio CHAR(100),
+	LimiteCredito DECIMAL(12,2),
+	Vendedor NUMERIC(6)
 );
 
 CREATE TABLE Departamento (
@@ -39,6 +36,8 @@ CREATE TABLE Departamento (
 	Zona CHAR(3),
 	CONSTRAINT FK_Departamento_Zona FOREIGN KEY (Zona) REFERENCES Zona(Codigo)
 );
+
+DROP TABLE Empleado
 
 CREATE TABLE Empleado (
 	Codigo NUMERIC(6) PRIMARY KEY,
@@ -51,7 +50,29 @@ CREATE TABLE Empleado (
 	Comision DECIMAL(12,2),
 	Jefe NUMERIC(6),
 	Departamento NUMERIC(6),
-	CONSTRAINT FK_Empleado_Departamento FOREIGN KEY (Departamento) REFERENCES Departamento(Codigo)
+	CONSTRAINT FK_Empleado_Departamento FOREIGN KEY (Departamento) REFERENCES Departamento(Codigo),
+	CONSTRAINT FK_Empleado_Jefe FOREIGN KEY (Jefe) REFERENCES Empleado(Codigo)
+);
+
+CREATE TABLE Producto (
+	Codigo CHAR(8) PRIMARY KEY,
+	Detalle CHAR(50),
+	Precio DECIMAL(12,2),
+	IdFamilia CHAR(3),
+	IdRubro CHAR(4),
+	CodigoEnvase NUMERIC(6),
+	CONSTRAINT FK_Producto_IdRubro FOREIGN KEY (IdRubro) REFERENCES Rubro(Id),
+	CONSTRAINT FK_Producto_IdFamilia FOREIGN KEY (IdFamilia) REFERENCES Familia(Id),
+	CONSTRAINT FK_Producto_CodigoEnvase FOREIGN KEY (CodigoEnvase) REFERENCES Envase(Codigo)
+);
+
+CREATE TABLE Composicion (
+	Producto CHAR(8),
+	Componente CHAR(8),
+	Cantidad DECIMAL(12,2),
+	CONSTRAINT PK_Composicion PRIMARY KEY (Producto, Componente),
+	CONSTRAINT FK_Composicion_Producto FOREIGN KEY (Producto) REFERENCES Producto(Codigo),
+	CONSTRAINT FK_Composicion_Componente FOREIGN KEY (Componente) REFERENCES Producto(Codigo),
 );
 
 CREATE TABLE Deposito (
@@ -63,24 +84,6 @@ CREATE TABLE Deposito (
 	Zona CHAR(3),
 	CONSTRAINT FK_Deposito_Encargado FOREIGN KEY (Encargado) REFERENCES Empleado(Codigo),
 	CONSTRAINT FK_Deposito_Zona FOREIGN KEY (Zona) REFERENCES Zona(Codigo)
-);
-
-CREATE TABLE Cliente (
-	Codigo CHAR(6) PRIMARY KEY,
-	RazonSocial CHAR(100),
-	Telefono CHAR(100),
-	Domicilio CHAR(100),
-	LimiteCredito DECIMAL(12,2),
-	Vendedor NUMERIC(6)
-);
-
-CREATE TABLE Composicion (
-	Producto CHAR(8),
-	Componente CHAR(8),
-	Cantidad DECIMAL(12,2),
-	CONSTRAINT PK_Composicion PRIMARY KEY (Producto, Componente),
-	CONSTRAINT FK_Composicion_Producto FOREIGN KEY (Producto) REFERENCES Producto(Codigo),
-	CONSTRAINT FK_Composicion_Componente FOREIGN KEY (Componente) REFERENCES Producto(Codigo),
 );
 
 CREATE TABLE Stock (

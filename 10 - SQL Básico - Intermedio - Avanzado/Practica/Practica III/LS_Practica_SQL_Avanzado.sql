@@ -50,8 +50,8 @@ END
 
 SELECT * FROM Stock WHERE Producto = 'P003'
 
-SELECT dbo.F_Stock_De_Producto_Hasta_Fecha('P003', '17-10-2023');
-SELECT dbo.F_Stock_De_Producto_Hasta_Fecha('P003', '20-10-2023');
+SELECT dbo.F_Stock_De_Producto_Hasta_Fecha('P003', '17-10-2023') AS StockExistenteHastaLaFecha;
+SELECT dbo.F_Stock_De_Producto_Hasta_Fecha('P003', '20-10-2023') AS StockExistenteHastaLaFecha;
 
 /* 3) Cree el/los objetos de base de datos necesarios para actualizar la columna de empleado 
 empl_comision con la sumatoria del total de lo vendido por ese empleado a lo largo del último año. 
@@ -86,7 +86,7 @@ SELECT * FROM Empleado
 SELECT * FROM Factura
 SELECT * FROM Empleado AS e INNER JOIN Factura AS f ON e.Codigo = f.Vendedor WHERE YEAR(f.Fecha) = YEAR(GETDATE())
 
-SELECT dbo.F_Vendedor_Con_Mas_Ventas_Del_Ultimo_Anio() 
+SELECT dbo.F_Vendedor_Con_Mas_Ventas_Del_Ultimo_Anio() AS VendedorConMasVentasEnElUltimoAño;
 
 /* 4) Realizar un procedimiento que complete con los datos existentes en el modelo 
 provisto la tabla de hechos denominada Fact_table tiene la siguiente definición:*/
@@ -107,13 +107,14 @@ ALTER TABLE Fact_table ADD CONSTRAINT PK_Fact_Table PRIMARY KEY (Anio, Mes, Fami
 
 -- https://learn.microsoft.com/en-us/sql/t-sql/functions/month-transact-sql?view=sql-server-ver16
 -- https://learn.microsoft.com/es-es/sql/t-sql/functions/left-transact-sql?view=sql-server-ver16
+-- https://www.sqlservertutorial.net/sql-server-basics/sql-server-select-distinct/
 
 CREATE OR ALTER PROCEDURE P_Completar_Fact_Table
 AS
 BEGIN
     INSERT INTO Fact_table (Anio, Mes, Familia, Rubro, Zona, Cliente, Producto, Cantidad, Monto)
-    SELECT
-        CONVERT(CHAR(4), YEAR(f.Fecha)) AS Anio,
+    SELECT DISTINCT 
+		CONVERT(CHAR(4), YEAR(f.Fecha)) AS Anio,
         LEFT('0' + CONVERT(CHAR(2), MONTH(f.Fecha)), 2) AS Mes,
         p.IdFamilia AS Familia,
         p.IdRubro AS Rubro,
