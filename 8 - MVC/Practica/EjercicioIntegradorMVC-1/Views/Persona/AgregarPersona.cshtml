@@ -1,15 +1,18 @@
 ﻿@using EjercicioIntegradorMVC_1.Models
+@using EjercicioIntegradorMVC_1.Resources
 @model Persona
-@{
-    ViewBag.Title = "Agregar Persona";
-}
 
-<head>
-    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
-</head>
+@{ ViewBag.Title = "Agregar Persona"; }
+
+<head><link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" /></head>
 
 <h2>Agregar Persona</h2>
 <hr />
+
+@*  Documentacion:
+    https://learn.microsoft.com/es-es/dotnet/api/system.web.mvc.html.formextensions.beginform
+    https://learn.microsoft.com/es-es/dotnet/api/system.web.mvc.htmlhelper.antiforgerytoken
+    https://www.tutorialsteacher.com/mvc/htmlhelper-validationsummary *@
 
 @using (Html.BeginForm()) {
 
@@ -23,7 +26,7 @@
             @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                <div class="mensajes-validacion">
+                <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -33,32 +36,31 @@
             @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
-                <div class="mensajes-validacion">
+                <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TipoDoc, "Tipo de Documento", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TipoDoc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.TipoDoc, new SelectList(new[]
-                {
+                @Html.DropDownListFor(model => model.TipoDoc, new SelectList(new[] {
                     new SelectListItem { Text = "DNI", Value = "1" },
                     new SelectListItem { Text = "LE", Value = "2" },
                     new SelectListItem { Text = "LC", Value = "3" },
                 }, "Value", "Text"), "Seleccione un tipo de documento", new { @class = "form-control" })
-                <div class="mensajes-validacion">
+                <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.TipoDoc, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NroDoc, "Número de Documento", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NroDoc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NroDoc, new { htmlAttributes = new { @class = "form-control" } })
-                <div class="mensajes-validacion">
+                <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.NroDoc, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -66,7 +68,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear Persona" />
+                <input type="submit" value="Confirmar" class="confirm-button" />
             </div>
         </div>
 
@@ -74,7 +76,8 @@
 }
 
 <br />
-<a class="boton-regreso" href="@Url.Action("Index", "Persona")">Regresar al menu principal</a>
+
+@Html.ActionLink(ResourceGlobal.BotonRegreso, "Index", "Persona", new { @class = "link-back-button" })
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

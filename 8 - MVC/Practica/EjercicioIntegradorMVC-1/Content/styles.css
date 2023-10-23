@@ -1,13 +1,36 @@
 ﻿body {
-    background-color: palegreen;
+    background-color: aliceblue;
 }
 
-.bloque-opcion {
-    margin: 50px;
+h2 {
     text-align: center;
 }
 
-.boton-regreso {
+#options-block {
+    text-align: center;
+    margin: 10px;
+}
+
+.link-option-button {
+    background-color: lightblue;
+    border: 5px double; /* Borde del boton y el tamaño en pixeles*/
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+    display: inline-block; /* Para que el bloque ocupe solo el ancho necesario */
+    margin: 2%; /* Margen para todos los lados*/
+    padding: 10px 20px; /* Espaciado interior para el botón */
+    text-align: center; /* Centra el texto dentro del espacio (No de la pagina)*/
+    text-decoration: none; /* Elimina el subrayado */
+}
+
+    .link-option-button:hover {
+        background-color: dodgerblue; /* Cambia el color de fondo al pasar el mouse por encima */
+        color: white;
+    }
+
+
+.link-back-button {
     background-color: darkslategrey;
     color: white;
     padding: 10px 20px;
@@ -18,13 +41,26 @@
     cursor: pointer;
 }
 
-/* Estilos cuando se coloca el cursor en el enlace */
-    .boton-regreso:hover {
-        background-color: lightgreen;
+    /* Estilos cuando se coloca el cursor en el enlace */
+    .link-back-button:hover {
+        background-color: #45a049;
         color: white;
     }
 
-.mensajes-validacion {
+.validation-message {
     min-height: 20px;
     margin-top: 5px;
 }
+
+.confirm-button {
+    background-color: indianred;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .confirm-button:hover {
+        background-color: mediumvioletred;
+    }

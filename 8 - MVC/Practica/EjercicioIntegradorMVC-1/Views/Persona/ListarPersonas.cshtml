@@ -1,68 +1,39 @@
 ﻿@using EjercicioIntegradorMVC_1.Models
+@using EjercicioIntegradorMVC_1.Resources
 @model IEnumerable<Persona>
 
-@{
-    ViewBag.Title = "Listar Personas";
-}
+@{ ViewBag.Title = "Listar Personas"; }
 
-<head>
-    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
-</head>
+<head><link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" /></head>
 
 <h2>Listar Personas</h2>
 <hr />
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellido)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoDoc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NroDoc)
-        </th>
-        <th></th>
+        <th>@Html.DisplayNameFor(model => model.Id)</th>
+        <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+        <th>@Html.DisplayNameFor(model => model.Apellido)</th>
+        <th>@Html.DisplayNameFor(model => model.TipoDoc)</th>
+        <th>@Html.DisplayNameFor(model => model.NroDoc)</th>
     </tr>
 
     @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @switch (item.TipoDoc) {
-                    case 1:
-                        <text>DNI</text>
-                        break;
-                    case 2:
-                        <text>LE</text>
-                        break;
-                    case 3:
-                        <text>LC</text>
-                        break;
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+            <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
+            <td>@switch (item.TipoDoc) {
+                    case 1: <text>DNI</text> break;
+                    case 2: <text>LE</text> break;
+                    case 3: <text>LC</text> break;
                 }
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NroDoc)
-            </td>
+            <td>@Html.DisplayFor(modelItem => item.NroDoc)</td>
         </tr>
     }
 
 </table>
 
 <br />
-<a class="boton-regreso" href="@Url.Action("Index", "Persona")">Regresar al menu principal</a>
+@Html.ActionLink(ResourceGlobal.BotonRegreso, "Index", "Persona", new { @class = "link-back-button" })
