@@ -4,7 +4,9 @@
 
 @{ ViewBag.Title = "Exito"; }
 
-<head><link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" /></head>
+<head>
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
+</head>
 
 <h2>La persona se agrego / modifico a la base de datos correctamente</h2>
 <hr />
@@ -19,11 +21,15 @@
     </tr>
 
     <tr>
-        <td>@Html.DisplayFor(modelItem => modelItem.Id)</td>
-        <td>@Html.DisplayFor(modelItem => modelItem.Nombre)</td>
-        <td>@Html.DisplayFor(modelItem => modelItem.Apellido)</td>
-        <td>@Html.DisplayFor(modelItem => modelItem.TipoDoc)</td>
-        <td>@Html.DisplayFor(modelItem => modelItem.NroDoc)</td>
+        <td>@Html.DisplayFor(model => model.Id)</td>
+        <td>@Html.DisplayFor(model => model.Nombre)</td>
+        <td>@Html.DisplayFor(model => model.Apellido)</td>
+        <td>@switch (Model.TipoDoc) {
+             case 1:<text>DNI</text> break;
+             case 2: <text>LE</text> break;
+             case 3: <text>LC</text>break;
+        }</td>
+        <td>@Html.DisplayFor(model => model.NroDoc)</td>
     </tr>
 
 </table>
