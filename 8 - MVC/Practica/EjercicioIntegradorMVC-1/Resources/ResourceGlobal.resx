@@ -117,13 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Apellido" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="BotonAplicarCambios" xml:space="preserve">
+    <value>Aplicar Cambios</value>
+  </data>
+  <data name="BotonConfirmar" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
   <data name="BotonRegreso" xml:space="preserve">
     <value>Regresar al menu principal</value>
+  </data>
+  <data name="DNI" xml:space="preserve">
+    <value>DNI</value>
+  </data>
+  <data name="LC" xml:space="preserve">
+    <value>LC</value>
+  </data>
+  <data name="LE" xml:space="preserve">
+    <value>LE</value>
+  </data>
+  <data name="MensajeErrorList" xml:space="preserve">
+    <value>Se debe indicar un {0} de la lista.</value>
+  </data>
+  <data name="MensajeErrorRange" xml:space="preserve">
+    <value>El campo TipoDoc debe ser DNI ({0}), LE (2) o LC ({1}).</value>
+  </data>
+  <data name="MensajeErrorRequired" xml:space="preserve">
+    <value>El campo {0} es obligatorio.</value>
+  </data>
+  <data name="MensajeErrorStringLength" xml:space="preserve">
+    <value>El campo {0} no debe superar los {1} caracteres.</value>
+  </data>
+  <data name="MensajeErrorStringLengthNumeroDocumento" xml:space="preserve">
+    <value>El campo {0} debe tener {1} numeros.</value>
+  </data>
+  <data name="MensajeListaDespegableId" xml:space="preserve">
+    <value>Seleccione un Id</value>
+  </data>
+  <data name="MensajeListaDespegableTipoDeDocumento" xml:space="preserve">
+    <value>Seleccione un tipo de documento</value>
+  </data>
+  <data name="Nombre" xml:space="preserve">
+    <value>Nombre</value>
   </data>
   <data name="NumeroDeDocumento" xml:space="preserve">
     <value>Numero de Documento</value>
   </data>
+  <data name="PieDePagina" xml:space="preserve">
+    <value>Ejercicio Integrador MVC #1</value>
+  </data>
   <data name="TipoDeDocumento" xml:space="preserve">
     <value>Tipo de Documento</value>
+  </data>
+  <data name="TituloAgregarPersona" xml:space="preserve">
+    <value>Agregar Persona</value>
+  </data>
+  <data name="TituloExito" xml:space="preserve">
+    <value>La persona se agrego / modifico a la base de datos correctamente</value>
+  </data>
+  <data name="TituloIndex" xml:space="preserve">
+    <value>Personas - MVC</value>
+  </data>
+  <data name="TituloListarPersonas" xml:space="preserve">
+    <value>Listar Personas</value>
+  </data>
+  <data name="TituloModificarPersona" xml:space="preserve">
+    <value>Modificar Persona</value>
+  </data>
+  <data name="TituloVentana" xml:space="preserve">
+    <value>Ejercicio Integrador MVC #1</value>
   </data>
 </root>

@@ -2,13 +2,9 @@
 @using EjercicioIntegradorMVC_1.Resources
 @model Persona
 
-@{ ViewBag.Title = "Exito"; }
+@{ ViewBag.Title = ResourceGlobal.TituloVentana; }
 
-<head>
-    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
-</head>
-
-<h2>La persona se agrego / modifico a la base de datos correctamente</h2>
+<h2>@ResourceGlobal.TituloExito</h2>
 <hr />
 
 <table class="table">

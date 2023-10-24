@@ -61,11 +61,137 @@ namespace EjercicioIntegradorMVC_1.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apellido.
+        /// </summary>
+        public static string Apellido {
+            get {
+                return ResourceManager.GetString("Apellido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aplicar Cambios.
+        /// </summary>
+        public static string BotonAplicarCambios {
+            get {
+                return ResourceManager.GetString("BotonAplicarCambios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmar.
+        /// </summary>
+        public static string BotonConfirmar {
+            get {
+                return ResourceManager.GetString("BotonConfirmar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Regresar al menu principal.
         /// </summary>
         public static string BotonRegreso {
             get {
                 return ResourceManager.GetString("BotonRegreso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DNI.
+        /// </summary>
+        public static string DNI {
+            get {
+                return ResourceManager.GetString("DNI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LC.
+        /// </summary>
+        public static string LC {
+            get {
+                return ResourceManager.GetString("LC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LE.
+        /// </summary>
+        public static string LE {
+            get {
+                return ResourceManager.GetString("LE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se debe indicar un {0} de la lista..
+        /// </summary>
+        public static string MensajeErrorList {
+            get {
+                return ResourceManager.GetString("MensajeErrorList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El campo TipoDoc debe ser DNI ({0}), LE (2) o LC ({1})..
+        /// </summary>
+        public static string MensajeErrorRange {
+            get {
+                return ResourceManager.GetString("MensajeErrorRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El campo {0} es obligatorio..
+        /// </summary>
+        public static string MensajeErrorRequired {
+            get {
+                return ResourceManager.GetString("MensajeErrorRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El campo {0} no debe superar los {1} caracteres..
+        /// </summary>
+        public static string MensajeErrorStringLength {
+            get {
+                return ResourceManager.GetString("MensajeErrorStringLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El campo {0} debe tener {1} numeros..
+        /// </summary>
+        public static string MensajeErrorStringLengthNumeroDocumento {
+            get {
+                return ResourceManager.GetString("MensajeErrorStringLengthNumeroDocumento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleccione un Id.
+        /// </summary>
+        public static string MensajeListaDespegableId {
+            get {
+                return ResourceManager.GetString("MensajeListaDespegableId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleccione un tipo de documento.
+        /// </summary>
+        public static string MensajeListaDespegableTipoDeDocumento {
+            get {
+                return ResourceManager.GetString("MensajeListaDespegableTipoDeDocumento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nombre.
+        /// </summary>
+        public static string Nombre {
+            get {
+                return ResourceManager.GetString("Nombre", resourceCulture);
             }
         }
         
@@ -79,11 +205,74 @@ namespace EjercicioIntegradorMVC_1.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ejercicio Integrador MVC #1.
+        /// </summary>
+        public static string PieDePagina {
+            get {
+                return ResourceManager.GetString("PieDePagina", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo de Documento.
         /// </summary>
         public static string TipoDeDocumento {
             get {
                 return ResourceManager.GetString("TipoDeDocumento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agregar Persona.
+        /// </summary>
+        public static string TituloAgregarPersona {
+            get {
+                return ResourceManager.GetString("TituloAgregarPersona", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La persona se agrego / modifico a la base de datos correctamente.
+        /// </summary>
+        public static string TituloExito {
+            get {
+                return ResourceManager.GetString("TituloExito", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personas - MVC.
+        /// </summary>
+        public static string TituloIndex {
+            get {
+                return ResourceManager.GetString("TituloIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listar Personas.
+        /// </summary>
+        public static string TituloListarPersonas {
+            get {
+                return ResourceManager.GetString("TituloListarPersonas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modificar Persona.
+        /// </summary>
+        public static string TituloModificarPersona {
+            get {
+                return ResourceManager.GetString("TituloModificarPersona", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ejercicio Integrador MVC #1.
+        /// </summary>
+        public static string TituloVentana {
+            get {
+                return ResourceManager.GetString("TituloVentana", resourceCulture);
             }
         }
     }

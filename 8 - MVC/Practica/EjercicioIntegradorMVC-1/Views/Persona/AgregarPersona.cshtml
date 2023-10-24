@@ -2,17 +2,16 @@
 @using EjercicioIntegradorMVC_1.Resources
 @model Persona
 
-@{ ViewBag.Title = "Agregar Persona"; }
+@{ ViewBag.Title = ResourceGlobal.TituloVentana; }
 
-<head><link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" /></head>
-
-<h2>Agregar Persona</h2>
+<h2>@ResourceGlobal.TituloAgregarPersona</h2>
 <hr />
 
 @*  Documentacion:
     https://learn.microsoft.com/es-es/dotnet/api/system.web.mvc.html.formextensions.beginform
     https://learn.microsoft.com/es-es/dotnet/api/system.web.mvc.htmlhelper.antiforgerytoken
-    https://www.tutorialsteacher.com/mvc/htmlhelper-validationsummary *@
+    https://www.tutorialsteacher.com/mvc/htmlhelper-validationsummary
+    https://api.jquery.com/contains-selector/ *@
 
 @using (Html.BeginForm()) {
 
@@ -46,10 +45,10 @@
             @Html.LabelFor(model => model.TipoDoc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TipoDoc, new SelectList(new[] {
-                    new SelectListItem { Text = "DNI", Value = "1" },
-                    new SelectListItem { Text = "LE", Value = "2" },
-                    new SelectListItem { Text = "LC", Value = "3" },
-                }, "Value", "Text"), "Seleccione un tipo de documento", new { @class = "form-control" })
+                    new SelectListItem { Text = ResourceGlobal.DNI, Value = "1" },
+                    new SelectListItem { Text = ResourceGlobal.LE, Value = "2" },
+                    new SelectListItem { Text = ResourceGlobal.LC, Value = "3" },
+                }, "Value", "Text"), ResourceGlobal.MensajeListaDespegableTipoDeDocumento, new { @class = "form-control" })
                 <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.TipoDoc, "", new { @class = "text-danger" })
                 </div>
@@ -68,7 +67,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Confirmar" class="confirm-button" />
+                <input type="submit" value=@ResourceGlobal.BotonConfirmar class="confirm-button" />
             </div>
         </div>
 
@@ -80,5 +79,21 @@
 @Html.ActionLink(ResourceGlobal.BotonRegreso, "Index", "Persona", new { @class = "link-back-button" })
 
 @section Scripts {
+
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        /* Deshabilita la opcion del mensaje por defecto que aparece al cargar la pagina una vez que
+         * se selecciono alguna opcion valida. */
+
+        $(document).ready(function () {
+            var listaTipoDoc = $("#TipoDoc");
+            listaTipoDoc.change(function () {
+                var opcionPredeterminada = listaTipoDoc.find('option:contains("@ResourceGlobal.MensajeListaDespegableTipoDeDocumento")');
+                opcionPredeterminada.prop("disabled", true);
+            });
+        });
+
+    </script>
 }

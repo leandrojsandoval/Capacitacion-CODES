@@ -19,11 +19,11 @@
     NOTA: El tipo de documento debe ser un combo desplegable cargado a partir de la tabla en Base de Datos
     Recordar subir el proyecto entero, eliminando las carpetas bin, obj y packages.*@
 
-@{ ViewBag.Title = "Ejercicio Integrador MVC - 1"; }
+@using EjercicioIntegradorMVC_1.Resources
 
-<head><link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" /></head>
+@{ ViewBag.Title = ResourceGlobal.TituloVentana; }
 
-<h2>Personas - MVC</h2>
+<h2>@ResourceGlobal.TituloIndex</h2>
 <hr />
 
 @* https://learn.microsoft.com/es-es/dotnet/api/system.web.mvc.html.linkextensions.actionlink?view=aspnet-mvc-5.2 *@

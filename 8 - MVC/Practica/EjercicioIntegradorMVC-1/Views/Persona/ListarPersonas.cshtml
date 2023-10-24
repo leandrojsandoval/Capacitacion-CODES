@@ -2,11 +2,9 @@
 @using EjercicioIntegradorMVC_1.Resources
 @model IEnumerable<Persona>
 
-@{ ViewBag.Title = "Listar Personas"; }
+@{ ViewBag.Title = ResourceGlobal.TituloVentana; }
 
-<head><link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" /></head>
-
-<h2>Listar Personas</h2>
+<h2>@ResourceGlobal.TituloListarPersonas</h2>
 <hr />
 
 <table class="table">
@@ -27,8 +25,7 @@
                     case 1: <text>DNI</text> break;
                     case 2: <text>LE</text> break;
                     case 3: <text>LC</text> break;
-                }
-            </td>
+            }</td>
             <td>@Html.DisplayFor(modelItem => item.NroDoc)</td>
         </tr>
     }
