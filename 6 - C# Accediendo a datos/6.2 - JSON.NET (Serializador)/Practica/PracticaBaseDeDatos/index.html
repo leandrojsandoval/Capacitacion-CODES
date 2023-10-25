@@ -1,54 +1,101 @@
-﻿<!DOCTYPE html>
+﻿<!--
+    Integración Vista - Base de Datos
+
+    Sobre el proyecto de la evaluación y con los conocimientos adquiridos de SQL y Base de Datos, 
+    dejar de usar la persistencia en el Array de JS y persistir los datos en la BD. 
+    Para eso se pide:
+
+    - El botón enviar que validaba el formulario y lo persistía en el Array de JS, ahora modificarlo 
+    para que haga la validación (del lado del cliente y del lado del Servidor) pero insertarlo en la 
+    BD en una tabla Persona.
+
+    - Agregar un botón "Listar Personas", que vaya a la BD y traiga todos los registros de la tabla 
+    Persona, se los pase a la vista y los liste en pantalla (puede ser en una lista nueva o usando 
+    las mismas etiquetas de Bootstrap).
+
+    - Agregar un botón "Borrar Datos" que elimine todos los registros de la tabla Persona (devolviendo 
+    a la vista la confirmación de la ejecución).
+
+    - Agregar un filtro (input y botón) para hacer una búsqueda filtrada de la tabla Persona, sobre 
+    la columna que se prefiera.
+
+    - Suba el proyecto entero.
+-->
+
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8" />
     <title>Práctica C# - Base de Datos</title>
-    <link href="styles.css" rel="stylesheet" />
+    <link href="/Styles/styles.css" rel="stylesheet" />
 </head>
 
 <body>
+    
     <h1>Complete los datos</h1>
+    <hr />
+    
     <form id="formulario">
 
         <label for="nombre">Nombre</label>
-        <input type="text" class="campo" id="nombre" name="nombre" required><br>
+        <input type="text" id="nombre" placeholder="Ingrese nombre" required><br>
 
         <label for="apellido">Apellido</label>
-        <input type="text" class="campo" id="apellido" name="apellido" required><br>
+        <input type="text" id="apellido" placeholder="Ingrese apellido" required><br>
 
         <label for="dni">DNI</label>
-        <input type="text" class="campo" id="dni" name="dni" required><br>
+        <input type="text" id="dni" placeholder="Indique su DNI" required><br>
 
         <label for="email">Email</label>
-        <input type="text" class="campo" id="email" name="email" required><br>
+        <input type="email" id="email" placeholder="Ingrese un email" required><br>
 
         <label for="edad">Edad</label>
-        <input type="text" class="campo" id="edad" name="edad" required><br>
+        <input type="text" id="edad" placeholder="Ingrese su edad" required><br>
 
         <button type="submit" id="enviarDatos">Enviar Datos</button><br>
 
     </form>
+    <hr />
 
-    <button type="button" id="listarPersonas">Listar Personas</button><br>
+    <button type="button" id="listarPersonas">Listar Personas</button>
 
-    <button type="button" id="borrarDatos">Borrar Datos</button><br>
+    <button type="button" id="eliminarPersonas">Borrar Datos</button>
 
-    <form action="/" method="get">
+    <form>
         <label for="columnaFiltro">Filtrar</label>
         <select id="columnaFiltro">
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="Id">Id</option>
             <option value="nombre">Nombre</option>
             <option value="apellido">Apellido</option>
             <option value="edad">Edad</option>
             <option value="email">Email</option>
             <option value="dni">DNI</option>
         </select>
-        <input type="text" id="valorFitro" placeholder="Ingrese un término de búsqueda" required><br>
-        <button type="button" id="filtrarDatos">Buscar</button>
+        <input type="text" id="valorFiltro" placeholder="Ingrese un término de búsqueda" required disabled>
+        <button type="button" id="filtrarDatos" disabled>Buscar</button>
+        <button type="button" id="eliminarFiltro" disabled>Eliminar Filtro</button>
     </form>
 
+    <!-- Bloque donde se va a mostrar el resultado de insercion y eliminacion -->
+
+    <div id="mensajeRespuesta"></div>
+
+    <!-- Bloque donde se van a listar las personas tanto todas, como con un filtro aplicado -->
+
+    <div id="tablaContainer">
+        <table id="tablaPersonas">
+            <thead><tr></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script language="JavaScript" src="app.js" charset="utf-8"></script>
+    <script language="JavaScript" src="/Scripts/agregarPersona.js" charset="utf-8"></script>
+    <script language="JavaScript" src="/Scripts/listarYFiltrarPersonas.js" charset="utf-8"></script>
+    <script language="JavaScript" src="/Scripts/eliminarPersonas.js" charset="utf-8"></script>
+
 </body>
 
 </html>

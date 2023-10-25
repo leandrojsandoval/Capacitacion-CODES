@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using PracticaBaseDeDatos.Clases;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Web;
 
@@ -9,40 +11,37 @@ namespace PracticaBaseDeDatos {
 
         public void ProcessRequest(HttpContext context) {
             context.Response.ContentType = "text/plain";
-
+            //context.Response.ContentType = "application/json";
             List<Persona> listaPersonas = new List<Persona>();
-
-            // Aca se debería cambiar por el servidor de la VM
-            var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
-                        + "Database=DBPracticaCODES;"
-                        + "Integrated Security=True;";
-
-            using (SqlConnection conexion = new SqlConnection(datosBD)) {
-                conexion.Open();
-                var comandoSeleccion = "SELECT * FROM Persona";
-                using (SqlCommand comando = new SqlCommand(comandoSeleccion, conexion)) {
-                    SqlDataReader reader = comando.ExecuteReader();
-                    while (reader.Read()) {
-
-                        string nombre = reader["Nombre"].ToString();
-                        string apellido = reader["Apellido"].ToString();
-                        int edad = Convert.ToInt32(reader["Edad"]);
-                        string dni = reader["Dni"].ToString();
-                        string email = reader["Email"].ToString();
-
-                        listaPersonas.Add(new Persona(nombre, apellido, edad, dni, email));
+            try {
+                string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
+                using (SqlConnection conexion = new SqlConnection(connectionString)) {
+                    conexion.Open();
+                    using (SqlCommand comando = new SqlCommand(Constante.SP_OBTENER_PERSONAS, conexion)) {
+                        SqlDataReader reader = comando.ExecuteReader();
+                        while (reader.Read()) {
+                            listaPersonas.Add(new Persona {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Nombre = reader["Nombre"].ToString(),
+                                Apellido = reader["Apellido"].ToString(),
+                                Edad = Convert.ToInt32(reader["Edad"]),
+                                Dni = reader["Dni"].ToString(),
+                                Email = reader["Email"].ToString()
+                            });
+                        }
                     }
                 }
+                string json = JsonConvert.SerializeObject(listaPersonas);
+                context.Response.Write(json);
             }
-
-            string json = JsonConvert.SerializeObject(listaPersonas);
-            context.Response.Write(json);
+            catch (Exception ex) {
+                context.Response.StatusCode = 500;
+                context.Response.Write("Error: " + ex.Message);
+            }
         }
 
         public bool IsReusable {
-            get {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

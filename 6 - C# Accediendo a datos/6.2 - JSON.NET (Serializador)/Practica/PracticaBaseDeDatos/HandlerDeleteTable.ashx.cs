@@ -1,4 +1,7 @@
-﻿using System.Data.SqlClient;
+﻿using PracticaBaseDeDatos.Clases;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Web;
 
 namespace PracticaBaseDeDatos {
@@ -6,25 +9,18 @@ namespace PracticaBaseDeDatos {
 
         public void ProcessRequest(HttpContext context) {
             context.Response.ContentType = "text/plain";
-
-            // Aca se debería cambiar por el servidor de la VM
-            var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
-            + "Database=DBPracticaCODES;"
-            + "Integrated Security=True;";
-
-            using (SqlConnection conexion = new SqlConnection(datosBD)) {
+            string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
+            using (SqlConnection conexion = new SqlConnection(connectionString)) {
                 conexion.Open();
-                var comandoEliminacion = "DELETE Persona";
-                using (SqlCommand comando = new SqlCommand(comandoEliminacion, conexion)) {
-                    context.Response.Write(comando.ExecuteNonQuery() > 0 ? "La tabla se borró exitosamente." : "La tabla no se borró o estaba vacía.");
+                using (SqlCommand comando = new SqlCommand(Constante.SP_ELIMINAR_PERSONAS, conexion)) {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    context.Response.Write(comando.ExecuteNonQuery() > 0 ? Constante.MENSAJE_BORRADO_EXITOSO : Constante.MENSAJE_BORRADO_FALLIDO);
                 }
             }
         }
 
         public bool IsReusable {
-            get {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

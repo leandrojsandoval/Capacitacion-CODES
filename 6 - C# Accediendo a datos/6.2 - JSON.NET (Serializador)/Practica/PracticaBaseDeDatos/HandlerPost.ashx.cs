@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PracticaBaseDeDatos.Clases;
+using System;
+using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web;
@@ -7,63 +10,46 @@ using System.Web.Script.Serialization;
 namespace PracticaBaseDeDatos {
     public class HandlerPost : IHttpHandler {
 
+
+
         public void ProcessRequest(HttpContext context) {
-
             context.Response.ContentType = "text/plain";
-
             string JSONReceived = new StreamReader(context.Request.InputStream).ReadToEnd();
             var serializer = new JavaScriptSerializer();
             dynamic datosObj = serializer.DeserializeObject(JSONReceived);
-
-            string responseJSON;
-
             try {
                 Persona persona = new Persona(datosObj["nombre"], datosObj["apellido"], Convert.ToInt32(datosObj["edad"]), datosObj["dni"], datosObj["email"]);
-
                 if (persona.Edad < 18) {
-                    responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [Edad] no es válido, debe tener al menos 18 años" });
-                    context.Response.Write(responseJSON);
+                    context.Response.Write(Constante.MENSAJE_ERROR_MENOR_DE_EDAD);
                     return;
                 }
-
-                // Aca se debería cambiar por el servidor de la VM
-                var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
-                            + "Database=DBPracticaCODES;"
-                            + "Integrated Security=True;";
-
-                using (SqlConnection conexion = new SqlConnection(datosBD)) {
+                string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
+                using (SqlConnection conexion = new SqlConnection(connectionString)) {
                     conexion.Open();
-                    var comandoInsercion = "INSERT INTO Persona (Nombre, Apellido, Edad, DNI, Email) VALUES (@Nombre, @Apellido, @Edad, @DNI, @Email)";
-                    using (SqlCommand comando = new SqlCommand(comandoInsercion, conexion)) {
-                        comando.Parameters.AddWithValue("@Nombre", persona.Nombre);
-                        comando.Parameters.AddWithValue("@Apellido", persona.Apellido);
-                        comando.Parameters.AddWithValue("@Edad", persona.Edad);
-                        comando.Parameters.AddWithValue("@DNI", persona.Dni);
-                        comando.Parameters.AddWithValue("@Email", persona.Email);
-
+                    using (SqlCommand comando = new SqlCommand(Constante.SP_AGREGAR_PERSONA, conexion)) {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.AddWithValue(Constante.PARAMETRO_NOMBRE, persona.Nombre);
+                        comando.Parameters.AddWithValue(Constante.PARAMETRO_APELLIDO, persona.Apellido);
+                        comando.Parameters.AddWithValue(Constante.PARAMETRO_EDAD, persona.Edad);
+                        comando.Parameters.AddWithValue(Constante.PARAMETRO_DNI, persona.Dni);
+                        comando.Parameters.AddWithValue(Constante.PARAMETRO_EMAIL, persona.Email);
                         comando.ExecuteNonQuery();
                     }
                 }
-
-                responseJSON = serializer.Serialize(new { result = 0, message = " " });
-                context.Response.Write(responseJSON);
+                context.Response.Write(Constante.MENSAJE_EXITOSO);
             }
             catch (DniInvalidoException) {
-                responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [DNI] no es válido, debe tener dígitos sin guiones" });
-                context.Response.Write(responseJSON);
+                context.Response.Write(Constante.MENSAJE_ERROR_DNI_INVALIDO);
                 return;
             }
             catch (EmailInvalidoException) {
-                responseJSON = serializer.Serialize(new { result = -1, message = "ERROR: El campo [Email] no es válido, dominio en el e-mail debe ser Gmail.com ó Hotmail.com" });
-                context.Response.Write(responseJSON);
+                context.Response.Write(Constante.MENSAJE_ERROR_EMAIL_INVALIDO);
                 return;
             }
         }
 
         public bool IsReusable {
-            get {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

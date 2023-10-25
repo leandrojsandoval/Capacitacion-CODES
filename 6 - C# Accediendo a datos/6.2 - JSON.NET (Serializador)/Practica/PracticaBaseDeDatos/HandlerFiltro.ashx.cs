@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using PracticaBaseDeDatos.Clases;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Web;
 
@@ -9,48 +11,45 @@ namespace PracticaBaseDeDatos {
 
         public void ProcessRequest(HttpContext context) {
             context.Response.ContentType = "text/plain";
+            //context.Response.ContentType = "application/json";
 
             string columna = context.Request["columna"];
             string filtro = context.Request["filtro"];
 
-            List<Persona> resultados = new List<Persona>();
+            List<Persona> listaPersonas = new List<Persona>();
 
-            // Aca se debería cambiar por el servidor de la VM
-            var datosBD = "Server=DESKTOP-7EJ9QTF\\MSSQLSERVER01;"
-                        + "Database=DBPracticaCODES;"
-                        + "Integrated Security=True;";
+            string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
 
-            using (SqlConnection conexion = new SqlConnection(datosBD)) {
-                
+            using (SqlConnection conexion = new SqlConnection(connectionString)) {
+
                 conexion.Open();
-                var comandoSeleccion = "SELECT * FROM Persona WHERE " + columna + " LIKE @filtro";
-                
-                using (SqlCommand comando = new SqlCommand(comandoSeleccion, conexion)) {
-                    
-                    comando.Parameters.AddWithValue("@filtro", "%" + filtro + "%");
+
+                using (SqlCommand comando = new SqlCommand(Constante.SP_FILTRAR_PERSONAS, conexion)) {
+
+                    comando.CommandType = System.Data.CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue(Constante.PARAMETRO_NOMBRE_COLUMNA, columna);
+                    comando.Parameters.AddWithValue(Constante.PARAMETRO_VALOR, filtro);
+
                     SqlDataReader reader = comando.ExecuteReader();
-                    
+
                     while (reader.Read()) {
-
-                        string nombre = reader["Nombre"].ToString();
-                        string apellido = reader["Apellido"].ToString();
-                        int edad = Convert.ToInt32(reader["Edad"]);
-                        string dni = reader["Dni"].ToString();
-                        string email = reader["Email"].ToString();
-
-                        resultados.Add(new Persona(nombre, apellido, edad, dni, email));
+                        listaPersonas.Add(new Persona {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Nombre = reader["Nombre"].ToString(),
+                            Apellido = reader["Apellido"].ToString(),
+                            Edad = Convert.ToInt32(reader["Edad"]),
+                            Dni = reader["Dni"].ToString(),
+                            Email = reader["Email"].ToString()
+                        });
                     }
                 }
             }
-
-            string json = JsonConvert.SerializeObject(resultados);
+            string json = JsonConvert.SerializeObject(listaPersonas);
             context.Response.Write(json);
         }
 
         public bool IsReusable {
-            get {
-                return false;
-            }
+            get { return false; }
         }
     }
 }
