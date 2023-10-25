@@ -3,6 +3,7 @@ using PracticaBaseDeDatos.Clases;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 
@@ -26,7 +27,7 @@ namespace PracticaBaseDeDatos {
 
                 using (SqlCommand comando = new SqlCommand(Constante.SP_FILTRAR_PERSONAS, conexion)) {
 
-                    comando.CommandType = System.Data.CommandType.StoredProcedure;
+                    comando.CommandType = CommandType.StoredProcedure;
                     comando.Parameters.AddWithValue(Constante.PARAMETRO_NOMBRE_COLUMNA, columna);
                     comando.Parameters.AddWithValue(Constante.PARAMETRO_VALOR, filtro);
 
