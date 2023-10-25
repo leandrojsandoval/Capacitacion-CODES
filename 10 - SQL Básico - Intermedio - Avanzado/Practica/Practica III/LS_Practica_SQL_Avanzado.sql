@@ -1,4 +1,4 @@
-USE LS_Practica_SQL_Basico_2
+USE LS_Practica_SQL_2
 GO
 
 ----------------------------------- Práctica de T-SQL -----------------------------------
