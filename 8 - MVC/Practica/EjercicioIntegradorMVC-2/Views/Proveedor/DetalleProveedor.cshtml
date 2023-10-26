@@ -2,14 +2,7 @@
 @using Recursos
 @model Proveedor
 
-@{
-    ViewBag.Title = @GlobalResources.Titulo_DetalleProveedor;
-}
-
-<head>
-    <link href="~/Content/styles.css" rel="stylesheet" />
-</head>
-
+@{ ViewBag.Title = @GlobalResources.Titulo_DetalleProveedor; }
 
 <h2>@GlobalResources.Titulo_DetalleProveedor</h2>
 
@@ -40,4 +33,4 @@
     </dl>
 </div>
 
-<p>@Html.ActionLink(GlobalResources.Accion_Regresar, "Indice")</p>
+<p>@Html.ActionLink(GlobalResources.Accion_Regresar, "Indice", null, new {@class = "button-common link-back-button" })</p>

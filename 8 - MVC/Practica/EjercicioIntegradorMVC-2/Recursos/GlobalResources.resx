@@ -135,6 +135,9 @@
   <data name="Boton_Buscar" xml:space="preserve">
     <value>Buscar</value>
   </data>
+  <data name="Boton_Limpiar_Filtros" xml:space="preserve">
+    <value>Limpiar Filtros</value>
+  </data>
   <data name="Label_Filtro_Proveedor_Localidad_Texto" xml:space="preserve">
     <value>Localidad</value>
   </data>

@@ -2,14 +2,7 @@
 @using Recursos
 @model Proveedor
 
-@{
-    ViewBag.Title = @GlobalResources.Titulo_Edit;
-}
-
-<head>
-    <link href="~/Content/styles.css" rel="stylesheet" />
-</head>
-
+@{ ViewBag.Title = @GlobalResources.Titulo_Edit; }
 
 <h2>@GlobalResources.Titulo_Edit</h2>
 
@@ -54,33 +47,32 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10"><input type="submit" value=@GlobalResources.Boton_Aceptar class="btn btn-default" /></div>
+            <div class="col-md-offset-2 col-md-10">
+                <input class="button-common confirm-button" type="submit" value=@GlobalResources.Boton_Aceptar>
+                @Html.ActionLink(GlobalResources.Accion_Cancelar, "Indice", null, new { @class = "button-common link-back-button" })
+            </div>
         </div>
     </div>
 }
-
-<div>@Html.ActionLink(GlobalResources.Accion_Cancelar, "Indice")</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval");
 
     <script>
         $("#selectProvincia").change(function () {
+
+            /* Me quedo con el id que fue seleccionado */
             var idProvincia = $(this).val();
             var localidades = $("#selectLocalidad");
 
-            if (idProvincia) {
-                $("#selectProvincia option[value='']").remove();
-                localidades.prop("disabled", false);
-            } else {
-                if ($("#selectProvincia option[value='']").length === 0) {
-                    $("#selectProvincia").prepend($("<option>", {
-                        value: "",
-                        text: "Seleccione una provincia"
-                    }));
-                    localidades.prop("disabled", true);
-                }
-            }
+            /* Cuando se seleccione un id, la opcion que mostraba
+            * seleccionar por defecto se elimina para que no se vuelva a elegir.*/
+            $("#selectProvincia option[value='']").remove();
+            /* Habilito la lista de localidades */
+            localidades.prop("disabled", false);
+
+            /* Traigo la lista de localidades asociada al id de provincia que se selecciono
+            * y voy completando con la descripcion de la localidad las opciones del select.*/
 
             $.ajax({
                 type: "POST",
@@ -91,7 +83,6 @@
                     $.each(data, function (i, item) {
                         localidades.append($("<option>").text(item.Descripcion).val(item.Id));
                     });
-                    localidades.find('option:contains("Seleccione una localidad")').remove();
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
                     alert("Error: " + errorMessage);

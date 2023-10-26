@@ -115,6 +115,15 @@ namespace Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Limpiar Filtros.
+        /// </summary>
+        public static string Boton_Limpiar_Filtros {
+            get {
+                return ResourceManager.GetString("Boton_Limpiar_Filtros", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Localidad.
         /// </summary>
         public static string Label_Filtro_Proveedor_Localidad_Texto {

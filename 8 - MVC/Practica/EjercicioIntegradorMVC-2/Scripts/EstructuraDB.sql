@@ -64,7 +64,24 @@ INSERT INTO Proveedor (Nombre, Domicilio, IdProvincia, IdLocalidad) VALUES
 
 DELETE FROM Provincia;
 
-select * from Proveedor
+SELECT * FROM Proveedor
+
+CREATE OR ALTER PROCEDURE P_Obtener_Localidades AS
+	SELECT * FROM Localidad
+
+CREATE OR ALTER PROCEDURE P_Obtener_Provincias AS
+	SELECT * FROM Provincia
+
+CREATE OR ALTER PROCEDURE P_Obtener_Proveedores AS
+	SELECT * FROM Proveedor
+
+CREATE OR ALTER PROCEDURE P_Eliminar_Proveedor @Id INT AS
+	DELETE FROM Proveedor WHERE Id = @Id;
+
+EXECUTE P_Obtener_Localidades;
+EXECUTE P_Obtener_Provincias;
+EXECUTE P_Obtener_Proveedores;
+
 
 SELECT prove.Id, prove.Nombre, prove.Domicilio, provi.Descripcion AS Provincia, loc.Descripcion AS Localidad
 FROM Proveedor AS prove INNER JOIN Provincia AS provi ON prove.IdProvincia = provi.Id 

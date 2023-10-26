@@ -1,4 +1,6 @@
-﻿namespace PracticaBaseDeDatos.Clases {
+﻿using System.Configuration;
+
+namespace PracticaBaseDeDatos.Clases {
     public class Constante {
 
         public const string MENSAJE_EXITOSO = "La persona se agrego correctamente a la base de datos.";

@@ -11,8 +11,38 @@ label {
     margin: 10px;
 }
 
-.boton-accion {
-    margin: 15px;
-    background-color: forestgreen;
+.button-common {
     border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-right: 10px;
+    padding: 10px 20px;
 }
+
+.main-button {
+    background-color: lightseagreen
+}
+
+    .main-button:hover {
+        background-color: seagreen;
+    }
+
+.confirm-button {
+    background-color: indianred;
+}
+
+    .confirm-button:hover {
+        background-color: mediumvioletred;
+    }
+
+.link-back-button {
+    background-color: darkslategrey;
+    text-decoration: none;
+}
+
+    .link-back-button:hover {
+        background-color: #45a049;
+        color: white;
+    }
