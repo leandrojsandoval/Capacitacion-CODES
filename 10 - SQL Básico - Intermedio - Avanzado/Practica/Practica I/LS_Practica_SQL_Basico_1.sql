@@ -62,7 +62,7 @@ Información de los Depósitos donde existirá stock de Productos (Tabla Depósitos)
 ------------------ PARTE I - Creación de tablas y carga inicial de datos ------------------
 
 CREATE DATABASE LS_Practica_SQL_Basico_1;
-USE LS_Practica_SQL_Basico_1;
+USE LS_Practica_SQL_1;
 
 /*1. Realizar los scripts de creación de las tablas identificando claves primarias y foráneas.*/
 
