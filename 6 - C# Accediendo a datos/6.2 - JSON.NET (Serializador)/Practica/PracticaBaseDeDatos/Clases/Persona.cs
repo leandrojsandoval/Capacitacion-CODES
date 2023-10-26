@@ -17,9 +17,9 @@ namespace PracticaBaseDeDatos {
 
         public Persona(string nombre, string apellido, int edad, string dni, string email) {
             if (!EsDNIValido(dni))
-                throw new DniInvalidoException("El DNI es inválido");
+                throw new DniInvalidoException();
             if (!EsEmailValido(email))
-                throw new EmailInvalidoException("El Email es inválido");
+                throw new EmailInvalidoException();
             Nombre = nombre;
             Apellido = apellido;
             Edad = edad;

@@ -19,9 +19,10 @@ namespace PracticaBaseDeDatos {
 
             List<Persona> listaPersonas = new List<Persona>();
 
-            string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
+            string connectionStringVM = ConfigurationManager.AppSettings.Get("ConnectionStringVM").ToString();
+            //string connectionStringLocal = ConfigurationManager.AppSettings.Get("ConnectionStringLocal").ToString();
 
-            using (SqlConnection conexion = new SqlConnection(connectionString)) {
+            using (SqlConnection conexion = new SqlConnection(connectionStringVM)) {
 
                 conexion.Open();
 

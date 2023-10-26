@@ -46,12 +46,36 @@ GO
 
 CREATE OR ALTER PROCEDURE P_Filtrar_Personas @nombreColumna NVARCHAR(128), @valor NVARCHAR(100) AS
 BEGIN
-    DECLARE @sql NVARCHAR(MAX);
+	/* En esta variable se va a guardar la consulta dinamica */
+	DECLARE @consulta NVARCHAR(MAX);
+
+	/* Pongo a valor el comodin para que busque algun registro con ese valor
+	 * https://learn.microsoft.com/es-es/sql/t-sql/language-elements/percent-character-wildcard-character-s-to-match-transact-sql?view=sql-server-ver16 */
+
 	SET @valor = '%' + @valor + '%'
-    IF EXISTS (SELECT 1 FROM sys.columns WHERE name = @nombreColumna AND OBJECT_ID = OBJECT_ID('Persona'))
+    
+	/* Verifica que la columna @nombreColumna exista en la tabla Persona usando la vista sys.columns
+	 * https://learn.microsoft.com/es-es/sql/relational-databases/system-catalog-views/sys-columns-transact-sql?view=sql-server-ver16
+	 * Y tambien verifica que la tabla Persona exista con OBJECT_ID
+	 * https://learn.microsoft.com/es-es/sql/t-sql/functions/object-id-transact-sql?view=sql-server-ver16
+	 *
+	 * SELECT * 
+	 * FROM sys.columns
+	 * WHERE OBJECT_ID = OBJECT_ID('Persona'); */
+
+	IF EXISTS (SELECT 1 FROM sys.columns WHERE name = @nombreColumna AND OBJECT_ID = OBJECT_ID('Persona'))
     BEGIN
-        SET @sql = N'SELECT * FROM Persona WHERE ' + QUOTENAME(@nombreColumna) + N' LIKE @valor;';
-        EXEC sp_executesql @sql, N'@valor NVARCHAR(100)', @valor;
+
+	/* Realiza una consulta dinamica (PREGUNTAR) guardandola en la variable
+	 * https://learn.microsoft.com/es-es/sql/t-sql/functions/quotename-transact-sql?view=sql-server-ver16
+	 * https://learn.microsoft.com/es-es/sql/relational-databases/system-stored-procedures/sp-executesql-transact-sql?view=sql-server-ver16
+	 * Luego se llama a un procedure que ejecuta consultas dinamicas, como parametros recibe:
+	 * 1 - La consulta dinamica
+	 * 2 - Se indica los parametros que se va a pasar a la consulta con su tipo de dato
+	 * 3 - Se indica el valor del parametro */
+
+        SET @consulta = 'SELECT * FROM Persona WHERE ' + QUOTENAME(@nombreColumna) + ' LIKE @valor;';
+        EXEC sp_executesql @consulta, N'@valor NVARCHAR(100)', @valor;
     END
     ELSE
         RAISERROR ('Nombre de columna no válido.', 16, 1);
@@ -68,7 +92,7 @@ END
 EXECUTE P_Filtrar_Personas_Mio 'Email', '@hotmail.com';
 */
 
-EXECUTE P_Eliminar_Personas
+-- EXECUTE P_Eliminar_Personas
 
 EXECUTE P_Obtener_Personas
 

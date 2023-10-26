@@ -9,9 +9,6 @@ using System.Web.Script.Serialization;
 
 namespace PracticaBaseDeDatos {
     public class HandlerPost : IHttpHandler {
-
-
-
         public void ProcessRequest(HttpContext context) {
             context.Response.ContentType = "text/plain";
             string JSONReceived = new StreamReader(context.Request.InputStream).ReadToEnd();
@@ -23,8 +20,9 @@ namespace PracticaBaseDeDatos {
                     context.Response.Write(Constante.MENSAJE_ERROR_MENOR_DE_EDAD);
                     return;
                 }
-                string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
-                using (SqlConnection conexion = new SqlConnection(connectionString)) {
+                string connectionStringVM = ConfigurationManager.AppSettings.Get("ConnectionStringVM").ToString();
+                //string connectionStringLocal = ConfigurationManager.AppSettings.Get("ConnectionStringLocal").ToString();
+                using (SqlConnection conexion = new SqlConnection(connectionStringVM)) {
                     conexion.Open();
                     using (SqlCommand comando = new SqlCommand(Constante.SP_AGREGAR_PERSONA, conexion)) {
                         comando.CommandType = CommandType.StoredProcedure;

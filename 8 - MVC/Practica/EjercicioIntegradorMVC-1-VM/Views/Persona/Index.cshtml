@@ -19,29 +19,17 @@
     NOTA: El tipo de documento debe ser un combo desplegable cargado a partir de la tabla en Base de Datos
     Recordar subir el proyecto entero, eliminando las carpetas bin, obj y packages.*@
 
-@{
-    ViewBag.Title = "Ejercicio Integrador MVC - 1";
-}
+@using EjercicioIntegradorMVC_1_VM.Resources
 
-<head>
-    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
-</head>
+@{ ViewBag.Title = ResourceGlobal.TituloVentana; }
 
-<h2>Ejercicio Integrador MVC - 1</h2>
+<h2>@ResourceGlobal.TituloIndex</h2>
 <hr />
 
-<div class="bloque-opcion">
-    <form action="@Url.Action("ListarPersonas", "Persona")" method="get">
-        <button id="listarPersonas">Listar personas</button>
-    </form>
-</div>
-<div class="bloque-opcion">
-    <form action="@Url.Action("AgregarPersona", "Persona")" method="post">
-        <button id="agregarPersona">Agregar nueva persona</button>
-    </form>
-</div>
-<div class="bloque-opcion">
-    <form action="@Url.Action("ModificarPersona", "Persona")" method="post">
-        <button id="modificarPersona">Modificar persona existente</button>
-    </form>
+@* https://learn.microsoft.com/es-es/dotnet/api/system.web.mvc.html.linkextensions.actionlink?view=aspnet-mvc-5.2 *@
+
+<div id="options-block">
+    @Html.ActionLink("Listar Personas", "ListarPersonas", "Persona", new { @class = "link-option-button" })
+    @Html.ActionLink("Agregar Persona", "AgregarPersona", "Persona", new { @class = "link-option-button" })
+    @Html.ActionLink("Modificar Persona", "ModificarPersona", "Persona", new { @class = "link-option-button" })
 </div>

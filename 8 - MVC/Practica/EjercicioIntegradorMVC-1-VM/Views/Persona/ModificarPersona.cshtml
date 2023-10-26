@@ -1,30 +1,26 @@
-﻿@model EjercicioIntegradorMVC_1.Models.Persona
+﻿@using EjercicioIntegradorMVC_1_VM.Models
+@using EjercicioIntegradorMVC_1_VM.Resources
+@model Persona
 
-@{
-    ViewBag.Title = "Modificar Persona";
-}
+@{ ViewBag.Title = ResourceGlobal.TituloVentana; }
 
-<head>
-    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet" type="text/css" />
-</head>
+<h2>@ResourceGlobal.TituloModificarPersona</h2>
+<hr />
 
-<h2>Modificar Persona</h2>
+@* https://stackoverflow.com/questions/19703753/how-to-make-the-html-editorfor-disabled/19703838#19703838 *@
 
-@using (Html.BeginForm())
-{
+@using (Html.BeginForm()) {
 
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <div class="form-group">
             @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1", data_val_range = "Ingrese un valor mayor a 0.", data_val_range_min = "1" } })
-                <div class="mensajes-validacion">
-                    @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                @Html.DropDownList("Id", (IEnumerable<SelectListItem>)ViewBag.IdList, ResourceGlobal.MensajeListaDespegableId, new { @class = "form-control" })
+                <div class="validation-message">
+                    @Html.ValidationMessage("Id", "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -32,8 +28,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                <div class="mensajes-validacion">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -42,33 +38,32 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
-                <div class="mensajes-validacion">
+                @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TipoDoc, "Tipo de Documento", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TipoDoc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.TipoDoc, new SelectList(new[]
-                {
-                    new SelectListItem { Text = "DNI", Value = "1" },
-                    new SelectListItem { Text = "LE", Value = "2" },
-                    new SelectListItem { Text = "LC", Value = "3" },
-                }, "Value", "Text"), "Seleccione un tipo de documento", new { @class = "form-control" })
-                <div class="mensajes-validacion">
+                @Html.DropDownListFor(model => model.TipoDoc, new SelectList(new[] {
+                    new SelectListItem { Text = ResourceGlobal.DNI, Value = "1" },
+                    new SelectListItem { Text = ResourceGlobal.LE, Value = "2" },
+                    new SelectListItem { Text = ResourceGlobal.LC, Value = "3" },
+                }, "Value", "Text"), ResourceGlobal.MensajeListaDespegableTipoDeDocumento, new { @class = "form-control", @disabled = "disabled" })
+                <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.TipoDoc, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NroDoc, "Número de Documento", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NroDoc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NroDoc, new { htmlAttributes = new { @class = "form-control" } })
-                <div class="mensajes-validacion">
+                @Html.EditorFor(model => model.NroDoc, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                <div class="validation-message">
                     @Html.ValidationMessageFor(model => model.NroDoc, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -76,7 +71,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar Cambios" />
+                <input type="submit" value=@ResourceGlobal.BotonAplicarCambios class="confirm-button" />
             </div>
         </div>
 
@@ -84,8 +79,65 @@
 }
 
 <br />
-<a class="boton-regreso" href="@Url.Action("Index", "Persona")">Regresar al menu principal</a>
+@Html.ActionLink(ResourceGlobal.BotonRegreso, "Index", "Persona", new { @class = "link-back-button" })
 
 @section Scripts {
+
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        /* Deshabilita la opcion del mensaje por defecto que aparece al cargar la pagina una vez que se selecciono alguna opcion valida. */
+
+        $(document).ready(function () {
+            var listaTipoDoc = $("#TipoDoc");
+            listaTipoDoc.change(function () {
+                var opcionPredeterminada = listaTipoDoc.find('option:contains("@ResourceGlobal.MensajeListaDespegableTipoDeDocumento")');
+                opcionPredeterminada.prop("disabled", true);
+            });
+        });
+
+        /* Carga lo datos de en el formulario de la persona con el id seleccionado. */
+
+        $(function () {
+            $("#Id").change(function () {
+                var idSelected = $(this).val();
+                if (idSelected) {
+                    obtenerPersonaPorId(idSelected);
+                } else {
+                    completarCampos(null);
+                }
+            });
+        });
+
+        function obtenerPersonaPorId(id) {
+            $.ajax({
+                url: '@Url.Action("ObtenerPersonaPorId", "Persona")',
+                type: "GET",
+                data: { id: id },
+                dataType: "JSON",
+                success: function (response) {
+                    if (response) {
+                        completarCampos(response);
+                    }
+                },
+                error: function (jqXhr, status, error) {
+                    console.log("Error en seleccionar: " + error.message);
+                }
+            });
+        }
+
+        function completarCampos(data) {
+            if (data) {
+                $("#Nombre").val(data.Nombre).prop("disabled", false);
+                $("#Apellido").val(data.Apellido).prop("disabled", false);
+                $("#TipoDoc").val(data.TipoDoc).prop("disabled", false);
+                $("#NroDoc").val(data.NroDoc).prop("disabled", false);
+            } else {
+                $("#Nombre, #Apellido, #TipoDoc, #NroDoc").val("").prop("disabled", true);
+            }
+        }
+
+    </script>
+
 }

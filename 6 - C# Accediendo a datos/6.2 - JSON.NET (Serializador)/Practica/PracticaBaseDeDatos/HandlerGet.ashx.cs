@@ -14,8 +14,9 @@ namespace PracticaBaseDeDatos {
             //context.Response.ContentType = "application/json";
             List<Persona> listaPersonas = new List<Persona>();
             try {
-                string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
-                using (SqlConnection conexion = new SqlConnection(connectionString)) {
+                string connectionStringVM = ConfigurationManager.AppSettings.Get("ConnectionStringVM").ToString();
+                //string connectionStringLocal = ConfigurationManager.AppSettings.Get("ConnectionStringLocal").ToString();
+                using (SqlConnection conexion = new SqlConnection(connectionStringVM)) {
                     conexion.Open();
                     using (SqlCommand comando = new SqlCommand(Constante.SP_OBTENER_PERSONAS, conexion)) {
                         SqlDataReader reader = comando.ExecuteReader();

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace EjercicioIntegradorMVC_1.Models {
+namespace EjercicioIntegradorMVC_1_VM.Models {
     [Serializable]
     internal class InsercionInvalidaException : Exception {
         public InsercionInvalidaException() {
