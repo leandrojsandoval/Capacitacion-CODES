@@ -53,14 +53,25 @@ INSERT INTO Localidad (Id, Descripcion, IdProvincia) VALUES
 INSERT INTO Localidad (Id, Descripcion, IdProvincia) VALUES 
 (10, 'Salta Capital', 6);
 
+
 INSERT INTO Proveedor (Nombre, Domicilio, IdProvincia, IdLocalidad) VALUES 
-('Juan Pérez', 'Av. Corrientes 1234, Buenos Aires', 1, 1),
-('María Rodríguez', 'Calle San Martín 456, La Plata', 1, 2),
-('Carlos González', 'Av. Colón 789, Córdoba', 2, 4),
-('Ana López', 'Calle Sarmiento 101, Santa Fe', 3, 6),
-('Luis Torres', 'Av. San Juan 567, Mendoza Capital', 4, 8),
-('Elena Martínez', 'Av. Belgrano 789, San Miguel de Tucumán', 5, 9),
-('Pedro Sánchez', 'Calle Buenos Aires 123, Salta Capital', 6, 10);
+('Juan Pérez', 'Av. Corrientes 1234', 1, 1),
+('María Rodríguez', 'Calle San Martín 456', 1, 2),
+('Carlos González', 'Av. Colón 789', 2, 4),
+('Ana López', 'Calle Sarmiento 101', 3, 6),
+('Luis Torres', 'Av. San Juan 567', 4, 8),
+('Elena Martínez', 'Av. Belgrano 789', 5, 9),
+('Pedro Sánchez', 'Calle Buenos Aires 123', 6, 10),
+('Laura García', 'Av. Rivadavia 567', 1, 1),
+('Miguel Fernández', 'Calle Uruguay 789', 1, 2),
+('Lucía Ramírez', 'Av. Belgrano 123', 1, 1),
+('Jorge Soto', 'Av. Colón 101', 2, 4),
+('Carolina Pérez', 'Calle San Martín 202', 2, 5),
+('Roberto López', 'Calle España 303', 3, 6),
+('Liliana González', 'Av. San Martín 505', 3, 7),
+('Gustavo Martínez', 'Av. San Juan 707', 4, 8),
+('Natalia Torres', 'Calle Jujuy 101', 5, 9),
+('Alejandro Pérez', 'Av. San Martín 111', 6, 10);
 
 DELETE FROM Provincia;
 
@@ -77,6 +88,17 @@ CREATE OR ALTER PROCEDURE P_Obtener_Proveedores AS
 
 CREATE OR ALTER PROCEDURE P_Eliminar_Proveedor @Id INT AS
 	DELETE FROM Proveedor WHERE Id = @Id;
+
+CREATE OR ALTER PROCEDURE P_Agregar_Proveedor @Nombre VARCHAR(30), @Domicilio VARCHAR(50), @IdProvincia INT, @IdLocalidad INT AS
+	INSERT INTO Proveedor (Nombre, Domicilio, IdProvincia, IdLocalidad) VALUES (@Nombre, @Domicilio, @IdProvincia, @IdLocalidad);
+
+CREATE OR ALTER PROCEDURE P_Filtrar_Proveedor @Nombre VARCHAR(30), @Provincia VARCHAR(30), @Localidad VARCHAR(50) AS
+        SELECT * FROM Proveedor AS prove 
+			INNER JOIN Provincia AS provi ON prove.IdProvincia = provi.Id 
+			INNER JOIN Localidad AS loc ON prove.IdLocalidad = loc.Id 
+		WHERE prove.Nombre LIKE '%' + @Nombre + '%' AND
+			  provi.Descripcion LIKE '%' + @Provincia + '%' AND
+			  loc.Descripcion LIKE '%' + @Localidad + '%';
 
 EXECUTE P_Obtener_Localidades;
 EXECUTE P_Obtener_Provincias;
