@@ -1,23 +1,26 @@
-﻿/* Habilita el input del filtro una vez que se selecciono algun campo*/
-
-$("#columnaFiltro").on("change", function () {
-    $("#valorFiltro").prop("disabled", ($("#columnaFiltro").val() === ""));
-    $("#filtrarDatos").prop("disabled", ($("#columnaFiltro").val() === ""));
-    $("#eliminarFiltro").prop("disabled", ($("#columnaFiltro").val() === ""));
-});
-
-/* Limpia por el filtro que se haya buscado y lista las personas por completo
+﻿/* Limpia por el filtro que se haya buscado y lista las personas por completo
  * tambien limpia los campos por los que se habia filtrado y llama al evento
  * listarPersonas. 
  * https://api.jquery.com/trigger/ */
 
 $("#eliminarFiltro").on("click", function () {
-    $("#columnaFiltro").val("");
-    $("#valorFiltro").val("");
-    $("#filtrarDatos").prop("disabled", true);
-    $("#eliminarFiltro").prop("disabled", true);
+    $("#nombre-filtro").val("");
+    $("#apellido-filtro").val("");
+    $("#dni-filtro").val("");
+    $("#email-filtro").val("");
+    $("#edad-filtro").val("");
     $("#listarPersonas").trigger("click");
 });
+
+$(document).ready(cargarListaDespegableDeEdad);
+
+function cargarListaDespegableDeEdad() {
+    var edadSelect = $("#edad-filtro");
+    for (var i = 18; i <= 65; i++) {
+        edadSelect.append($("<option></option>").attr("value", i).text(i + " años"));
+    }
+}
+
 
 /* Funciones para manejar el response */
 
@@ -70,12 +73,17 @@ $("#listarPersonas").on("click", function () {
 });
 
 $("#filtrarDatos").on("click", function () {
-    var columna = $("#columnaFiltro").val();
-    var filtro = $("#valorFiltro").val();
+
+    var nombre = $("#nombre-filtro").val();
+    var apellido = $("#apellido-filtro").val();
+    var dni = $("#dni-filtro").val();
+    var email = $("#email-filtro").val();
+    var edad = $("#edad-filtro").val();
+
     $.ajax({
         type: "POST",
         url: "HandlerFiltro.ashx",
-        data: { columna: columna, filtro: filtro },
+        data: { nombre: nombre, apellido: apellido, dni: dni, email: email, edad: edad },
         success: manejarRespuestaPersonas,
         error: function (jqXhr, textStatus, errorMessage) {
             alert(errorMessage);

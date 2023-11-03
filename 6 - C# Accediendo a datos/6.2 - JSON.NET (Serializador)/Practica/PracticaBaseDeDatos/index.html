@@ -38,45 +38,59 @@
     
     <form id="formulario">
 
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" placeholder="Ingrese nombre" required><br>
+        <label for="nombre" class="add-label">Nombre</label>
+        <input type="text" id="nombre" class="add-field" placeholder="Ingrese nombre" required><br>
 
-        <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" placeholder="Ingrese apellido" required><br>
+        <label for="apellido" class="add-label">Apellido</label>
+        <input type="text" id="apellido" class="add-field" placeholder="Ingrese apellido" required><br>
 
-        <label for="dni">DNI</label>
-        <input type="text" id="dni" placeholder="Indique su DNI" required><br>
+        <label for="dni" class="add-label">DNI</label>
+        <input type="text" id="dni" class="add-field" placeholder="Indique su DNI" required><br>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Ingrese un email" required><br>
+        <label for="email" class="add-label">Email</label>
+        <input type="email" id="email" class="add-field" placeholder="Ingrese un email" required><br>
 
-        <label for="edad">Edad</label>
-        <input type="text" id="edad" placeholder="Ingrese su edad" required><br>
+        <label for="edad" class="add-label">Edad</label>
+        <input type="text" id="edad" class="add-field" placeholder="Ingrese su edad" required><br>
 
         <button type="submit" id="enviarDatos">Enviar Datos</button><br>
 
     </form>
+    
     <hr />
 
     <button type="button" id="listarPersonas">Listar Personas</button>
 
     <button type="button" id="eliminarPersonas">Borrar Datos</button>
 
-    <form>
-        <label for="columnaFiltro">Filtrar</label>
-        <select id="columnaFiltro">
-            <option value="" disabled selected>Seleccione una opción</option>
-            <option value="Id">Id</option>
-            <option value="nombre">Nombre</option>
-            <option value="apellido">Apellido</option>
-            <option value="edad">Edad</option>
-            <option value="email">Email</option>
-            <option value="dni">DNI</option>
-        </select>
-        <input type="text" id="valorFiltro" placeholder="Ingrese un término de búsqueda" required disabled>
-        <button type="button" id="filtrarDatos" disabled>Buscar</button>
-        <button type="button" id="eliminarFiltro" disabled>Eliminar Filtro</button>
-    </form>
+    <hr />
+
+    <h3>Filtrar por campos</h3>
+    <div id="bloque-filtro">
+        <form>
+            <label for="nombre-filtro" class="filter-label">Nombre</label>
+            <input type="text" id="nombre-filtro" class="filter-field">
+
+            <label for="apellido-filtro" class="filter-label">Apellido</label>
+            <input type="text" id="apellido-filtro" class="filter-field">
+
+            <label for="dni-filtro" class="filter-label">DNI</label>
+            <input type="text" id="dni-filtro" class="filter-field">
+
+            <label for="email-filtro" class="filter-label">Email</label>
+            <input type="text" id="email-filtro" class="filter-field">
+
+            <label for="edad-filtro" class="filter-label">Edad</label>
+            <select id="edad-filtro" class="filter-field">
+                <option value="" disabled selected>Elija una edad</option>
+            </select>
+
+            <button type="button" id="filtrarDatos">Buscar</button>
+
+            <button type="button" id="eliminarFiltro">Eliminar Filtros</button>
+        </form>
+    </div>
+
 
     <!-- Bloque donde se va a mostrar el resultado de insercion y eliminacion -->
 

@@ -15,13 +15,12 @@ namespace PracticaBaseDeDatos.Clases {
         public const string SP_OBTENER_PERSONAS = "P_Obtener_Personas";
         public const string SP_AGREGAR_PERSONA = "P_Agregar_Persona";
 
+        public const string PARAMETRO_ID = "@Id";
         public const string PARAMETRO_NOMBRE = "@Nombre";
         public const string PARAMETRO_APELLIDO = "@Apellido";
         public const string PARAMETRO_EDAD = "@Edad";
         public const string PARAMETRO_DNI = "@DNI";
         public const string PARAMETRO_EMAIL = "@Email";
-        public const string PARAMETRO_NOMBRE_COLUMNA = "@nombreColumna";
-        public const string PARAMETRO_VALOR = "@valor";
 
     }
 }
