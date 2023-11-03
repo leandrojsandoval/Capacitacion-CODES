@@ -11,6 +11,7 @@ CREATE TABLE Persona (
 	Email VARCHAR(50)
 );
 
+
 INSERT INTO Persona (Nombre, Apellido, Edad, DNI, Email) VALUES
 ('Juan', 'Pérez', 25, '12345678', 'juanperez@gmail.com'),
 ('María', 'Gómez', 30, '23456789', 'mariagomez@hotmail.com'),
