@@ -25,7 +25,13 @@ INSERT INTO Persona (Nombre, Apellido, Edad, DNI, Email) VALUES
 ('Manuel', 'Torres', 26, '12345678', 'manueltorres@gmail.com'),
 ('Sofía', 'Hernández', 31, '23456789', 'sofia.h@hotmail.com'),
 ('Raúl', 'Ramírez', 27, '34567890', 'raul.ramirez@gmail.com'),
-('Miguel', 'Gómez', 24, '56789012', 'miguel.g@gmail.com');
+('Miguel', 'Gómez', 24, '56789012', 'miguel.g@gmail.com'),
+('Juan', 'González', 25, '11223344', 'juang@gmail.com'),
+('Pedro', 'López', 28, '22334455', 'pedrol@gmail.com'),
+('Laura', 'Gómez', 30, '33445566', 'laurag@gmail.com'),
+('María', 'Sánchez', 28, '44556677', 'marias@gmail.com'),
+('Juan', 'Fernández', 35, '55667788', 'juanf@gmail.com'),
+('Luis', 'Hernández', 20, '66778899', 'luish@gmail.com');
 
 GO
 
@@ -44,57 +50,30 @@ CREATE OR ALTER PROCEDURE P_Agregar_Persona @Nombre VARCHAR(50), @Apellido VARCH
 
 GO
 
-CREATE OR ALTER PROCEDURE P_Filtrar_Personas @nombreColumna NVARCHAR(128), @valor NVARCHAR(100) AS
+CREATE OR ALTER PROCEDURE P_Filtrar_Personas 
+	@Nombre VARCHAR(50), @Apellido VARCHAR(50), 
+	@DNI VARCHAR(8), @Email VARCHAR(50), @Edad INT AS
 BEGIN
-	/* En esta variable se va a guardar la consulta dinamica */
-	DECLARE @consulta NVARCHAR(MAX);
+	SET @Nombre = NULLIF(@Nombre, '');
+    SET @Apellido = NULLIF(@Apellido, '');
+    SET @DNI = NULLIF(@DNI, '');
+	SET @Email = NULLIF(@Email, '');
+    SET @Edad = NULLIF(@Edad, '');
 
-	/* Pongo a valor el comodin para que busque algun registro con ese valor
-	 * https://learn.microsoft.com/es-es/sql/t-sql/language-elements/percent-character-wildcard-character-s-to-match-transact-sql?view=sql-server-ver16 */
-
-	SET @valor = '%' + @valor + '%'
-    
-	/* Verifica que la columna @nombreColumna exista en la tabla Persona usando la vista sys.columns
-	 * https://learn.microsoft.com/es-es/sql/relational-databases/system-catalog-views/sys-columns-transact-sql?view=sql-server-ver16
-	 * Y tambien verifica que la tabla Persona exista con OBJECT_ID
-	 * https://learn.microsoft.com/es-es/sql/t-sql/functions/object-id-transact-sql?view=sql-server-ver16
-	 *
-	 * SELECT * 
-	 * FROM sys.columns
-	 * WHERE OBJECT_ID = OBJECT_ID('Persona'); */
-
-	IF EXISTS (SELECT 1 FROM sys.columns WHERE name = @nombreColumna AND OBJECT_ID = OBJECT_ID('Persona'))
-    BEGIN
-
-	/* Realiza una consulta dinamica (PREGUNTAR) guardandola en la variable
-	 * https://learn.microsoft.com/es-es/sql/t-sql/functions/quotename-transact-sql?view=sql-server-ver16
-	 * https://learn.microsoft.com/es-es/sql/relational-databases/system-stored-procedures/sp-executesql-transact-sql?view=sql-server-ver16
-	 * Luego se llama a un procedure que ejecuta consultas dinamicas, como parametros recibe:
-	 * 1 - La consulta dinamica
-	 * 2 - Se indica los parametros que se va a pasar a la consulta con su tipo de dato
-	 * 3 - Se indica el valor del parametro */
-
-        SET @consulta = 'SELECT * FROM Persona WHERE ' + QUOTENAME(@nombreColumna) + ' LIKE @valor;';
-        EXEC sp_executesql @consulta, N'@valor NVARCHAR(100)', @valor;
-    END
-    ELSE
-        RAISERROR ('Nombre de columna no válido.', 16, 1);
+	SELECT p.Id, p.Nombre, p.Apellido, p.Edad, p.DNI, p.Email
+	FROM Persona AS p
+	WHERE	(@Nombre IS NULL OR p.Nombre LIKE '%' + @Nombre + '%') AND
+			(@Apellido IS NULL OR p.Apellido LIKE '%' + @Apellido + '%') AND 
+			(@DNI IS NULL OR p.DNI LIKE '%' + @DNI + '%') AND
+			(@Email IS NULL OR p.Email LIKE '%' + @Email + '%') AND
+			(@Edad IS NULL OR p.Edad = @Edad);
 END
-
-GO
-
-/*
-CREATE PROCEDURE P_Filtrar_Personas_Mio @nombreColumna VARCHAR(50), @valor VARCHAR(30) AS
-BEGIN
-	SELECT * FROM Persona WHERE @nombreColumna LIKE '%' + @valor + '%';
-END
-
-EXECUTE P_Filtrar_Personas_Mio 'Email', '@hotmail.com';
-*/
 
 -- EXECUTE P_Eliminar_Personas
 
 EXECUTE P_Obtener_Personas
 
-EXECUTE P_Filtrar_Personas 'Email', '@hotmail.com';
+EXECUTE P_Filtrar_Personas '', '', '', '@hotmail.com', '';
+
+EXECUTE P_Filtrar_Personas NULL, NULL, NULL, '@hotmail.com', NULL;
 

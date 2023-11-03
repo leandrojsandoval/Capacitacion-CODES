@@ -14,8 +14,11 @@ namespace PracticaBaseDeDatos {
             context.Response.ContentType = "text/plain";
             //context.Response.ContentType = "application/json";
 
-            string columna = context.Request["columna"];
-            string filtro = context.Request["filtro"];
+            string nombre = context.Request["nombre"];
+            string apellido = context.Request["apellido"];
+            string dni = context.Request["dni"];
+            string email = context.Request["email"];
+            string edad = context.Request["edad"];
 
             List<Persona> listaPersonas = new List<Persona>();
 
@@ -29,8 +32,11 @@ namespace PracticaBaseDeDatos {
                 using (SqlCommand comando = new SqlCommand(Constante.SP_FILTRAR_PERSONAS, conexion)) {
 
                     comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue(Constante.PARAMETRO_NOMBRE_COLUMNA, columna);
-                    comando.Parameters.AddWithValue(Constante.PARAMETRO_VALOR, filtro);
+                    comando.Parameters.AddWithValue(Constante.PARAMETRO_NOMBRE, nombre);
+                    comando.Parameters.AddWithValue(Constante.PARAMETRO_APELLIDO, apellido);
+                    comando.Parameters.AddWithValue(Constante.PARAMETRO_DNI, dni);
+                    comando.Parameters.AddWithValue(Constante.PARAMETRO_EMAIL, email);
+                    comando.Parameters.AddWithValue(Constante.PARAMETRO_EDAD, edad);
 
                     SqlDataReader reader = comando.ExecuteReader();
 

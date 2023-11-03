@@ -32,21 +32,7 @@ h1 {
     text-align: center;
 }
 
-input {
-    width: 20%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin: 10px;
-}
 
-label {
-    display: inline-block;
-    font-size: 15px;
-    font-weight: bold;
-    margin-right: 15px;
-    width: 50px;
-}
 
 select {
     background-color: #f5f5f5;
@@ -57,8 +43,39 @@ select {
     width: 200px;
 }
 
-/****************** Elementos por ID ******************/
+/****************** Elementos por clase ******************/
 
+.add-label {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 15px;
+    width: 50px;
+}
+
+.add-field {
+    width: 20%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 10px;
+}
+
+.filter-label {
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 5px;
+    width: 50px;
+}
+
+.filter-field {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 9%;
+}
+
+
+/****************** Elementos por ID ******************/
 #tablaContainer {
     display: none;
     font-size: 20px;
@@ -104,6 +121,6 @@ select {
     text-align: center;
 }
 
-#valorFitro {
-    width: 200px;
+#bloque-filtro {
+    text-align: center;
 }
