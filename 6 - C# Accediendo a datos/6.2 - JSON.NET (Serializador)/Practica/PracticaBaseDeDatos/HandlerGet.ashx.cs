@@ -16,7 +16,7 @@ namespace PracticaBaseDeDatos {
             try {
                 string connectionStringVM = ConfigurationManager.AppSettings.Get("ConnectionStringVM").ToString();
                 string connectionStringLocal = ConfigurationManager.AppSettings.Get("ConnectionStringLocal").ToString();
-                using (SqlConnection conexion = new SqlConnection(connectionStringLocal)) {
+                using (SqlConnection conexion = new SqlConnection(connectionStringVM)) {
                     conexion.Open();
                     using (SqlCommand comando = new SqlCommand(Constante.SP_OBTENER_PERSONAS, conexion)) {
                         SqlDataReader reader = comando.ExecuteReader();
