@@ -27,43 +27,14 @@ namespace EjercicioIntegradorMVC_1.Controllers {
             return View(personas);
         }
 
-        /* AgregarPersona (GET): Se indica un formulario para completar en su vista, en donde el usuario ingrese
-         * todos los campos requeridos. */
+        /*************************************************************/
 
-        public ActionResult AgregarPersona() {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AgregarPersona(Persona persona) {
-            if (ModelState.IsValid) {
-                using (SqlConnection conexion = new SqlConnection(connectionString)) {
-                    try {
-                        conexion.Open();
-                        bool insercionExitosa = InsertarPersonaEnBaseDeDatos(conexion, persona);
-                        if (insercionExitosa) {
-                            persona.Id = ObtenerUltimoId(conexion);
-                            return RedirectToAction("Exito", persona);
-                        }
-                        else
-                            ModelState.AddModelError(string.Empty, "No se pudo agregar la persona.");
-                    }
-                    catch (SqlException exception) {
-                        ModelState.AddModelError(string.Empty, "Ocurrio una excepcion al agregar una persona: " + exception.Message);
-                    }
-                }
+        public ActionResult AgregarOModificarPersona(bool esModificacion) {
+            if (esModificacion) {
+                List<int> IdList = ObtenerListaIdPersonas();
+                ViewBag.IdList = IdList.Select(id => new SelectListItem { Value = id.ToString(), Text = id.ToString() }).ToList();
             }
-            return View(persona);
-        }
-
-        /* ModificarPersona (GET): Muestra el formulario para editar una persona, pero antes de eso, se muestra
-         * una lista despegable (select) en donde se encuentran todos los id's registrados en la base de datos
-         * para indicar cual se quiere modificar, luego de eso, se autocompletan los campos con los datos actuales
-         * que pueden ser modificables por el usuario. */
-
-        public ActionResult ModificarPersona() {
-            List<int> IdList = ObtenerListaIdPersonas();
-            ViewBag.IdList = IdList.Select(id => new SelectListItem { Value = id.ToString(), Text = id.ToString() }).ToList();
+            ViewBag.Modificacion = esModificacion;
             return View();
         }
 
@@ -82,28 +53,33 @@ namespace EjercicioIntegradorMVC_1.Controllers {
                 return HttpNotFound();
         }
 
-        /* ModificarPersona (POST): Una vez rellenado el formulario, los campos se agregar en un objeto de
-         * clase Persona y esto es lo que se agrega a la base de datos.*/
-
         [HttpPost]
-        public ActionResult ModificarPersona(Persona persona) {
+        public ActionResult AgregarOModificarPersona(Persona persona) {
             if (ModelState.IsValid) {
                 using (SqlConnection conexion = new SqlConnection(connectionString)) {
                     try {
                         conexion.Open();
-                        bool modificacionExitosa = ModificarPersonaEnBaseDeDatos(conexion, persona);
-                        if (modificacionExitosa)
+                        bool operacionCompletada = (persona.Id == 0) ?
+                            InsertarPersonaEnBaseDeDatos(conexion, persona) :
+                            ModificarPersonaEnBaseDeDatos(conexion, persona);
+                        if (operacionCompletada) {
+                            if (persona.Id == 0)
+                                persona.Id = ObtenerUltimoId(conexion);
                             return RedirectToAction("Exito", persona);
-                        else
-                            ModelState.AddModelError(string.Empty, "No se pudo modificar la persona.");
+                        }
+                        else {
+                            ModelState.AddModelError(string.Empty, "No se pudo agregar / modificar la persona.");
+                        }
                     }
                     catch (SqlException exception) {
-                        ModelState.AddModelError(string.Empty, "Ocurrio una excepcion al modificar una persona: " + exception.Message);
+                        ModelState.AddModelError(string.Empty, "Ocurrio una excepcion al agregar / modificar una persona: " + exception.Message);
                     }
                 }
             }
             return View(persona);
         }
+
+        /***************************************************************/
 
         /* Exito: Si se agrego / modifico una persona correctamente, la vista de este metodo devuelve los datos que 
          * fueron agregados a la base de datos.*/
@@ -122,13 +98,13 @@ namespace EjercicioIntegradorMVC_1.Controllers {
                 using (SqlDataReader reader = command.ExecuteReader()) {
                     command.CommandType = CommandType.StoredProcedure;
                     while (reader.Read()) {
-                        personas.Add(new Persona(
-                            reader.GetInt32(0),
-                            reader.GetString(1),
-                            reader.GetString(2),
-                            reader.GetInt32(3),
-                            reader.GetString(4)
-                        ));
+                        personas.Add(new Persona {
+                            Id = reader.GetInt32(0),
+                            Nombre = reader.GetString(1),
+                            Apellido = reader.GetString(2),
+                            TipoDoc = reader.GetInt32(3),
+                            NroDoc = reader.GetString(4)
+                        });
                     }
                 }
             }

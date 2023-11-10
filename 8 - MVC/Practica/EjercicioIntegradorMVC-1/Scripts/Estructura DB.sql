@@ -35,6 +35,8 @@ INSERT INTO Persona (Nombre, Apellido, TipoDoc, NroDoc) VALUES
 ('Sofía', 'Mendoza', 2, '76543210'),
 ('Pablo', 'Ortega', 3, '65432109');
 
+-- DROP TABLE Persona;
+
 SELECT * FROM Persona
 SELECT * FROM TipoDocumento
 SELECT MAX(Id) FROM Persona

@@ -33,15 +33,7 @@ namespace EjercicioIntegradorMVC_1.Models {
         [StringLength(8, ErrorMessageResourceType = typeof(ResourceGlobal), ErrorMessageResourceName = "MensajeErrorStringLengthNumeroDocumento", MinimumLength = 8)]
         public string NroDoc { get; set; }
 
-        public Persona() {
-        }
+        public Persona() {}
 
-        public Persona(int id, string nombre, string apellido, int tipoDoc, string nroDoc) {
-            Id = id;
-            Nombre = nombre;
-            Apellido = apellido;
-            TipoDoc = tipoDoc;
-            NroDoc = nroDoc;
-        }
     }
 }

@@ -29,7 +29,7 @@
 @* https://learn.microsoft.com/es-es/dotnet/api/system.web.mvc.html.linkextensions.actionlink?view=aspnet-mvc-5.2 *@
 
 <div id="options-block">
-    @Html.ActionLink("Listar Personas", "ListarPersonas", "Persona", new { @class = "link-option-button" })
-    @Html.ActionLink("Agregar Persona", "AgregarPersona", "Persona", new { @class = "link-option-button" })
-    @Html.ActionLink("Modificar Persona", "ModificarPersona", "Persona", new { @class = "link-option-button" })
+    @Html.ActionLink("Listar Personas", "ListarPersonas", "Persona", null, new { @class = "link-option-button" })
+    @Html.ActionLink("Agregar Persona", "AgregarOModificarPersona", "Persona", new { esModificacion = false }, new { @class = "link-option-button" })
+    @Html.ActionLink("Modificar Persona", "AgregarOModificarPersona", "Persona", new { esModificacion = true }, new { @class = "link-option-button" })
 </div>

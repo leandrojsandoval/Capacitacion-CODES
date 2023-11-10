@@ -49,7 +49,7 @@ END
 
 SELECT * FROM Stock WHERE Producto = '00000102'
 
-SELECT dbo.F_Stock_De_Producto_Hasta_Fecha('00000102', '17-10-2023') AS StockExistenteHastaLaFecha;
+SELECT dbo.F_Stock_De_Producto_Hasta_Fecha('00000102', '2023-10-17') AS StockExistenteHastaLaFecha;
 
 /* 3) Cree el/los objetos de base de datos necesarios para actualizar la columna de empleado 
 empl_comision con la sumatoria del total de lo vendido por ese empleado a lo largo del último año. 

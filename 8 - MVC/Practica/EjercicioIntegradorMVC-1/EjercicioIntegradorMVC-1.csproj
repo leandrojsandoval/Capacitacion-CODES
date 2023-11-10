@@ -185,9 +185,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Persona\Index.cshtml" />
     <Content Include="Views\Persona\ListarPersonas.cshtml" />
-    <Content Include="Views\Persona\AgregarPersona.cshtml" />
     <Content Include="Views\Persona\Exito.cshtml" />
-    <Content Include="Views\Persona\ModificarPersona.cshtml" />
+    <Content Include="Views\Persona\AgregarOModificarPersona.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
