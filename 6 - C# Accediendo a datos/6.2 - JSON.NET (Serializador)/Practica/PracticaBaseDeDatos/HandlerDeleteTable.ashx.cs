@@ -7,7 +7,7 @@ using System.Web;
 namespace PracticaBaseDeDatos {
     public class HandlerDeleteTable : IHttpHandler {
 
-        public void ProcessRequest(HttpContext context) {
+        public void ProcessRequest (HttpContext context) {
             context.Response.ContentType = "text/plain";
             string connectionStringVM = ConfigurationManager.AppSettings.Get("ConnectionStringVM").ToString();
             string connectionStringLocal = ConfigurationManager.AppSettings.Get("ConnectionStringLocal").ToString();
