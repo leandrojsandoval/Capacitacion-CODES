@@ -1,39 +1,39 @@
-const webpack = require("webpack");
-const path = require("path");
+// npm install --save-dev @babel/preset-react
+// npm install react react-dom
 
-const isDebug = process.env.NODE_ENV !== "production";
+const path = require("path");
+const basePath = __dirname
+const distPath = "dist"
+
+// HTML
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    context: __dirname,
-    entry: "./app/dist/index.js",
+    // mode - modo de funcionamiento
+    mode: "production",
+    // entry point
+    entry: {
+        app: "./src/index.js"
+    },
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ["@babel/preset-react", "@babel/preset-env"],
-                        plugins: ["babel-plugin-react-html-attrs", "transform-class-properties", "transform-decorators-legacy"],
-                    }                                  
-                }
+                test: /\.js/,
+                exclude: /node_modules/,
+                use: ["babel-loader"],
             }
         ]
     },
+    plugins: [ 
+        new HtmlWebpackPlugin({
+            template: "src/index.html",
+            minify: false,
+            scriptLoading: "blocking",
+        }),
+    ],
+    //output point
     output: {
-        path: path.resolve(__dirname, "app/js"),
-        filename: "index.min.js",
-    },
-    devtool: isDebug ? "inline-source-map" : false,
-    mode: isDebug ? "development" : "production",
-    plugins: isDebug
-        ? []
-        : [
-            new webpack.optimize.OccurrenceOrderPlugin(),
-            new webpack.optimize.UglifyJsPlugin({
-                mangle: false,
-                sourcemap: false,
-            }),
-        ],
-};
+        path: path.join(basePath, distPath),
+        filename: "index.min.js"
+    }
+}
