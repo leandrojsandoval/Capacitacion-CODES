@@ -1,7 +1,3 @@
-// npm install --save-dev @babel/preset-react
-// npm install react react-dom
-// npm install react@latest react-dom@latest
-
 const path = require("path");
 const basePath = __dirname
 const distPath = "dist"
