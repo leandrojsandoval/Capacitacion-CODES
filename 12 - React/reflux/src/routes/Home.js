@@ -18,12 +18,10 @@ export default class Home extends React.Component {
     }
 
     render() {
-
-        if (this.state && this.state.people != null) {
-            return (<PeopleFrame person={this.state.people.people} />)
-        } else {
-            return (<h1>Loading</h1>)
-        }
-
+        return (
+            this.state && this.state.people != null ?
+                (<PeopleFrame person={this.state.people.people} />) : (<h1>Loading</h1>)
+        );
     }
+    
 }

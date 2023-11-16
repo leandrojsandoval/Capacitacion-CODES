@@ -3,6 +3,7 @@ import PeoplePhoto from "./PeoplePhoto";
 import PeopleTitle from "./PeopleTitle";
 
 export default class PeopleFrame extends React.Component {
+    
     constructor() {
         super();
     }
@@ -16,4 +17,5 @@ export default class PeopleFrame extends React.Component {
             </div>
         )
     }
+
 }
