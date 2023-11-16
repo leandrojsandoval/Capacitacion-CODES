@@ -1,27 +1,19 @@
 import Reflux from "reflux";
 import PeopleActions from "../actions/PeopleActions";
-import $ from "jquery";
+import io from "socket.io-client"
 
 let PeopleStore = Reflux.createStore({
     listenables: [PeopleActions],
-    init: function () {
-        this.state = {
-            people: null
-        };
-    },
     fetchPeople: function () {
-        $.ajax({
-            url: "https://randomuser.me/api/",
-            dataType: "JSON"
-        })
-            .done(function (data) {
-                let person = data.results[0];
-                this.state.people = person;
-                this.trigger(this.state);
-            }.bind(this))
-            .fail(function () {
-                console.log("Error");
-            });
+        this.socket = io("http://localhost:8080");
+        this.socket.on("people", (people) => {
+            var people = JSON.parse(people);
+            people = people.results[0];
+            this.trigger(people);
+        });
+    },
+    askForPeople: function () {
+        this.socket.emit("ask");
     }
 });
 
