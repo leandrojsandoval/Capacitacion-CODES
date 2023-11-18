@@ -1,49 +1,72 @@
-﻿@using EjercicioIntegradorMVC_2_VM.Models
+﻿@*
+    1. Desarrollar un ABM (operaciones de Alta, Baja y Modificación) de la entidad Proveedores
+        (tabla vista en BBDD Prov_Proveedores) utilizando el MVC de ASP.NET.
+        La funcionalidad de ABM estará desarrollada en dos páginas cshtml diferentes:
+
+    a. Proveedores\Indice.cshtml:
+
+        • Los TextBox “Nombre Proveedor”, “Provincia” y “Localidad” son filtros que se aplicarán cuando
+            se presione el botón “Buscar”.
+        • El botón “Buscar” invoca al procedimiento de carga de la grilla
+            (aplicando los filtros arriba mencionados).
+        • El campo ID de cada Proveedor en la grilla será un Link que redireccionará la página al
+            detalle del proveedor seleccionado.
+        • El Link “Eliminar” de cada registro borrará de la base de datos el registro seleccionado.
+        • El botón “Agregar Proveedor” redireccionará a la página Edit.cshtml con todos los campos
+            en blanco para la carga de un nuevo proveedor.
+
+    b. Edit.cshtml: Esta página tendrá el detalle del proveedor seleccionado.
+        Tendrá un botón “Aceptar”, el cual almacenará los datos cargados, y un botón “Cancelar”, el
+        cual volverá al listado arriba mencionado. Validar en la carga del proveedor que se haya
+        establecido el nombre, el domicilio, y que se haya seleccionado una localidad válida.
+        Para seleccionar la localidad, deberá seleccionar anteriormente una provincia (por lo que se
+        necesitará también el combo de Provincias).
+
+    Para el desarrollo de este ejercicio se debe considerar:
+
+        - Implementar estilos utilizando el sistema de esquematización de Bootstrap.
+        - Validar el ingreso de los datos usando los atributos de la System.ComponentModel.DataAnnotations.
+        - Desarrollar la aplicación en tres capas (UI, negocio y datos).
+        - Aplicar archivos de recursos de idioma.
+        - Todo combo anidado en el ejercicio será resuelto con AJAX.
+*@
+
+@using EjercicioIntegradorMVC_2_VM.Models
 @using Recursos
 @model IEnumerable<Proveedor>
 
-@{
-    ViewBag.Title = @GlobalResources.Titulo_Indice;
-}
+@{ ViewBag.Title = @GlobalResources.Titulo_Indice; }
 
-<head>
-    <link href="~/Content/styles.css" rel="stylesheet" />
-</head>
+<h1 style="font-family: 'Times New Roman', Times, serif">@GlobalResources.Titulo_Indice</h1>
 
+<div class="form-inline">
 
-<h2>@GlobalResources.Titulo_Indice</h2>
-<hr />
-
-<div class="form-horizontal">
-    
     @using (Html.BeginForm("FiltrarProveedores", "Proveedor", FormMethod.Post)) {
-        
-        <div class="form-group">
-            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Nombre_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBox("nombre", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Nombre })
+
+        <div class="text-center">
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Nombre_Texto, htmlAttributes: new { @class = "control-label text-format" })
+            @Html.TextBox("nombre", null, new { placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Nombre, @class = "text-format" })
+
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Provincia_Texto, htmlAttributes: new { @class = "control-label text-format" })
+            @Html.TextBox("provincia", null, new { placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Provincia, @class = "text-format" })
+
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Localidad_Texto, htmlAttributes: new { @class = "control-label text-format" })
+            @Html.TextBox("localidad", null, new { placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Localidad, @class = "text-format" })
         </div>
-        
-        <div class="form-group">
-            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Provincia_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBox("provincia", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Provincia })
+
+        <div class="text-center">
+            <button type="submit" class="text-format main-button button-space-index">@GlobalResources.Boton_Buscar</button>
+            <button type="button" class="text-format main-button button-space-index" onclick="location.href='@Url.Action("Edit", "Proveedor")'">@GlobalResources.Boton_Agregar_Proveedor</button>
         </div>
-        
-        <div class="form-group">
-            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Localidad_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBox("localidad", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Localidad })
-        </div>
-        
-        <button type="submit" class="btn btn-primary boton-accion">@GlobalResources.Boton_Buscar</button>
+
     }
 
 </div>
 
-<button type="button" class="btn btn-primary boton-accion" onclick="location.href='@Url.Action("Edit", "Proveedor")'">@GlobalResources.Boton_Agregar_Proveedor</button>
-
 <table class="table">
 
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.Id)</th>
+    <tr class="text-format table-header text-center">
+        <th class="text-uppercase">@Html.DisplayNameFor(model => model.Id)</th>
         <th>@Html.DisplayNameFor(model => model.Nombre)</th>
         <th>@Html.DisplayNameFor(model => model.Domicilio)</th>
         <th>@Html.DisplayNameFor(model => model.IdProvincia)</th>
@@ -56,8 +79,8 @@
         var provincia = (ViewBag.Provincias as List<Provincia>).FirstOrDefault(p => p.Id == item.IdProvincia);
         var localidad = (ViewBag.Localidades as List<Localidad>).FirstOrDefault(p => p.Id == item.IdLocalidad);
 
-        <tr>
-            <td>@Html.ActionLink(item.Id.ToString(), "DetalleProveedor", "Proveedor", new { id = item.Id }, null)</td>
+        <tr class="text-format table-data">
+            <td class="text-center">@Html.ActionLink(item.Id.ToString(), "Details", "Proveedor", new { id = item.Id }, null)</td>
             <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
             <td>@Html.DisplayFor(modelItem => item.Domicilio)</td>
             <td>@provincia.Descripcion</td>

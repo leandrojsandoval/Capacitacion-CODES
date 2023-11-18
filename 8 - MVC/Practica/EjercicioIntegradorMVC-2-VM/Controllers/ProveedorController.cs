@@ -2,32 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace EjercicioIntegradorMVC_2.Controllers {
+namespace EjercicioIntegradorMVC_2_VM.Controllers {
     public class ProveedorController : Controller {
-
-        private const string PARAMETRO_ID = "@Id";
-        private const string PARAMETRO_NOMBRE = "@Nombre";
-        private const string PARAMETRO_DOMICILIO = "@Domicilio";
-        private const string PARAMETRO_PROVINCIA = "@Provincia";
-        private const string PARAMETRO_LOCALIDAD = "@Localidad";
-        private const string PARAMETRO_ID_PROVINCIA = "@IdProvincia";
-        private const string PARAMETRO_ID_LOCALIDAD = "@IdLocalidad";
-
-        private const string VISTA_INDICE = "Indice";
-
-        private const string CONSULTA_FILTRO_PROVEEDOR = "SELECT * FROM Proveedor AS prove INNER JOIN Provincia AS provi ON prove.IdProvincia = provi.Id INNER JOIN Localidad AS loc ON prove.IdLocalidad = loc.Id WHERE prove.Nombre LIKE " + PARAMETRO_NOMBRE + " AND provi.Descripcion LIKE " + PARAMETRO_PROVINCIA + " AND loc.Descripcion LIKE " + PARAMETRO_LOCALIDAD + ";";
-        private const string CONSULTA_INSERT_PROVEEDOR = "INSERT INTO Proveedor (Nombre, Domicilio, IdProvincia, IdLocalidad) VALUES (" + PARAMETRO_NOMBRE + ", " + PARAMETRO_DOMICILIO + ", " + PARAMETRO_ID_PROVINCIA + ", " + PARAMETRO_ID_LOCALIDAD + ");";
-        private const string CONSULTA_DELETE_IDPROVEEDOR = "DELETE FROM Proveedor WHERE Id = " + PARAMETRO_ID + ";";
-        private const string CONSULTA_SELECT_LOCALIDAD = "SELECT * FROM Localidad;";
-        private const string CONSULTA_SELECT_PROVEEDOR = "SELECT * FROM Proveedor;";
-        private const string CONSULTA_SELECT_PROVINCIA = "SELECT * FROM Provincia;";
 
         private readonly List<Provincia> provincias;
         private readonly List<Localidad> localidades;
+
+        public string cadenaConexion = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
 
         public ProveedorController () {
 
@@ -65,44 +51,54 @@ namespace EjercicioIntegradorMVC_2.Controllers {
 
         [HttpPost]
         public ActionResult FiltrarProveedores (string nombre, string provincia, string localidad) {
+
             try {
-                string cadenaConexion = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
+
                 using (SqlConnection conexion = new SqlConnection(cadenaConexion)) {
+
                     conexion.Open();
-                    using (SqlCommand comando = new SqlCommand(CONSULTA_FILTRO_PROVEEDOR, conexion)) {
-                        comando.Parameters.AddWithValue(PARAMETRO_NOMBRE, "%" + nombre + "%");
-                        comando.Parameters.AddWithValue(PARAMETRO_PROVINCIA, "%" + provincia + "%");
-                        comando.Parameters.AddWithValue(PARAMETRO_LOCALIDAD, "%" + localidad + "%");
+
+                    using (SqlCommand comando = new SqlCommand(Constante.SP_FILTRAR_PROVEEDOR, conexion)) {
+
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.AddWithValue(Constante.PARAMETRO_NOMBRE, nombre);
+                        comando.Parameters.AddWithValue(Constante.PARAMETRO_PROVINCIA, provincia);
+                        comando.Parameters.AddWithValue(Constante.PARAMETRO_LOCALIDAD, localidad);
+
                         List<Proveedor> proveedoresFiltrados = new List<Proveedor>();
+
                         using (SqlDataReader reader = comando.ExecuteReader()) {
+
                             while (reader.Read()) {
+
                                 int id = reader.GetInt32(0);
                                 string proveedorNombre = reader.GetString(1);
                                 string domicilio = reader.GetString(2);
                                 int proveedorIdProvincia = reader.GetInt32(3);
                                 int proveedorIdLocalidad = reader.GetInt32(4);
                                 proveedoresFiltrados.Add(new Proveedor(id, proveedorNombre, domicilio, proveedorIdProvincia, proveedorIdLocalidad));
+
                             }
+
                         }
-                        return View(VISTA_INDICE, proveedoresFiltrados);
+
+                        return View(Constante.VISTA_INDICE, proveedoresFiltrados);
                     }
                 }
             }
             catch (SqlException sqlEx) {
                 ViewBag.ErrorMessage = "Error en la base de datos: " + sqlEx.Message;
-                return View(VISTA_INDICE);
+                return View(Constante.VISTA_INDICE);
             }
             catch (Exception ex) {
                 ViewBag.ErrorMessage = "Ocurrió un error al filtrar los proveedores: " + ex.Message;
-                return View(VISTA_INDICE);
+                return View(Constante.VISTA_INDICE);
             }
         }
 
-        /* DetalleProveedor: En la lista despegable del Indice, te vas a este controlador que trae
-         * la informacion de un proveedor particular. Obtengo la lista de indices y devuelvo el objeto
-         * con una consulta LINQ. */
+        /* Details(int id): Muestra los detalles del proveedor en el formulario del a vista Edit */
 
-        public ActionResult DetalleProveedor (int id) {
+        public ActionResult Details (int id) {
 
             Proveedor proveedorEncontrado = ObtenerProveedorPorId(id);
 
@@ -112,11 +108,10 @@ namespace EjercicioIntegradorMVC_2.Controllers {
              * mismo tiempo otro usuario lo elimino */
 
             if (proveedorEncontrado == null) {
-                ViewBag.ErrorMessage = "Proveedor no encontrado";
-                return View();
+                return HttpNotFound();
             }
 
-            return View(proveedorEncontrado);
+            return View("Edit", proveedorEncontrado);
 
         }
 
@@ -137,13 +132,14 @@ namespace EjercicioIntegradorMVC_2.Controllers {
                     string cadenaConexion = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
                     using (SqlConnection conexion = new SqlConnection(cadenaConexion)) {
                         conexion.Open();
-                        using (SqlCommand comando = new SqlCommand(CONSULTA_INSERT_PROVEEDOR, conexion)) {
-                            comando.Parameters.AddWithValue(PARAMETRO_NOMBRE, proveedor.Nombre);
-                            comando.Parameters.AddWithValue(PARAMETRO_DOMICILIO, proveedor.Domicilio);
-                            comando.Parameters.AddWithValue(PARAMETRO_ID_PROVINCIA, proveedor.IdProvincia);
-                            comando.Parameters.AddWithValue(PARAMETRO_ID_LOCALIDAD, proveedor.IdLocalidad);
+                        using (SqlCommand comando = new SqlCommand(Constante.SP_AGREGAR_PROVEEDOR, conexion)) {
+                            comando.CommandType = CommandType.StoredProcedure;
+                            comando.Parameters.AddWithValue(Constante.PARAMETRO_NOMBRE, proveedor.Nombre);
+                            comando.Parameters.AddWithValue(Constante.PARAMETRO_DOMICILIO, proveedor.Domicilio);
+                            comando.Parameters.AddWithValue(Constante.PARAMETRO_ID_PROVINCIA, proveedor.IdProvincia);
+                            comando.Parameters.AddWithValue(Constante.PARAMETRO_ID_LOCALIDAD, proveedor.IdLocalidad);
                             if (comando.ExecuteNonQuery() > 0)
-                                return RedirectToAction(VISTA_INDICE);
+                                return RedirectToAction(Constante.VISTA_INDICE);
                             else
                                 ModelState.AddModelError(string.Empty, "Error al agregar el proveedor.");
                         }
@@ -166,12 +162,13 @@ namespace EjercicioIntegradorMVC_2.Controllers {
             string cadenaConexion = ConfigurationManager.AppSettings.Get("ConnectionString").ToString();
             using (SqlConnection conexion = new SqlConnection(cadenaConexion)) {
                 conexion.Open();
-                using (SqlCommand comando = new SqlCommand(CONSULTA_DELETE_IDPROVEEDOR, conexion)) {
-                    comando.Parameters.AddWithValue(PARAMETRO_ID, id);
+                using (SqlCommand comando = new SqlCommand(Constante.SP_ELIMINAR_PROVEEDOR, conexion)) {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue(Constante.PARAMETRO_ID, id);
                     comando.ExecuteNonQuery();
                 }
             }
-            return RedirectToAction(VISTA_INDICE);
+            return RedirectToAction(Constante.VISTA_INDICE);
         }
 
         /* ObtenerLocalidadesPorProvincia: Este controlador trae solo las localidades
@@ -197,7 +194,8 @@ namespace EjercicioIntegradorMVC_2.Controllers {
             try {
                 using (SqlConnection conexion = new SqlConnection(cadenaConexion)) {
                     conexion.Open();
-                    using (SqlCommand comando = new SqlCommand(CONSULTA_SELECT_LOCALIDAD, conexion)) {
+                    using (SqlCommand comando = new SqlCommand(Constante.SP_OBTENER_LOCALIDADES, conexion)) {
+                        comando.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader reader = comando.ExecuteReader()) {
                             localidades = new List<Localidad>();
                             while (reader.Read()) {
@@ -230,7 +228,8 @@ namespace EjercicioIntegradorMVC_2.Controllers {
             try {
                 using (SqlConnection conexion = new SqlConnection(cadenaConexion)) {
                     conexion.Open();
-                    using (SqlCommand comando = new SqlCommand(CONSULTA_SELECT_PROVINCIA, conexion)) {
+                    using (SqlCommand comando = new SqlCommand(Constante.SP_OBTENER_PROVINCIAS, conexion)) {
+                        comando.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader reader = comando.ExecuteReader()) {
                             provincias = new List<Provincia>();
                             while (reader.Read()) {
@@ -254,7 +253,8 @@ namespace EjercicioIntegradorMVC_2.Controllers {
             try {
                 using (SqlConnection conexion = new SqlConnection(cadenaConexion)) {
                     conexion.Open();
-                    using (SqlCommand comando = new SqlCommand(CONSULTA_SELECT_PROVEEDOR, conexion)) {
+                    using (SqlCommand comando = new SqlCommand(Constante.SP_OBTENER_PROVEEDORES, conexion)) {
+                        comando.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader reader = comando.ExecuteReader()) {
                             proveedores = new List<Proveedor>();
                             while (reader.Read()) {

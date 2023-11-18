@@ -1,4 +1,5 @@
-USE LS_PRACTICA_MVC_2;
+-- CREATE DATABASE LS_Practica_MVC_2;
+USE LS_Practica_MVC_2;
 GO
 
 CREATE TABLE Provincia (

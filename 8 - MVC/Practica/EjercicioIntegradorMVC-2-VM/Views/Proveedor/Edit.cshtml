@@ -2,16 +2,9 @@
 @using Recursos
 @model Proveedor
 
-@{
-    ViewBag.Title = @GlobalResources.Titulo_Edit;
-}
+@{ ViewBag.Title = @GlobalResources.Titulo_Indice; }
 
-<head>
-    <link href="~/Content/styles.css" rel="stylesheet" />
-</head>
-
-
-<h2>@GlobalResources.Titulo_Edit</h2>
+<h1 style="font-family: 'Times New Roman', Times, serif">@(Model != null ? GlobalResources.Titulo_DetalleProveedor : GlobalResources.Titulo_Edit)</h1>
 
 @using (Html.BeginForm()) {
 
@@ -22,65 +15,82 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "text-format col-md-2 " })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                @if (Model == null) {
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control text-format" } })
+                }
+                else {
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control text-format", @disabled = "disabled" } })
+                }
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger text-format" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Domicilio, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Domicilio, htmlAttributes: new { @class = "text-format col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Domicilio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Domicilio, "", new { @class = "text-danger" })
+                @if (Model == null) {
+                    @Html.EditorFor(model => model.Domicilio, new { htmlAttributes = new { @class = "form-control text-format" } })
+                }
+                else {
+                    @Html.EditorFor(model => model.Domicilio, new { htmlAttributes = new { @class = "form-control text-format", @disabled = "disabled" } })
+                }
+                @Html.ValidationMessageFor(model => model.Domicilio, "", new { @class = "text-danger text-format" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdProvincia, htmlAttributes: new { @class = "control-label col-md-2", @for = "selectProvincia" })
+            @Html.LabelFor(model => model.IdProvincia, htmlAttributes: new { @class = "text-format col-md-2", @for = "selectProvincia" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.IdProvincia, (SelectList)ViewBag.ProvinciasSelect, GlobalResources.Select_Provincia_Mensaje, new { @class = "form-control", id = "selectProvincia" })
-                @Html.ValidationMessageFor(model => model.IdProvincia, "", new { @class = "text-danger" })
+                @if (Model == null) {
+                    @Html.DropDownListFor(model => model.IdProvincia, (SelectList)ViewBag.ProvinciasSelect, GlobalResources.Select_Provincia_Mensaje, new { @class = "form-control text-format", id = "selectProvincia" })
+                }
+                else {
+                    @Html.DropDownListFor(model => model.IdProvincia, (SelectList)ViewBag.ProvinciasSelect, GlobalResources.Select_Provincia_Mensaje, new { @class = "form-control text-format", @disabled = "disabled", id = "selectProvincia" })
+                }
+                @Html.ValidationMessageFor(model => model.IdProvincia, "", new { @class = "text-danger text-format" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdLocalidad, htmlAttributes: new { @class = "control-label col-md-2", @for = "selectLocalidad" })
+            @Html.LabelFor(model => model.IdLocalidad, htmlAttributes: new { @class = "text-format col-md-2", @for = "selectLocalidad" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.IdLocalidad, (SelectList)ViewBag.LocalidadesSelect, GlobalResources.Select_Localidad_Mensaje, new { @class = "form-control", id = "selectLocalidad", disabled = "disabled" })
-                @Html.ValidationMessageFor(model => model.IdLocalidad, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.IdLocalidad, (SelectList)ViewBag.LocalidadesSelect, GlobalResources.Select_Localidad_Mensaje, new { @class = "form-control text-format", id = "selectLocalidad", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.IdLocalidad, "", new { @class = "text-danger text-format" })
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10"><input type="submit" value=@GlobalResources.Boton_Aceptar class="btn btn-default" /></div>
+        <br />
+        <div>
+            @if (Model == null) {
+                <input class="text-format confirm-button main-button" type="submit" value=@GlobalResources.Boton_Aceptar>
+            }
+            @Html.ActionLink(Model == null ? GlobalResources.Accion_Cancelar : GlobalResources.Accion_Regresar, "Indice", null, new { @class = Model == null ? "text-format main-button link-back-button button-space-edit" : "text-format main-button link-back-button" })
+
         </div>
+
     </div>
 }
-
-<div>@Html.ActionLink(GlobalResources.Accion_Cancelar, "Indice")</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval");
 
     <script>
         $("#selectProvincia").change(function () {
+
+            /* Me quedo con el id que fue seleccionado */
             var idProvincia = $(this).val();
             var localidades = $("#selectLocalidad");
 
-            if (idProvincia) {
-                $("#selectProvincia option[value='']").remove();
-                localidades.prop("disabled", false);
-            } else {
-                if ($("#selectProvincia option[value='']").length === 0) {
-                    $("#selectProvincia").prepend($("<option>", {
-                        value: "",
-                        text: "Seleccione una provincia"
-                    }));
-                    localidades.prop("disabled", true);
-                }
-            }
+            /* Cuando se seleccione un id, la opcion que mostraba
+            * seleccionar por defecto se elimina para que no se vuelva a elegir.*/
+            $("#selectProvincia option[value='']").remove();
+            /* Habilito la lista de localidades */
+            localidades.prop("disabled", false);
+
+            /* Traigo la lista de localidades asociada al id de provincia que se selecciono
+            * y voy completando con la descripcion de la localidad las opciones del select.*/
 
             $.ajax({
                 type: "POST",
@@ -91,7 +101,6 @@
                     $.each(data, function (i, item) {
                         localidades.append($("<option>").text(item.Descripcion).val(item.Id));
                     });
-                    localidades.find('option:contains("Seleccione una localidad")').remove();
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
                     alert("Error: " + errorMessage);
