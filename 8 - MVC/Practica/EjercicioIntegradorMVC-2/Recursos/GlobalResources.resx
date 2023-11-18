@@ -154,7 +154,7 @@
     <value>Debe seleccionar una {0} de la lista.</value>
   </data>
   <data name="Mensaje_Error_String_Length" xml:space="preserve">
-    <value> El campo {1} debe ser menor que {0} caracteres.</value>
+    <value> El campo {0} debe ser menor que {1} caracteres.</value>
   </data>
   <data name="Proveedor_Domicilio_Texto_Mostrar" xml:space="preserve">
     <value>Domicilio</value>

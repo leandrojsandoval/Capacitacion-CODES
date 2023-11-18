@@ -187,7 +187,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Proveedor\Indice.cshtml" />
     <Content Include="Views\Proveedor\Edit.cshtml" />
-    <Content Include="Views\Proveedor\DetalleProveedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

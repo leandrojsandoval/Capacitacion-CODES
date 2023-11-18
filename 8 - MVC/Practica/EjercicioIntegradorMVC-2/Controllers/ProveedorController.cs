@@ -51,37 +51,37 @@ namespace EjercicioIntegradorMVC_2.Controllers {
 
         [HttpPost]
         public ActionResult FiltrarProveedores(string nombre, string provincia, string localidad) {
-            
+
             try {
-                
+
                 using (SqlConnection conexion = new SqlConnection(cadenaConexion)) {
-                    
+
                     conexion.Open();
-                    
+
                     using (SqlCommand comando = new SqlCommand(Constante.SP_FILTRAR_PROVEEDOR, conexion)) {
-                        
+
                         comando.CommandType = CommandType.StoredProcedure;
                         comando.Parameters.AddWithValue(Constante.PARAMETRO_NOMBRE, nombre);
                         comando.Parameters.AddWithValue(Constante.PARAMETRO_PROVINCIA, provincia);
                         comando.Parameters.AddWithValue(Constante.PARAMETRO_LOCALIDAD, localidad);
-                        
+
                         List<Proveedor> proveedoresFiltrados = new List<Proveedor>();
-                        
+
                         using (SqlDataReader reader = comando.ExecuteReader()) {
-                            
+
                             while (reader.Read()) {
-                                
+
                                 int id = reader.GetInt32(0);
                                 string proveedorNombre = reader.GetString(1);
                                 string domicilio = reader.GetString(2);
                                 int proveedorIdProvincia = reader.GetInt32(3);
                                 int proveedorIdLocalidad = reader.GetInt32(4);
                                 proveedoresFiltrados.Add(new Proveedor(id, proveedorNombre, domicilio, proveedorIdProvincia, proveedorIdLocalidad));
-                            
+
                             }
-                        
+
                         }
-                       
+
                         return View(Constante.VISTA_INDICE, proveedoresFiltrados);
                     }
                 }
@@ -96,11 +96,9 @@ namespace EjercicioIntegradorMVC_2.Controllers {
             }
         }
 
-        /* DetalleProveedor: En la lista despegable del Indice, te vas a este controlador que trae
-         * la informacion de un proveedor particular. Obtengo la lista de indices y devuelvo el objeto
-         * con una consulta LINQ. */
+        /* Details(int id): Muestra los detalles del proveedor en el formulario del a vista Edit */
 
-        public ActionResult DetalleProveedor(int id) {
+        public ActionResult Details(int id) {
 
             Proveedor proveedorEncontrado = ObtenerProveedorPorId(id);
 
@@ -110,11 +108,10 @@ namespace EjercicioIntegradorMVC_2.Controllers {
              * mismo tiempo otro usuario lo elimino */
 
             if (proveedorEncontrado == null) {
-                ViewBag.ErrorMessage = "Proveedor no encontrado";
-                return View();
+                return HttpNotFound();
             }
 
-            return View(proveedorEncontrado);
+            return View("Edit", proveedorEncontrado);
 
         }
 
@@ -141,7 +138,7 @@ namespace EjercicioIntegradorMVC_2.Controllers {
                             comando.Parameters.AddWithValue(Constante.PARAMETRO_DOMICILIO, proveedor.Domicilio);
                             comando.Parameters.AddWithValue(Constante.PARAMETRO_ID_PROVINCIA, proveedor.IdProvincia);
                             comando.Parameters.AddWithValue(Constante.PARAMETRO_ID_LOCALIDAD, proveedor.IdLocalidad);
-                            if(comando.ExecuteNonQuery() > 0)
+                            if (comando.ExecuteNonQuery() > 0)
                                 return RedirectToAction(Constante.VISTA_INDICE);
                             else
                                 ModelState.AddModelError(string.Empty, "Error al agregar el proveedor.");
@@ -279,7 +276,7 @@ namespace EjercicioIntegradorMVC_2.Controllers {
         }
 
         private Proveedor ObtenerProveedorPorId(int id) {
-            if(id < 1)
+            if (id < 1)
                 throw new IdInvalidoException("El ID no corresponde a un ID válido");
             List<Proveedor> proveedores = ObtenerProveedores();
             return proveedores.FirstOrDefault(proveedor => proveedor.Id == id);

@@ -169,7 +169,7 @@ namespace Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  El campo {1} debe ser menor que {0} caracteres..
+        ///   Looks up a localized string similar to  El campo {0} debe ser menor que {1} caracteres..
         /// </summary>
         public static string Mensaje_Error_String_Length {
             get {

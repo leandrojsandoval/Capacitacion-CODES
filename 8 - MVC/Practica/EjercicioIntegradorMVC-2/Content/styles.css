@@ -1,48 +1,69 @@
-﻿body {
-    background-color: honeydew;
-}
-
-h2 {
+﻿h2 {
+    font-family: 'Times New Roman';
     text-align: center;
 }
 
 label {
-    font-weight: bold;
+    font-family: 'Times New Roman';
+    font-size: 20px;
     margin: 10px;
 }
 
-.button-common {
-    border: none;
-    border-radius: 5px;
+/************************************ ID's ************************************/
+
+.table-header th {
+    background-color: black;
+    border: 1px solid black;
     color: white;
-    cursor: pointer;
-    margin-top: 15px;
-    margin-right: 10px;
-    padding: 10px 20px;
+    font-family: 'Times New Roman';
+    font-size: 20px;
+}
+
+.table-data td {   
+    border: 1px solid black;
+    color: black;
+    font-family: 'Times New Roman';
+    font-size: 20px;
+}
+
+.table-data td a {
+    color: black;
+}
+
+::placeholder {
+    color: lightgray;
+    font-family: 'Times New Roman';
+    font-size: 20px;
 }
 
 .main-button {
-    background-color: lightseagreen
+    background-color: lightgrey;
+    font-family: 'Times New Roman';
+    font-size: 20px;
 }
 
     .main-button:hover {
-        background-color: seagreen;
+        background-color: darkgrey;
+        color: white;
     }
 
-.confirm-button {
-    background-color: indianred;
+.button-space-index {
+    margin: 20px 230px;
+    padding: 0px 25px;
 }
 
-    .confirm-button:hover {
-        background-color: mediumvioletred;
-    }
-
 .link-back-button {
-    background-color: darkslategrey;
+    border: 1px solid black;
+    color: black;
+    padding: 5px;
     text-decoration: none;
 }
 
-    .link-back-button:hover {
-        background-color: #45a049;
-        color: white;
-    }
+.button-space-edit {
+    margin: 50px;
+}
+
+.font-form {
+    font-family: 'Times New Roman';
+    font-size: 20px;
+}

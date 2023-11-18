@@ -43,33 +43,30 @@
 
     @using (Html.BeginForm("FiltrarProveedores", "Proveedor", FormMethod.Post)) {
 
-        <div class="form-group">
-            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Nombre_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBox("nombre", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Nombre })
+        <div class="text-center">
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Nombre_Texto, htmlAttributes: new { @class = "control-label" })
+            @Html.TextBox("nombre", null, new { placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Nombre })
+
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Provincia_Texto, htmlAttributes: new { @class = "control-label" })
+            @Html.TextBox("provincia", null, new { placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Provincia })
+
+            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Localidad_Texto, htmlAttributes: new { @class = "control-label" })
+            @Html.TextBox("localidad", null, new { placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Localidad })
         </div>
 
-        <div class="form-group">
-            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Provincia_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBox("provincia", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Provincia })
+        <div class="text-center">
+            <button type="submit" class="main-button button-space-index">@GlobalResources.Boton_Buscar</button>
+            <button type="button" class="main-button button-space-index" onclick="location.href='@Url.Action("Edit", "Proveedor")'">@GlobalResources.Boton_Agregar_Proveedor</button>
         </div>
-
-        <div class="form-group">
-            @Html.Label(GlobalResources.Label_Filtro_Proveedor_Localidad_Texto, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBox("localidad", null, new { @class = "form-control", placeholder = GlobalResources.TextBox_Placeholder_Filtro_Proveedor_Localidad })
-        </div>
-
-        <button type="submit" class="button-common main-button">@GlobalResources.Boton_Buscar</button>
 
     }
 
 </div>
 
-<button type="button" class="button-common main-button" onclick="location.href='@Url.Action("Edit", "Proveedor")'">@GlobalResources.Boton_Agregar_Proveedor</button>
-
 <table class="table">
 
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.Id)</th>
+    <tr class="table-header text-center">
+        <th class="text-uppercase">@Html.DisplayNameFor(model => model.Id)</th>
         <th>@Html.DisplayNameFor(model => model.Nombre)</th>
         <th>@Html.DisplayNameFor(model => model.Domicilio)</th>
         <th>@Html.DisplayNameFor(model => model.IdProvincia)</th>
@@ -82,8 +79,8 @@
         var provincia = (ViewBag.Provincias as List<Provincia>).FirstOrDefault(p => p.Id == item.IdProvincia);
         var localidad = (ViewBag.Localidades as List<Localidad>).FirstOrDefault(p => p.Id == item.IdLocalidad);
 
-        <tr>
-            <td>@Html.ActionLink(item.Id.ToString(), "DetalleProveedor", "Proveedor", new { id = item.Id }, null)</td>
+        <tr class="table-data">
+            <td class="text-center">@Html.ActionLink(item.Id.ToString(), "Details", "Proveedor", new { id = item.Id }, null)</td>
             <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
             <td>@Html.DisplayFor(modelItem => item.Domicilio)</td>
             <td>@provincia.Descripcion</td>
