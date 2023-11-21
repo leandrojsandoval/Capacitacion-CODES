@@ -1,0 +1,16 @@
+#encabezados-tabla {
+    background-color: lightgreen;
+    text-decoration: underline;
+}
+
+#lista {
+    list-style-type: upper-roman;
+}
+
+.elemento-lista {
+    margin-bottom: 10px;
+}
+
+.celda-amarilla {
+    background-color: yellow;
+}
