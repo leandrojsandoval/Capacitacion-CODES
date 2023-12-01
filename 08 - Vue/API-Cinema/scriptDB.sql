@@ -192,3 +192,20 @@ GO
 
 /************************** Stored Procedures **************************/
 
+CREATE OR ALTER PROCEDURE sp_obtener_sucursales AS
+BEGIN
+	SELECT [Id],[Nombre],[Precio],[FechaCreacion],[FechaActualizacion]
+	FROM [dbo].[Sucursales]
+END
+
+GO
+
+CREATE OR ALTER PROCEDURE sp_obtener_sucursal_por_id (@id INT) AS
+BEGIN
+	SELECT [Id],[Nombre],[Precio],[FechaCreacion],[FechaActualizacion]
+	FROM [dbo].[Sucursales]
+	WHERE [Id] = @id
+END
+
+exec sp_obtener_sucursales
+exec sp_obtener_sucursal_por_id 2
