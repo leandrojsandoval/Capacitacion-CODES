@@ -1,0 +1,55 @@
+﻿/* AGREGADO: Hoja de estilos que contiene todos los styles que se encontraban en la 
+    vista de manera inline, ademas de algunos estilos que considero agregarlos. */
+
+body {
+    background-color: navajowhite;
+}
+
+#divSearch,
+#divNewUpdate {
+    padding-top: 2px;
+}
+
+    #divSearch .panel-body {
+        background-color: floralwhite;
+    }
+
+    #divNewUpdate .panel-body {
+        background-color: antiquewhite;
+    }
+
+#lblConsulta,
+#lblModificar,
+#lblNuevo {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    padding-left: 5px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#grilla tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#grilla tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+#grilla th, #grilla td {
+    border: 1px solid #ddd;
+}
+
+.divLabels {
+    margin: 5px;
+}
+
+.divBotones {
+    padding-top: 13px;
+}
+
+.editor-label {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}

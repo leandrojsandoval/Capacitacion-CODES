@@ -1,0 +1,182 @@
+﻿@using Resources
+@using Integrador.Web.ViewModels.Producto
+@model ProductoViewModel
+
+@{ ViewBag.Title = Global.Producto; }
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-1 col-md-1 col-xs-1"></div>
+
+        <div class="col-lg-10 col-md-10 col-xs-10">
+
+            @Html.Partial("_TituloProducto")
+
+            @* LS: Bloque div el cual notifica al usuario si la insercion, modificacion
+                o eliminacion resulto exitosa o no *@
+
+            <div class="row">
+                <div class="col-lg-12" id="notificationBox"></div>
+                <div>@Html.Partial("_Notification")</div>
+            </div>
+
+            @* LS: Bloque div el cual se realiza consultas por algun filtro de busqueda
+                Ademas tiene el boton para agregar un nuevo producto
+
+                Para los campos por el cual se quiere filtrar, agrego los campos de precio y categoria.
+                Al final se encuentran los botenes de busqueda y limpiar filtros, como asi tambien
+                agregar un nuevo producto.
+
+                MODIFICADO: Para cargar la lista de categorias, lo hago desde model y ya no desde ViewBag.
+                Ademas todos los estilos que se encontraban de manera inline fueron movidos a una hoja de estilos
+                llamada styles.css
+                Por otro lado, modifico la posicion de los botones para que se encuentren agrupados.
+
+                AGREGADO: Agrego algunas clases en los bloques div para relacionar los mismos estilos. *@
+
+            <div id="divSearch" class="row">
+
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+
+                        <div class="divLabels">
+                            <div id="lblConsulta" class="row label-blue-bold">@Global.Consulta</div>
+                        </div>
+
+                        <div class="row form-group-filter">
+
+                            <div class="col-md-3">
+
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.Descripcion, new { @for = "txtDescripcion" })
+                                </div>
+                                <div class="editor-field">
+                                    @Html.TextBoxFor(model => model.Descripcion, new { id = "txtDescripcion", @class = "form-control", filter = "filter", placeholder = Global.PlaceholderDescripcion })
+                                </div>
+
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.Precio, new { @for = "txtPrecio" })
+                                </div>
+                                <div class="editor-field">
+                                    @Html.TextBoxFor(model => model.Precio, new { id = "txtPrecio", @class = "form-control", filter = "filter", placeholder = Global.PlaceholderPrecio })
+                                </div>
+
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.Categoria, new { @for = "selectCategoria" })
+                                </div>
+                                <div class="editor-field">
+
+                                    <select id="selectCategoria" name="Categoria" class="form-control filter">
+                                        <option value="" disabled selected>@Global.MensajeSelectCategoria</option>
+                                        @foreach (var Categoria in Model.Categorias) {
+                                            <option value="@Categoria.Id">@Categoria.Descripcion</option>
+                                        }
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="divBotones col-md-offset-5 col-md-4">
+                                <a class="btn btn-default btn-color" id="btnBuscar"><span class="glyphicon glyphicon-search"></span> @Global.Buscar</a>
+                                <a class="btn btn-default btn-Codes-style" id="btnLimpiarFiltros"><span class="glyphicon glyphicon-remove"></span> @Global.Limpiar</a>
+                                <a class="btn btn-default btn-Codes-style" id="btnNuevo"><span class="glyphicon glyphicon-plus"></span> @Global.Nuevo</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            @* LS: Agrego el campo precio y el campo categoria para tambien poder insertarlo / modificarlo. (PUNTO 4)
+
+                Los campos por el cual ser quiere insertar/modificar son los mismos campos que los del filtro de busqueda.
+                Agrego el atributo for en los label's ya que tenia advertencias en la consola de Chrome.
+                Esto es para asociar el mismo id de los TextBox o los Select (PUNTO 1)
+                Los demas warnings son sobre la carga de la grilla.
+
+                MODIFICADO: Las modificaciones son las mismas que el bloque de filtro *@
+
+            <div id="divNewUpdate" class="row">
+
+                @Html.HiddenFor(Model => Model.Id, new { id = "hiddenId", @class = "form-control", filter = "filter" })
+
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+
+                        <div class="divLabels">
+                            <div id="lblModificar" class="row label-blue-bold">@Global.Modificar</div>
+                            <div id="lblNuevo" class="row label-blue-bold">@Global.Nuevo</div>
+                        </div>
+
+                        <div class="row form-group-filter">
+
+                            <div class="col-md-3">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.Descripcion, new { @for = "txtDescripcion_NU" })
+                                </div>
+                                <div class="editor-field">
+                                    @Html.TextBoxFor(model => model.Descripcion, new { id = "txtDescripcion_NU", @class = "form-control", filter = "filter", placeholder = Global.PlaceholderDescripcion })
+                                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger font-form" })
+                                </div>
+
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.Precio, new { @for = "txtPrecio_NU" })
+                                </div>
+                                <div class="editor-field">
+                                    @Html.TextBoxFor(model => model.Precio, new { id = "txtPrecio_NU", @class = "form-control", filter = "filter", placeholder = Global.PlaceholderPrecio })
+                                    @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger font-form" })
+                                </div>
+
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.Categoria, new { @for = "selectCategoria_NU" })
+                                </div>
+                                <div class="editor-field">
+                                    <select id="selectCategoria_NU" name="Categoria" class="form-control filter">
+                                        <option value="" disabled selected>@Global.MensajeSelectCategoria</option>
+                                        @foreach (var Categoria in Model.Categorias) {
+                                            <option value="@Categoria.Id">@Categoria.Descripcion</option>
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.Categoria.Id, "", new { @class = "text-danger font-form" })
+                                </div>
+
+                            </div>
+
+                            <div class="divBotones col-md-offset-6 col-md-3">
+                                <input id="hdnTipo" type="hidden">
+                                <a class="btn btn-default btn-Codes-style" id="btnAceptar"><span class="glyphicon glyphicon-ok"></span> @Global.Aceptar</a>
+                                <a class="btn btn-default btn-Codes-style" id="btnCancelar"><span class="glyphicon glyphicon-remove"></span> @Global.Cancelar</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* LS: En est bloque se carga la grilla de productos a traves de JavaScript *@
+
+            <div class="row">
+                <div id="grillaDiv">
+                    <table id="grilla"></table>
+                    <div id="grillaPaginador"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-xs-1"></div>
+
+    </div>
+</div>
+
+@Scripts.Render("~/Scripts/Producto/producto.js")
+@Styles.Render("~/Content/styles.css")

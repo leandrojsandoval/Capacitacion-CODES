@@ -1,0 +1,10 @@
+git clone https://tfs18.codes.com.ar/CODES/Ingresantes/_git/TPIntegrador2023
+git branch ls-integrador
+git checkout ls-integrador
+git status
+
+PARA GUARDAR CAMBIOS
+git add .
+git commit -m "Comentario del commit"
+git push -u origin ls-integrador
+git status
