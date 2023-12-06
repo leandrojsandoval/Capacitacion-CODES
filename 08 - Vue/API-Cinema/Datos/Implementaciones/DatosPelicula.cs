@@ -15,7 +15,7 @@ namespace API_Cinema.Datos.Implementaciones {
         }
 
         public List<Pelicula> ObtenerPeliculas() {
-            List<Pelicula> registrosEncontrados = new();
+            List<Pelicula> registrosEncontrados = [];
             using (SqlCommand command = new(Constantes.SP_OBTENER_PELICULAS, connection)) {
                 connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
@@ -48,7 +48,6 @@ namespace API_Cinema.Datos.Implementaciones {
             }
             return pelicula;
         }
-
 
     }
 

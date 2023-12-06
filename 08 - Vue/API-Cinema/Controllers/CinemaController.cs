@@ -1,13 +1,7 @@
 ﻿using API_Cinema.Entidades;
-using API_Cinema.Framework.Common;
 using API_Cinema.Servicios.Implementaciones;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System.Data;
-using System.Data.SqlClient;
-using System.Reflection.PortableExecutable;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace API_Cinema.Controllers {
 
@@ -18,9 +12,14 @@ namespace API_Cinema.Controllers {
 
         private ServicioSucursal servicioSucursal;
         private ServicioPelicula servicioPelicula;
+        private ServicioHorario servicioHorario;
+        private ServicioVenta servicioVenta;
+
         public CinemaController(IConfiguration configuration) {
             servicioSucursal = new ServicioSucursal(configuration);
             servicioPelicula = new ServicioPelicula(configuration);
+            servicioHorario = new ServicioHorario(configuration);
+            servicioVenta = new ServicioVenta(configuration);
         }
 
         /****************************** SUCURSALES ******************************/
@@ -174,7 +173,101 @@ namespace API_Cinema.Controllers {
             return new JsonResult(table);
         }
 
+        /****************************** HORARIOS ******************************/
 
+        [HttpPost]
+        [Route("AgregarHorario")]
+        public JsonResult AgregarHorario(string idSucursal, string idPelicula, string hora) {
+
+            Horario horario = new() {
+                IdSucursal = int.Parse(idSucursal),
+                IdPelicula = int.Parse(idPelicula),
+                Hora = hora
+            };
+
+            servicioHorario.Insertar(horario);
+
+            return new JsonResult("Agregado Correctamente");
+
+        }
+
+        /****************************** VENTAS ******************************/
+
+        [HttpGet]
+        [Route("ObtenerVentas")]
+        public JsonResult ObtenerVentas() {
+
+            List<Venta> ventas = servicioVenta.ObtenerVentas();
+
+            DataTable table = new();
+
+            table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("IdUsuario", typeof(int));
+            table.Columns.Add("IdHorario", typeof(int));
+            table.Columns.Add("Cantidad", typeof(int));
+            table.Columns.Add("Total", typeof(decimal));
+            table.Columns.Add("FechaCreacion", typeof(DateTime));
+            table.Columns.Add("FechaModificacion", typeof(DateTime));
+
+            foreach (Venta venta in ventas) {
+                DataRow row = table.NewRow();
+                row["Id"] = venta.Id;
+                row["IdUsuario"] = venta.IdUsuario;
+                row["IdHorario"] = venta.IdHorario;
+                row["Cantidad"] = venta.Cantidad;
+                row["Cantidad"] = venta.Cantidad;
+                row["Total"] = venta.Total;
+                row["FechaCreacion"] = venta.FechaCreacion;
+                row["FechaModificacion"] = venta.FechaActualizacion;
+
+                table.Rows.Add(row);
+            }
+
+
+            return new JsonResult(table);
+        }
+
+        [HttpPost]
+        [Route("AgregarVenta")]
+        public JsonResult AgregarVenta(string idUsuario, string idHorario, string cantidad, string total) {
+
+            Venta venta = new() {
+                IdUsuario = int.Parse(idUsuario),
+                IdHorario = int.Parse(idHorario),
+                Cantidad = int.Parse(cantidad),
+                Total = decimal.Parse(total)
+            };
+
+            servicioVenta.Insertar(venta);
+
+            return new JsonResult("Agregado Correctamente");
+
+        }
+
+        /****************************** USUARIO ******************************/
+
+        [HttpPost]
+        [Route("api/login")]
+        public IHttpActionResult Login([FromBody] LoginModel model) {
+            if (ModelState.IsValid) {
+                // Lógica de autenticación aquí, por ejemplo, verificar credenciales en una base de datos.
+                bool isAuthenticated = YourAuthenticationService.Authenticate(model.Username, model.Password);
+
+                if (isAuthenticated) {
+                    // El usuario está autenticado, puedes devolver un token JWT u otra información según tus necesidades.
+                    string token = YourAuthenticationService.GenerateToken(model.Username);
+                    return Ok(new { Token = token });
+                }
+                else {
+                    // El usuario no está autenticado, devuelve un mensaje de error.
+                    return BadRequest("Credenciales inválidas");
+                }
+            }
+
+            // El modelo no es válido, devuelve un error de modelo.
+            return BadRequest(ModelState);
+        }
     }
+}
 
 }

@@ -81,7 +81,7 @@ VALUES
     ('KODOTI Stars Zona Oeste', 21.50, '2019-05-19', '2019-05-19');
 GO
 
--- Creación de la tabla Horario
+-- Creación de la tabla Horarios
 
 CREATE TABLE Horarios (
     Id INT PRIMARY KEY IDENTITY(1,1),
@@ -96,7 +96,8 @@ CREATE TABLE Horarios (
 
 GO
 
--- Inserción de datos en la tabla schedules
+-- Inserción de datos en la tabla Horarios
+
 INSERT INTO Horarios (IdPelicula, IdSucursal, Hora, FechaCreacion, FechaActualizacion)
 VALUES
 	(1, 1, '12:00:00', '2019-05-19', '2019-05-19'),
@@ -183,7 +184,7 @@ CREATE TABLE Ventas (
 
 GO
 
--- Inserción de datos en la tabla Pedidos
+-- Inserción de datos en la tabla Ventas
 
 INSERT INTO Ventas (IdUsuario, IdHorario, Cantidad, Total, FechaCreacion, FechaActualizacion)
 VALUES
@@ -231,8 +232,6 @@ BEGIN
 	WHERE Id = @id;
 END
 
-
-
 GO
 
 /************************** Stored Procedures - PELICULAS **************************/
@@ -242,3 +241,52 @@ BEGIN
 	SELECT [Id], [Imagen], [Nombre], [Descripcion], [FechaCreacion], [FechaActualizacion]
 	FROM [dbo].[Peliculas]
 END
+
+GO
+
+CREATE OR ALTER PROCEDURE sp_obtener_pelicula_por_id (@id INT) AS
+BEGIN
+	SELECT [Id], [Imagen], [Nombre], [Descripcion], [FechaCreacion], [FechaActualizacion]
+	FROM [dbo].[Peliculas]
+	WHERE [Id] = @id
+END
+
+GO
+
+/************************** Stored Procedures - HORARIOS **************************/
+
+CREATE OR ALTER PROCEDURE sp_horario_insert (@idSucursal INT, @idPelicula INT, @hora VARCHAR(20)) AS
+BEGIN
+	INSERT INTO Horarios(IdPelicula, IdSucursal, Hora, FechaCreacion, FechaActualizacion) 
+	VALUES (@idPelicula, @idSucursal, @hora, GETDATE(), GETDATE());
+END
+
+GO
+
+/************************** Stored Procedures - VENTAS **************************/
+
+CREATE OR ALTER PROCEDURE sp_obtener_ventas AS
+BEGIN
+	SELECT [Id], [IdUsuario], [IdHorario], [Cantidad], [Total], [FechaCreacion], [FechaActualizacion]
+	FROM [dbo].[Ventas]
+END
+
+GO
+
+CREATE OR ALTER PROCEDURE sp_venta_insert (@idUsuario INT, @idHorario INT, @cantidad INT,  @total DECIMAL(10,2)) AS
+BEGIN
+	INSERT INTO Ventas(IdUsuario, IdHorario, Cantidad, Total, FechaCreacion, FechaActualizacion) 
+	VALUES (@idUsuario, @idHorario, @cantidad, @total, GETDATE(), GETDATE());
+END
+
+GO
+
+/************************** Stored Procedures - USUARIOS **************************/
+
+CREATE OR ALTER PROCEDURE sp_obtener_usuarios AS
+BEGIN
+	SELECT [Id],[Nombre],[Email],[Contrasenia],[EsAdministrador],[FechaCreacion],[FechaActualizacion]
+	FROM [dbo].[Usuarios]
+END
+
+exec sp_obtener_usuarios
