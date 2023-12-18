@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Implementaciones\ServicioMaterial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Datos\ARQ.Datos.csproj" />
+    <ProjectReference Include="..\Entidades\ARQ.Entidades.csproj" />
+    <ProjectReference Include="..\Resources\ARQ.Recursos.csproj" />
+  </ItemGroup>
+
+</Project>
