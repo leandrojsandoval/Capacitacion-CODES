@@ -132,9 +132,6 @@
   <data name="AgregarFuncionalidad" xml:space="preserve">
     <value>Agregar Funcionalidad</value>
   </data>
-  <data name="AgregarMaterial" xml:space="preserve">
-    <value>Agregar Material</value>
-  </data>
   <data name="AgregarRolYTipoAcceso" xml:space="preserve">
     <value>Agregar Rol y Tipo Acceso</value>
   </data>
@@ -251,9 +248,6 @@
   </data>
   <data name="MensajeFuncionalidadInactivar" xml:space="preserve">
     <value>¿Está seguro que desea inactivar:</value>
-  </data>
-  <data name="MensajeMaterialInactivar" xml:space="preserve">
-    <value>¿Está seguro que desea inactivar el material?</value>
   </data>
   <data name="MensajeNoAutorizado" xml:space="preserve">
     <value>No autorizado</value>

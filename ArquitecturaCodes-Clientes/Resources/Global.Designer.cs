@@ -106,15 +106,6 @@ namespace ARQ.Recursos {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Agregar Material.
-        /// </summary>
-        public static string AgregarMaterial {
-            get {
-                return ResourceManager.GetString("AgregarMaterial", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Agregar Rol y Tipo Acceso.
         /// </summary>
         public static string AgregarRolYTipoAcceso {
@@ -462,15 +453,6 @@ namespace ARQ.Recursos {
         public static string MensajeFuncionalidadInactivar {
             get {
                 return ResourceManager.GetString("MensajeFuncionalidadInactivar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a ¿Está seguro que desea inactivar el material?.
-        /// </summary>
-        public static string MensajeMaterialInactivar {
-            get {
-                return ResourceManager.GetString("MensajeMaterialInactivar", resourceCulture);
             }
         }
         
