@@ -151,6 +151,15 @@ namespace ARQ.Recursos {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Cantidad.
+        /// </summary>
+        public static string Cantidad {
+            get {
+                return ResourceManager.GetString("Cantidad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Cerrar Sesión.
         /// </summary>
         public static string CerrarSesion {
@@ -259,6 +268,15 @@ namespace ARQ.Recursos {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Fecha.
+        /// </summary>
+        public static string Fecha {
+            get {
+                return ResourceManager.GetString("Fecha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Fecha de Nacimiento.
         /// </summary>
         public static string FechaNacimiento {
@@ -300,6 +318,15 @@ namespace ARQ.Recursos {
         public static string Guardar {
             get {
                 return ResourceManager.GetString("Guardar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Id Cliente.
+        /// </summary>
+        public static string IdCliente {
+            get {
+                return ResourceManager.GetString("IdCliente", resourceCulture);
             }
         }
         
@@ -655,6 +682,15 @@ namespace ARQ.Recursos {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Total.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Usuario.
         /// </summary>
         public static string Usuario {
@@ -687,6 +723,15 @@ namespace ARQ.Recursos {
         public static string ValidacionConfirmarClave {
             get {
                 return ResourceManager.GetString("ValidacionConfirmarClave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Venta.
+        /// </summary>
+        public static string Venta {
+            get {
+                return ResourceManager.GetString("Venta", resourceCulture);
             }
         }
         

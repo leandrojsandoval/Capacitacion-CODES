@@ -4,14 +4,16 @@ using ARQ.Datos.EFScafolding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ARQ.Datos.Migrations
 {
     [DbContext(typeof(ARQContext))]
-    partial class ARQContextModelSnapshot : ModelSnapshot
+    [Migration("20231222122756_RenombreDeDatos")]
+    partial class RenombreDeDatos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

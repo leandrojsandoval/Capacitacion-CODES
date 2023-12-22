@@ -2,38 +2,45 @@
 const TODOS = "todos";
 ESTADO_TODOS = 0;
 
-/******************************************************************************************/
+/*************************************** Modelo ***************************************/
 
-// Modelo - Inicializacion de propiedades del objeto vueAppParams.data
+// Inicializacion de propiedades del objeto vueAppParams.data
 vueAppParams.data.gridData = [];
 vueAppParams.data.dialog = null;
 vueAppParams.data.itemDelete = "";
 vueAppParams.data.loadingVentas = true;
-vueAppParams.data.filtrosVacios = { nombre: '', apellido: '', fechaNacimiento: '', activo: 'true' };
+vueAppParams.data.filtrosVacios = { fecha: '', descripcion: '', cantidad: '', total: "", idCliente: "", nombreCliente: "" , activo: 'true' };
 vueAppParams.data.filtros = { ...vueAppParams.data.filtrosVacios };
-
 vueAppParams.data.breadcrums = [
-    { text: jsglobals.Clientes, disabled: false, href: '/Cliente/Listado' },
+    { text: jsglobals.Ventas, disabled: false, href: '/Venta/Listado' },
     { text: jsglobals.Listado, disabled: true, href: '' }
 ];
 
 // Array de encabezados de tabla
 vueAppParams.data.headers = [
-    { value: 'idCliente', align: ' d-none' },
+    { value: 'idVenta', align: ' d-none' },
     {
-        text: jsglobals.Nombre, value: 'nombre', width: '150px', align: 'start', sortable: true,
+        text: jsglobals.Fecha, value: 'fecha', width: '150px', align: 'start', sortable: true,
         class: 'acerbrag-headers'
     },
     {
-        text: jsglobals.Apellido, value: 'apellido', width: '300px', align: 'start', sortable: true,
+        text: jsglobals.Descripcion, value: 'descripcion', width: '200px', align: 'start', sortable: true,
         class: 'acerbrag-headers'
     },
     {
-        text: jsglobals.FechaNacimiento, value: 'fechaNacimiento', align: 'center',
+        text: jsglobals.Cantidad, value: 'cantidad', align: 'start', sortable: true,
         class: 'acerbrag-headers'
     },
     {
-        text: 'Estado', value: 'activo', align: 'center', sortable: true,
+        text: jsglobals.Total, value: 'total', align: 'start', sortable: true,
+        class: 'acerbrag-headers'
+    },
+    {
+        text: jsglobals.Cliente, value: 'nombreCliente', align: 'start', sortable: true,
+        class: 'acerbrag-headers',
+    },
+    {
+        text: 'Estado', value: 'activo', align: 'start', sortable: true,
         class: 'acerbrag-headers'
     },
     {
@@ -42,16 +49,14 @@ vueAppParams.data.headers = [
     }
 ];
 
-/******************************************************************************************/
+/*************************************** Mounted ***************************************/
 
-// Mounted - Carga la grilla cuando se monta el componente Vue
+// Carga la grilla cuando se monta el componente Vue
 vueAppParams.mounted = function () {
     this.loadGrid();
 };
 
-/******************************************************************************************/
-
-// Metodos
+/*************************************** Metodos ***************************************/
 
 // onClickNuevo - Redirige a una nueva ubicación.
 vueAppParams.methods.onClickNuevo = function (event) {
@@ -72,17 +77,19 @@ vueAppParams.methods.onClickLimpiarFiltros = function (filterName) {
 // loadGrid - Envía una solicitud AJAX para recuperar datos de clientes y setea gridData.
 vueAppParams.methods.loadGrid = function () {
     $.ajax({
-        url: "/Cliente/ObtenerClientes",
+        url: "/Venta/ObtenerVentas",
         data: {
-            nombre: vueAppParams.data.filtros.nombre,
-            apellido: vueAppParams.data.filtros.apellido,
-            fechaNacimiento: vueAppParams.data.filtros.fechaNacimiento,
+            descripcion: vueAppParams.data.filtros.descripcion,
+            fecha: vueAppParams.data.filtros.fecha,
+            cantidad: vueAppParams.data.filtros.cantidad,
+            total: vueAppParams.data.filtros.total,
+            idCliente: vueAppParams.data.filtros.idCliente,
             activo: vueAppParams.data.filtros.activo
         },
         method: "POST",
         success: function (data) {
             vueApp.gridData = data.content;
-            vueApp.loadingClientes = false;
+            vueApp.loadingVentas = false;
         },
         error: defaultErrorHandler
     })
@@ -95,35 +102,37 @@ vueAppParams.methods.onClickInactivar = function (item) {
 };
 
 // onClickConfirmaBorrar - Envía una solicitud AJAX para marcar a un cliente como inactivo.
-vueAppParams.methods.onClickConfirmaBorrar = function (idCliente) {
+vueAppParams.methods.onClickConfirmaBorrar = function (idVenta) {
     vueApp.clearErrors();
     vueApp.submiting = true;
     vueAppParams.data.dialog = false;
     $.ajax({
-        url: "/Cliente/Inactivar?clienteId=" + idCliente,
+        url: "/Venta/Inactivar?ventaId=" + idVenta,
         method: "GET",
         success: function (data) {
             vueApp.notification.showSuccess(jsglobals.MensajeDatosEliminadosOk);
-            setTimeout(function () { window.location = '/Cliente/Listado' });
+            setTimeout(function () { window.location = '/Venta/Listado' });
         },
         error: defaultErrorHandler
     });
 };
 
 // onClickEditar - Redirige a la página de detalles del cliente.
-vueAppParams.methods.onClickEditar = function (idCliente) {
-    window.location = "/Cliente/Detalle/" + idCliente;
+vueAppParams.methods.onClickEditar = function (idVenta) {
+    window.location = "/Venta/Detalle/" + idVenta;
 };
 
 // onClickExportar - Envía una solicitud AJAX para exportar datos de clientes como un blob y activa una descarga.
 vueAppParams.methods.onClickExportar = function () {
     var filtros =
-        "?nombre=" + vueApp.filtros.nombre +
-        "&apellido=" + vueApp.filtros.apellido +
-        "&fechaNacimiento=" + vueApp.filtros.fechaNacimiento +
+        "?descripcion=" + vueApp.filtros.descripcion +
+        "&fecha=" + vueApp.filtros.fecha +
+        "&cantidad=" + vueApp.filtros.cantidad +
+        "&total=" + vueApp.filtros.total +
+        "&idCliente=" + vueApp.filtros.idCliente +
         "&activo=" + vueApp.filtros.activo;
     return new Promise(resolve => {
-        var urlToSend = "/Cliente/Exportar" + filtros;
+        var urlToSend = "/Venta/Exportar" + filtros;
         var req = new XMLHttpRequest();
         req.open("GET", urlToSend, true);
         req.responseType = "blob";
@@ -136,7 +145,7 @@ vueAppParams.methods.onClickExportar = function () {
             var fecha = new Date();
             var fechaLocal = fecha.toLocaleDateString();
             var fechaLocalSlash = fechaLocal.replaceAll("/", "-")
-            var fileName = "Cliente_" + fechaLocalSlash;
+            var fileName = "Venta_" + fechaLocalSlash;
             var link = document.createElement("a");
             link.href = window.URL.createObjectURL(blob);
             link.download = fileName;

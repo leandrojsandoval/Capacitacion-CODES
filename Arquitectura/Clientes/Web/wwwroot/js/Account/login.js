@@ -21,9 +21,7 @@ vueAppParams.methods.onClickIniciarSesion = function () {
         data: vueApp.model,
         success: function (data) {
             if (data.result == AJAX_OK) {
-                // PREGUNTAR
-                //window.location = '/Home/Index';
-                window.location = '/Cliente/Listado';
+                window.location = '/Home/Index';
             }
             else {
                 vueApp.notification.showError(data.content.mensajes[0]);

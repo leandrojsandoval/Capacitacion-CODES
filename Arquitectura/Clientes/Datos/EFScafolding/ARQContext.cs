@@ -11,6 +11,8 @@ namespace ARQ.Datos.EFScafolding {
 
         public ARQContext (DbContextOptions<ARQContext> options) : base(options) { }
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Venta> Ventas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Funcionalidad> Funcionalidades { get; set; }
         public DbSet<FuncionalidadRol> FuncionalidadRoles { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,5 +20,8 @@ namespace ARQ.Entidades {
         [Column(name: "FECHA_NACIMIENTO")]
         public DateTime FechaNacimiento { get; set; }
 
+        public virtual List<Venta> Ventas { get; set; }
+
     }
+
 }

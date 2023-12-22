@@ -1,0 +1,112 @@
+﻿@section scripts
+{
+    <script type="text/javascript" src="~/js/codes/venta/venta-listado.js"></script> }
+
+<!--Grilla-->
+
+<v-row class="pt-0">
+
+    <v-col cols="2"></v-col>
+
+    <v-col cols="8" class="mt-0">
+
+        <!--Items de la tabla (Sin el encabezado)-->
+        <v-data-table class="elevation-2"
+                      item-key="idVenta"
+                      style="position: relative;"
+                      :footer-props="{
+                        'items-per-page-text':jsglobals.FilasPorPagina,
+                        'items-per-page-all-text':jsglobals.Todas,
+                        'items-per-page-options':[ 10,  25,  50,  -1], pageText: '{0} - {1} de {2}'
+                      }"
+                      :headers="headers"
+                      :items="gridData"
+                      :items-per-page="10"
+                      :loading="loadingVentas"
+                      :loading-text=jsglobals.ObteniendoVentas
+                      :no-data-text=jsglobals.LabelNoCoincidences>
+
+            <template v-slot:item.nombreCliente="{ item }">
+                    <div class="text-center">
+                        <v-btn prepend-icon="mdi-check-circle"
+                               append-icon="mdi-account-circle">
+                            <template v-slot:prepend>
+                                <v-icon color="success"></v-icon>
+                            </template>
+                            Button
+                            <template v-slot:append>
+                                <v-icon color="warning"></v-icon>
+                            </template>
+                        </v-btn>
+                    </div>
+            </template>
+
+
+            <!--Iconos de Activo / Inactivo-->
+            <template v-slot:item.activo="{ item }">
+                <v-icon v-if="item.activo" class="ma-2" color="blue lighten-2"> mdi-alpha-a-circle-outline </v-icon>
+                <v-icon v-else class="ma-2" color="red lighten-2"> mdi-alpha-i-circle-outline </v-icon>
+            </template>
+
+            <!--Columna de Acciones: Editar / Inactivar-->
+            <template v-slot:item.actions="{ item }">
+
+                <v-tooltip left>
+
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-icon v-on="on" v-bind="attrs" small class="mr-2" v-on:click="onClickEditar(item.idVenta)" color="indigo">mdi-pencil</v-icon>
+                    </template>
+
+                    <span> {{jsglobals.Editar}} </span>
+
+                </v-tooltip>
+
+                <v-tooltip left>
+
+                    <template v-slot:activator="{ on, attrs }" v-slot:item.activo="{ item }">
+                        <v-icon v-if="!item.activo" v-on="on" disabled v-bind="attrs" small color="indigo">mdi-delete</v-icon>
+                        <v-icon v-else v-on="on" v-bind="attrs" small v-on:click="onClickInactivar(item)" color="indigo">mdi-delete</v-icon>
+                    </template>
+
+                    <span> {{jsglobals.Inactivar}} </span>
+
+                </v-tooltip>
+
+            </template>
+
+            <template v-slot:footer>
+
+                <v-tooltip bottom>
+
+                    <template v-slot:activator="{ on, attrs }">
+
+                        <v-btn v-on:click="onClickExportar"
+                               color="primary"
+                               small
+                               v-bind="attrs"
+                               v-on="on"
+                               elevation="2"
+                               class="bkg-white margenMobile"
+                               style="position: absolute; margin:15px">
+
+                            <v-icon small class="pr-1"> mdi-file-export </v-icon>
+
+                            {{jsglobals.Exportar}}
+
+                        </v-btn>
+
+                    </template>
+
+                    <span> {{jsglobals.ExportarExcel}} </span>
+
+                </v-tooltip>
+
+            </template>
+
+        </v-data-table>
+
+    </v-col>
+
+    <v-col cols="2"></v-col>
+
+</v-row>

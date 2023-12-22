@@ -4,14 +4,16 @@ using ARQ.Datos.EFScafolding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ARQ.Datos.Migrations
 {
     [DbContext(typeof(ARQContext))]
-    partial class ARQContextModelSnapshot : ModelSnapshot
+    [Migration("20231220152809_CreacionDeTablasProductosYVentas")]
+    partial class CreacionDeTablasProductosYVentas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -328,7 +330,7 @@ namespace ARQ.Datos.Migrations
 
                     b.HasIndex("IdUsuarioModificacion");
 
-                    b.ToTable("TBL_VENTAS");
+                    b.ToTable("TLB_VENTAS");
                 });
 
             modelBuilder.Entity("ARQ.Entidades.Cliente", b =>

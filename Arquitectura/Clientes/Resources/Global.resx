@@ -147,6 +147,9 @@
   <data name="Buscar" xml:space="preserve">
     <value>Buscar</value>
   </data>
+  <data name="Cantidad" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
   <data name="CerrarSesion" xml:space="preserve">
     <value>Cerrar Sesión</value>
   </data>
@@ -183,6 +186,9 @@
   <data name="ExportarExcel" xml:space="preserve">
     <value>Exportar Excel</value>
   </data>
+  <data name="Fecha" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
   <data name="FechaNacimiento" xml:space="preserve">
     <value>Fecha de Nacimiento</value>
   </data>
@@ -197,6 +203,9 @@
   </data>
   <data name="Guardar" xml:space="preserve">
     <value>Guardar</value>
+  </data>
+  <data name="IdCliente" xml:space="preserve">
+    <value>Id Cliente</value>
   </data>
   <data name="Inactiva" xml:space="preserve">
     <value>Inactiva</value>
@@ -315,6 +324,9 @@
   <data name="Todos" xml:space="preserve">
     <value>Todos</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
   <data name="Usuario" xml:space="preserve">
     <value>Usuario</value>
   </data>
@@ -326,6 +338,9 @@
   </data>
   <data name="ValidacionConfirmarClave" xml:space="preserve">
     <value>Las contraseñas no coinciden</value>
+  </data>
+  <data name="Venta" xml:space="preserve">
+    <value>Venta</value>
   </data>
   <data name="Volver" xml:space="preserve">
     <value>Volver</value>

@@ -21,11 +21,9 @@ namespace ARQ.Web.Controllers {
         #region Propiedades de servicio
 
         private IServicioGenerico _servicioGenerico { get; set; }
-        private IServicioClientes _servicioClientes { get; set; }
 
-        public ClienteController (IServicioGenerico servicioGenerico, IServicioClientes servicioClientes) {
+        public ClienteController (IServicioGenerico servicioGenerico) {
             this._servicioGenerico = servicioGenerico;
-            this._servicioClientes = servicioClientes;
         }
 
         #endregion
@@ -290,4 +288,5 @@ namespace ARQ.Web.Controllers {
         #endregion
 
     }
+
 }
