@@ -1,2 +1,0 @@
-﻿// Mounted
-vueAppParams.mounted = function () {	};
