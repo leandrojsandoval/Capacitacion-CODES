@@ -1,7 +1,6 @@
 ﻿using ARQ.Entidades;
 using ARQ.Recursos;
 using ARQ.Servicios.Interfaces;
-using ARQ.Servicios.RelationshipValidators;
 using ARQ.Web.Models.Material;
 using Framework.Common;
 using Framework.Utils;
@@ -12,47 +11,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ARQ.Web.Controllers {
+namespace ARQ.Web.Controllers
+{
 
     [Route("[controller]/[action]")]
-    public class MaterialController : BaseController {
+    public class MaterialController : BaseController
+    {
+        private const string EXTENSION_MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         #region Propiedades de servicio
 
         private IServicioGenerico _servicioGenerico { get; set; }
 
-        public MaterialController (IServicioGenerico servicioGenerico) {
+        public MaterialController (IServicioGenerico servicioGenerico)
+        {
             this._servicioGenerico = servicioGenerico;
         }
-
-        /* 
-         * private IServicioMateriales _servicioMateriales { get; set; }
-         * public MaterialController(IServicioGenerico servicioGenerico, IServicioMateriales servicioMateriales) {
-         *      this._servicioGenerico = servicioGenerico;
-         *      this._servicioMateriales = servicioMateriales;
-         * } 
-         */
 
         #endregion
 
         #region Paginas        
 
         [HttpGet]
-        public IActionResult Listado () {
+        public IActionResult Listado ()
+        {
             var venta = _servicioGenerico.Count<Venta>(v => v.Monto > 200);
             return View();
         }
 
         [HttpGet]
-        public IActionResult Detalle () {
+        public IActionResult Detalle ()
+        {
 
-            try {
+            try
+            {
                 var materialVM = new MaterialViewModel {
                     activo = true
                 };
                 return View(materialVM);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex);
                 return Redirect("/Home/Error");
             }
@@ -61,15 +60,18 @@ namespace ARQ.Web.Controllers {
 
         [Route("{id}")]
         [HttpGet]
-        public IActionResult Detalle (int id) {
-            
+        public IActionResult Detalle (int id)
+        {
+
             var materialVM = new MaterialViewModel();
 
-            try {
+            try
+            {
                 Material material = _servicioGenerico.GetById<Material>(id);
-                this.CargarVMdesdeEntidad(materialVM, material);
+                this.cargarVMdesdeEntidad(materialVM, material);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error("$Error al buscar el material con id=" + id + ", Error:", ex);
                 return Redirect("/Home/Error");
             }
@@ -77,32 +79,31 @@ namespace ARQ.Web.Controllers {
             return View(materialVM);
 
         }
-        
+
         #endregion
 
         #region Metodos
 
         [HttpPost]
-        public JsonResult ObtenerMateriales (string nombre, string descripcion, double? multiplicador, bool? activo) {
-            
+        public JsonResult ObtenerMateriales (string nombre, string descripcion, double? multiplicador, bool? activo)
+        {
             JsonData jsonData = new();
             IList<Material> materiales = new List<Material>();
 
-            if (nombre == null) {
+            if (nombre == null)
                 nombre = "";
-            }
 
-            if (descripcion == null) {
+            if (descripcion == null)
                 descripcion = "";
-            }
 
-            try {
-                materiales = _servicioGenerico.GetAll<Material>(m => (m.Nombre.ToLower().Contains(nombre.ToLower())) &&
-                                                                    (m.Descripcion.ToLower().Contains(descripcion.ToLower())) &&
-                                                                    (!multiplicador.HasValue || m.MultiplicadorToneladas == multiplicador.Value) &&
-                                                                    (!activo.HasValue || m.Activo == activo.Value)).ToList();
-
-                //materiales = _servicioMateriales.ObtenerMateriales(nombre,descripcion,multiplicador,activo);
+            try
+            {
+                materiales = _servicioGenerico.GetAll<Material>(m =>
+                    m.Nombre.ToLower().Contains(nombre.ToLower()) &&
+                    m.Descripcion.ToLower().Contains(descripcion.ToLower()) &&
+                    (!multiplicador.HasValue || m.MultiplicadorToneladas == multiplicador.Value) &&
+                    (!activo.HasValue || m.Activo == activo.Value)).
+                ToList();
 
                 var gridData = materiales.Select(mat => new MaterialViewModel() {
                     idMaterial = mat.Id,
@@ -110,110 +111,103 @@ namespace ARQ.Web.Controllers {
                     descripcion = mat.Descripcion,
                     multiplicadorToneladas = mat.MultiplicadorToneladas,
                     activo = mat.Activo,
-
                 }).OrderBy(materiales => materiales.nombre);
 
                 jsonData.content = gridData;
                 jsonData.result = JsonData.Result.Ok;
             }
-
-            catch (Exception ex) {
-                log.Error("No se pudo obtener la lista de materiales con los siguientes parámetros de búsqueda: nombre: " + nombre + ", descripcion: " + descripcion + ", multiplicador: " + multiplicador + ", activo: " + activo, ex);
+            catch (Exception ex)
+            {
+                log.Error(String.Format(Global.MensajeMaterialErrorLista, nombre, descripcion, multiplicador, activo), ex);
                 Response.StatusCode = Constantes.ERROR_HTTP;
-                jsonData.result = JsonData.Result.Error;
                 jsonData.errorUi = Global.ErrorGenerico;
+                jsonData.result = JsonData.Result.Error;
             }
 
             return Json(jsonData);
-
         }
 
-        public Task<JsonData> Inactivar (int materialId) {
-
+        public Task<JsonData> Inactivar (int materialId)
+        {
             JsonData jsonData = new();
 
-            try {
+            try
+            {
                 Material material = _servicioGenerico.GetById<Material>(materialId);
                 _servicioGenerico.Deactivate<Material>(material);
                 jsonData.result = JsonData.Result.Ok;
             }
-            catch (RelatedEntityException rex) {
-                log.Error(rex);
+            catch (Exception ex)
+            {
+                log.Error(String.Format(Global.MensajeMaterialInactivar, materialId) + ", Error: ", ex);
                 Response.StatusCode = Constantes.ERROR_HTTP;
-                jsonData.errorUi = rex.Message;
-                jsonData.result = JsonData.Result.Error;
-            }
-            catch (Exception ex) {
-                log.Error("$Error al inactivar el material con id=" + materialId + ", Error:", ex);
-                Response.StatusCode = Constantes.ERROR_HTTP;
-                jsonData.result = JsonData.Result.Error;
                 jsonData.errorUi = Global.ErrorGenerico;
+                jsonData.result = JsonData.Result.Error;
             }
 
             return Task.FromResult(jsonData);
-
         }
 
         [HttpPost]
-        public Task<JsonData> Guardar (MaterialViewModel materialVM) {
-
+        public Task<JsonData> Guardar (MaterialViewModel materialVM)
+        {
             IList<string> mensajes = new List<string>();
             JsonData jsonData = new();
 
-            try {
-                
-                if (!ModelState.IsValid) {
-                    this.CargarErroresModelo(mensajes, jsonData);
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    CargarErroresModelo(mensajes, jsonData);
                     Response.StatusCode = Constantes.ERROR_HTTP;
                     return Task.FromResult(jsonData);
                 }
 
                 var esAlta = !materialVM.idMaterial.HasValue;
-                var appval = this._servicioGenerico.Get<Material>(mat => mat.Nombre == materialVM.nombre);
-                
-                if (esAlta && appval != null) {
+                var appval = this._servicioGenerico.Get<Material>(material => material.Nombre == materialVM.nombre);
 
-                    jsonData.result = JsonData.Result.ModelValidation;
-                    jsonData.errorUi = Global.PorFavorRevise;
-                    jsonData.errors = new { Nombre = $"El nombre '{materialVM.nombre}' ya existe." };
-
+                if (esAlta && appval != null)
+                {
                     Response.StatusCode = Constantes.ERROR_HTTP;
+                    jsonData.errors = new { Nombre = String.Format(Global.MensajeMaterialExistente, materialVM.nombre) };
+                    jsonData.errorUi = Global.PorFavorRevise;
+                    jsonData.result = JsonData.Result.ModelValidation;
                     return Task.FromResult(jsonData);
-
                 }
 
-                Material material = esAlta ? new Material() : this._servicioGenerico.GetById<Material>(materialVM.idMaterial.Value);
-                this.CargarEntidadDesdeVM(material, materialVM);
-                
-                if (esAlta) {
-                    try {
+                Material material = esAlta ? new Material() : _servicioGenerico.GetById<Material>(materialVM.idMaterial.Value);
+                cargarEntidadDesdeVM(material, materialVM);
+
+                if (esAlta)
+                {
+                    try
+                    {
                         material.IdUsuarioAlta = UserUtils.GetId(User);
-                        this._servicioGenerico.Add(material);
+                        material.IdProducto = 1;
+                        _servicioGenerico.Add(material);
                     }
-                    catch (Exception ex) {
-                        log.Error("No se pudo dar de alta el nuevo material. Error: ", ex);
+                    catch (Exception ex)
+                    {
+                        log.Error(Global.MensajeMaterialErrorAlta + " Error: ", ex);
                         Response.StatusCode = Constantes.ERROR_HTTP;
-                        jsonData.errorUi = "No se pudo dar de alta el nuevo material";
+                        jsonData.errorUi = Global.MensajeMaterialErrorAlta;
                         jsonData.result = JsonData.Result.Error;
                         return Task.FromResult(jsonData);
                     }
                 }
-                else {
-                    try {
+                else
+                {
+                    try
+                    {
                         material.IdUsuarioModificacion = UserUtils.GetId(User);
                         this._servicioGenerico.Update(material);
                     }
-                    catch (RelatedEntityException rex) {
-                        log.Error(rex);
+                    catch (Exception ex)
+                    {
+                        log.Error(String.Format(Global.MensajeMaterialErrorActualizarId, materialVM.idMaterial) + " Error: ", ex);
                         Response.StatusCode = Constantes.ERROR_HTTP;
-                        jsonData.errorUi = rex.Message;
-                        jsonData.result = JsonData.Result.Error;
-                        return Task.FromResult(jsonData);
-                    }
-                    catch (Exception ex) {
-                        log.Error("No se pudieron actualizar los datos del material con id: " + materialVM.idMaterial + " Error: ", ex);
-                        Response.StatusCode = Constantes.ERROR_HTTP;
-                        jsonData.errorUi = "No se pudieron actualizar los datos del material: " + materialVM.nombre;
+                        jsonData.errorUi = String.Format(Global.MensajeMaterialErrorActualizarNombre, materialVM.nombre);
                         jsonData.result = JsonData.Result.Error;
                         return Task.FromResult(jsonData);
                     }
@@ -221,7 +215,8 @@ namespace ARQ.Web.Controllers {
 
                 jsonData.result = JsonData.Result.Ok;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex);
                 Response.StatusCode = Constantes.ERROR_HTTP;
                 jsonData.result = JsonData.Result.Error;
@@ -229,27 +224,25 @@ namespace ARQ.Web.Controllers {
             }
 
             return Task.FromResult(jsonData);
-
         }
 
         [HttpGet]
-        public IActionResult Exportar (string nombre, string descripcion, double? multiplicador, bool? activo) {
-            
+        public IActionResult Exportar (string nombre, string descripcion, double? multiplicador, bool? activo)
+        {
             List<MaterialViewModel> listaMateriales = new();
 
-            if (nombre == null) {
+            if (nombre == null)
                 nombre = "";
-            }
 
-            if (descripcion == null) {
+            if (descripcion == null)
                 descripcion = "";
-            }
 
-            try {
+            try
+            {
                 listaMateriales = _servicioGenerico.GetAll<Material>(m =>
-                    (m.Nombre.ToLower().Contains(nombre.ToLower())) && 
-                    (m.Descripcion.ToLower().Contains(descripcion.ToLower())) && 
-                    (!multiplicador.HasValue || m.MultiplicadorToneladas == multiplicador.Value) && 
+                    m.Nombre.ToLower().Contains(nombre.ToLower()) &&
+                    m.Descripcion.ToLower().Contains(descripcion.ToLower()) &&
+                    (!multiplicador.HasValue || m.MultiplicadorToneladas == multiplicador.Value) &&
                     (!activo.HasValue || m.Activo == activo.Value)
                     ).Select(material => new MaterialViewModel() {
                         idMaterial = material.Id,
@@ -257,44 +250,46 @@ namespace ARQ.Web.Controllers {
                         descripcion = material.Descripcion,
                         multiplicadorToneladas = material.MultiplicadorToneladas,
                         activo = material.Activo,
-                }).ToList();
+                    }).ToList();
 
-                log.Info("Método GetAll OK");
+                log.Info(Global.MetodoGetAllOk);
 
-                var listaReducida = listaMateriales.Select(mat => new {
-                    mat.nombre,
-                    mat.descripcion,
-                    multiplicador = mat.multiplicadorToneladas,
-                    activo = mat.activo == true ? Global.Activo : Global.Inactivo,
+                var listaReducida = listaMateriales.Select(material => new {
+                    material.nombre,
+                    material.descripcion,
+                    multiplicador = material.multiplicadorToneladas,
+                    activo = material.activo == true ? Global.Activo : Global.Inactivo,
                 }).ToList();
 
                 var fileBytes = CreateExcelFile.CreateExcelDocumentAsByte(listaReducida);
-                log.Info("Método crear excel OK");
-                this.HttpContext.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                this.HttpContext.Response.Headers.Add("content-disposition", "attachment");
-                return File(fileBytes, this.HttpContext.Response.ContentType);
+                log.Info(Global.MetodoCrearExcelOk);
+                HttpContext.Response.ContentType = EXTENSION_MIME_XLSX;
+                HttpContext.Response.Headers.Add("content-disposition", "attachment");
+                return File(fileBytes, HttpContext.Response.ContentType);
             }
-            catch (Exception ex) {
-                this.HttpContext.Response.StatusCode = Constantes.ERROR_HTTP;
+            catch (Exception ex)
+            {
+                HttpContext.Response.StatusCode = Constantes.ERROR_HTTP;
                 log.Error(ex);
             }
 
             return Content(string.Empty);
-
         }
 
         #endregion
 
         #region Privados
-        
-        private void CargarEntidadDesdeVM (Material material, MaterialViewModel materialVM) {
+
+        private void cargarEntidadDesdeVM (Material material, MaterialViewModel materialVM)
+        {
             material.Nombre = materialVM.nombre;
             material.Descripcion = materialVM.descripcion;
             material.MultiplicadorToneladas = materialVM.multiplicadorToneladas;
             material.Activo = materialVM.activo;
         }
 
-        private void CargarVMdesdeEntidad (MaterialViewModel materialVM, Material material) {
+        private void cargarVMdesdeEntidad (MaterialViewModel materialVM, Material material)
+        {
             materialVM.idMaterial = material.Id;
             materialVM.nombre = material.Nombre;
             materialVM.descripcion = material.Descripcion;
@@ -303,7 +298,7 @@ namespace ARQ.Web.Controllers {
         }
 
         #endregion
-    
+
     }
 
 }

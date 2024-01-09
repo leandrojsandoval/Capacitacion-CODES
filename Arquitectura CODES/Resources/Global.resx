@@ -246,6 +246,24 @@
   <data name="MensajeFuncionalidadInactivar" xml:space="preserve">
     <value>¿Está seguro que desea inactivar:</value>
   </data>
+  <data name="MensajeMaterialErrorActualizarId" xml:space="preserve">
+    <value>No se pudieron actualizar los datos del material con id: {0}</value>
+  </data>
+  <data name="MensajeMaterialErrorActualizarNombre" xml:space="preserve">
+    <value>No se pudieron actualizar los datos del material: {0}</value>
+  </data>
+  <data name="MensajeMaterialErrorAlta" xml:space="preserve">
+    <value>No se pudo dar de alta el nuevo material</value>
+  </data>
+  <data name="MensajeMaterialErrorInactivar" xml:space="preserve">
+    <value>Error al inactivar el material con id {0}</value>
+  </data>
+  <data name="MensajeMaterialErrorLista" xml:space="preserve">
+    <value>No se pudo obtener la lista de materiales con los siguientes parámetros de búsqueda: nombre: {0}, descripcion: {1}, multiplicador: {2}, activo: {3}</value>
+  </data>
+  <data name="MensajeMaterialExistente" xml:space="preserve">
+    <value>El nombre {0} ya existe</value>
+  </data>
   <data name="MensajeMaterialInactivar" xml:space="preserve">
     <value>¿Está seguro que desea inactivar el material?</value>
   </data>
@@ -254,6 +272,12 @@
   </data>
   <data name="MenuARQ" xml:space="preserve">
     <value>Arquitectura Codes</value>
+  </data>
+  <data name="MetodoCrearExcelOk" xml:space="preserve">
+    <value>Método Crear Excel OK</value>
+  </data>
+  <data name="MetodoGetAllOk" xml:space="preserve">
+    <value>Método GetAll OK</value>
   </data>
   <data name="MultiplicadorToneladas" xml:space="preserve">
     <value>Multiplicador Toneladas</value>

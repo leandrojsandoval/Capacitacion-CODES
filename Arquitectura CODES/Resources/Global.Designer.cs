@@ -448,6 +448,60 @@ namespace ARQ.Recursos {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No se pudieron actualizar los datos del material con id: {0}.
+        /// </summary>
+        public static string MensajeMaterialErrorActualizarId {
+            get {
+                return ResourceManager.GetString("MensajeMaterialErrorActualizarId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudieron actualizar los datos del material: {0}.
+        /// </summary>
+        public static string MensajeMaterialErrorActualizarNombre {
+            get {
+                return ResourceManager.GetString("MensajeMaterialErrorActualizarNombre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo dar de alta el nuevo material.
+        /// </summary>
+        public static string MensajeMaterialErrorAlta {
+            get {
+                return ResourceManager.GetString("MensajeMaterialErrorAlta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al inactivar el material con id {0}.
+        /// </summary>
+        public static string MensajeMaterialErrorInactivar {
+            get {
+                return ResourceManager.GetString("MensajeMaterialErrorInactivar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo obtener la lista de materiales con los siguientes parámetros de búsqueda: nombre: {0}, descripcion: {1}, multiplicador: {2}, activo: {3}.
+        /// </summary>
+        public static string MensajeMaterialErrorLista {
+            get {
+                return ResourceManager.GetString("MensajeMaterialErrorLista", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre {0} ya existe.
+        /// </summary>
+        public static string MensajeMaterialExistente {
+            get {
+                return ResourceManager.GetString("MensajeMaterialExistente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿Está seguro que desea inactivar el material?.
         /// </summary>
         public static string MensajeMaterialInactivar {
@@ -471,6 +525,24 @@ namespace ARQ.Recursos {
         public static string MenuARQ {
             get {
                 return ResourceManager.GetString("MenuARQ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Método Crear Excel OK.
+        /// </summary>
+        public static string MetodoCrearExcelOk {
+            get {
+                return ResourceManager.GetString("MetodoCrearExcelOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Método GetAll OK.
+        /// </summary>
+        public static string MetodoGetAllOk {
+            get {
+                return ResourceManager.GetString("MetodoGetAllOk", resourceCulture);
             }
         }
         
