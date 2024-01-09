@@ -10,7 +10,7 @@ namespace ARQ.Test
     public class MaterialTest
     {
 
-        private MaterialController materialController = new MaterialController(
+        private MaterialController materialController = new(
             TestContextBuilder.GetServicioGenerico(TestContextBuilder.GetLocalContext())
         );
 
@@ -20,8 +20,7 @@ namespace ARQ.Test
             //Arrange
             int idInvalido = 400;
 
-
-            // Act and Assert
+            // Act - Assert
             Assert.ThrowsAsync<Exception>(() => materialController.Inactivar(idInvalido));
         }
 
@@ -29,6 +28,7 @@ namespace ARQ.Test
         public void MaterialExistente()
         {
             //Arrange
+            var resultadoEsperado = JsonData.Result.ModelValidation;
             MaterialViewModel materialConNombreExistente = new() {
                 nombre = "Material 1",
                 descripcion = "Material con nombre existente",
@@ -38,9 +38,10 @@ namespace ARQ.Test
 
             // Act
             Task<JsonData> resultado = materialController.Guardar(materialConNombreExistente);
+            var resultadoObtenido = resultado.Result.result;
 
             // Assert
-            Assert.Equal(resultado.Result.content, JsonData.Result.ModelValidation);
+            Assert.Equal(resultadoEsperado, resultadoObtenido);
         }
 
     }

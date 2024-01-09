@@ -25,7 +25,7 @@ namespace ARQ.Web.Controllers
 
         public MaterialController (IServicioGenerico servicioGenerico)
         {
-            this._servicioGenerico = servicioGenerico;
+            _servicioGenerico = servicioGenerico;
         }
 
         #endregion
@@ -62,7 +62,6 @@ namespace ARQ.Web.Controllers
         [HttpGet]
         public IActionResult Detalle (int id)
         {
-
             var materialVM = new MaterialViewModel();
 
             try
@@ -72,12 +71,11 @@ namespace ARQ.Web.Controllers
             }
             catch (Exception ex)
             {
-                log.Error("$Error al buscar el material con id=" + id + ", Error:", ex);
+                log.Error(String.Format(Global.MensajeMaterialErrorDetalleId, id) + ", Error:", ex);
                 return Redirect("/Home/Error");
             }
 
             return View(materialVM);
-
         }
 
         #endregion
@@ -90,11 +88,8 @@ namespace ARQ.Web.Controllers
             JsonData jsonData = new();
             IList<Material> materiales = new List<Material>();
 
-            if (nombre == null)
-                nombre = "";
-
-            if (descripcion == null)
-                descripcion = "";
+            nombre ??= "";
+            descripcion ??= "";
 
             try
             {
@@ -165,11 +160,12 @@ namespace ARQ.Web.Controllers
                 }
 
                 var esAlta = !materialVM.idMaterial.HasValue;
-                var appval = this._servicioGenerico.Get<Material>(material => material.Nombre == materialVM.nombre);
+                var appval = _servicioGenerico.Get<Material>(material => material.Nombre == materialVM.nombre);
 
                 if (esAlta && appval != null)
                 {
-                    Response.StatusCode = Constantes.ERROR_HTTP;
+                    if(Response != null)
+                        Response.StatusCode = Constantes.ERROR_HTTP;
                     jsonData.errors = new { Nombre = String.Format(Global.MensajeMaterialExistente, materialVM.nombre) };
                     jsonData.errorUi = Global.PorFavorRevise;
                     jsonData.result = JsonData.Result.ModelValidation;
@@ -190,7 +186,8 @@ namespace ARQ.Web.Controllers
                     catch (Exception ex)
                     {
                         log.Error(Global.MensajeMaterialErrorAlta + " Error: ", ex);
-                        Response.StatusCode = Constantes.ERROR_HTTP;
+                        if (Response != null)
+                            Response.StatusCode = Constantes.ERROR_HTTP;
                         jsonData.errorUi = Global.MensajeMaterialErrorAlta;
                         jsonData.result = JsonData.Result.Error;
                         return Task.FromResult(jsonData);
@@ -201,24 +198,25 @@ namespace ARQ.Web.Controllers
                     try
                     {
                         material.IdUsuarioModificacion = UserUtils.GetId(User);
-                        this._servicioGenerico.Update(material);
+                        _servicioGenerico.Update(material);
                     }
                     catch (Exception ex)
                     {
                         log.Error(String.Format(Global.MensajeMaterialErrorActualizarId, materialVM.idMaterial) + " Error: ", ex);
-                        Response.StatusCode = Constantes.ERROR_HTTP;
+                        if (Response != null)
+                            Response.StatusCode = Constantes.ERROR_HTTP;
                         jsonData.errorUi = String.Format(Global.MensajeMaterialErrorActualizarNombre, materialVM.nombre);
                         jsonData.result = JsonData.Result.Error;
                         return Task.FromResult(jsonData);
                     }
                 }
-
                 jsonData.result = JsonData.Result.Ok;
             }
             catch (Exception ex)
             {
                 log.Error(ex);
-                Response.StatusCode = Constantes.ERROR_HTTP;
+                if (Response != null)
+                    Response.StatusCode = Constantes.ERROR_HTTP;
                 jsonData.result = JsonData.Result.Error;
                 jsonData.errorUi = Global.ErrorGenerico;
             }
@@ -231,11 +229,8 @@ namespace ARQ.Web.Controllers
         {
             List<MaterialViewModel> listaMateriales = new();
 
-            if (nombre == null)
-                nombre = "";
-
-            if (descripcion == null)
-                descripcion = "";
+            nombre ??= "";
+            descripcion ??= "";
 
             try
             {
@@ -262,9 +257,12 @@ namespace ARQ.Web.Controllers
                 }).ToList();
 
                 var fileBytes = CreateExcelFile.CreateExcelDocumentAsByte(listaReducida);
+
                 log.Info(Global.MetodoCrearExcelOk);
+
                 HttpContext.Response.ContentType = EXTENSION_MIME_XLSX;
                 HttpContext.Response.Headers.Add("content-disposition", "attachment");
+
                 return File(fileBytes, HttpContext.Response.ContentType);
             }
             catch (Exception ex)
@@ -272,7 +270,7 @@ namespace ARQ.Web.Controllers
                 HttpContext.Response.StatusCode = Constantes.ERROR_HTTP;
                 log.Error(ex);
             }
-
+            
             return Content(string.Empty);
         }
 

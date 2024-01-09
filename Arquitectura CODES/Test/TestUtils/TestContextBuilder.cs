@@ -20,7 +20,7 @@ namespace ARQ.Test
         public static ARQContext GetLocalContext ()
         {
             var options = new DbContextOptionsBuilder<ARQContext>()
-                            .UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=RollShop;Trusted_Connection=True;MultipleActiveResultSets=true;")
+                            .UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=ARQCODES;Trusted_Connection=True;MultipleActiveResultSets=true;")
                             .Options;
             return new ARQContext(options);
         }

@@ -255,6 +255,9 @@
   <data name="MensajeMaterialErrorAlta" xml:space="preserve">
     <value>No se pudo dar de alta el nuevo material</value>
   </data>
+  <data name="MensajeMaterialErrorDetalleId" xml:space="preserve">
+    <value>Error al buscar el material con id: {0}</value>
+  </data>
   <data name="MensajeMaterialErrorInactivar" xml:space="preserve">
     <value>Error al inactivar el material con id {0}</value>
   </data>
