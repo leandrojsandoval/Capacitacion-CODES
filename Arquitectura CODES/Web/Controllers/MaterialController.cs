@@ -1,4 +1,5 @@
-﻿using ARQ.Entidades;
+﻿using ARQ.Datos.EFScafolding;
+using ARQ.Entidades;
 using ARQ.Recursos;
 using ARQ.Servicios.Interfaces;
 using ARQ.Web.Models.Material;
@@ -134,7 +135,7 @@ namespace ARQ.Web.Controllers
             }
             catch (Exception ex)
             {
-                log.Error(String.Format(Global.MensajeMaterialInactivar, materialId) + ", Error: ", ex);
+                log.Error(Global.MensajeMaterialInactivar + ", Error: ", ex);
                 Response.StatusCode = Constantes.ERROR_HTTP;
                 jsonData.errorUi = Global.ErrorGenerico;
                 jsonData.result = JsonData.Result.Error;
@@ -179,7 +180,7 @@ namespace ARQ.Web.Controllers
                 {
                     try
                     {
-                        material.IdUsuarioAlta = UserUtils.GetId(User);
+                        material.IdUsuarioAlta = User != null ? UserUtils.GetId(User) : ARQInitializer.USUARIO_MIGRACION;
                         material.IdProducto = 1;
                         _servicioGenerico.Add(material);
                     }
@@ -219,6 +220,28 @@ namespace ARQ.Web.Controllers
                     Response.StatusCode = Constantes.ERROR_HTTP;
                 jsonData.result = JsonData.Result.Error;
                 jsonData.errorUi = Global.ErrorGenerico;
+            }
+
+            return Task.FromResult(jsonData);
+        }
+
+        [HttpPost]
+        public Task<JsonData> Eliminar (int materialId)
+        {
+            JsonData jsonData = new JsonData();
+
+            try
+            {
+                Material material = _servicioGenerico.GetById<Material>(materialId);
+                _servicioGenerico.Delete<Material>(material);
+                jsonData.result = JsonData.Result.Ok;
+            }
+            catch (Exception ex)
+            {
+                log.Error(Global.MensajeMaterialEliminar + ", Error: ", ex);
+                Response.StatusCode = Constantes.ERROR_HTTP;
+                jsonData.errorUi = Global.ErrorGenerico;
+                jsonData.result = JsonData.Result.Error;
             }
 
             return Task.FromResult(jsonData);

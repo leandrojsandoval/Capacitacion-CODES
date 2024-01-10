@@ -244,7 +244,10 @@
     <value>¿Desea eliminar la reliación con el rol seleccionado?</value>
   </data>
   <data name="MensajeFuncionalidadInactivar" xml:space="preserve">
-    <value>¿Está seguro que desea inactivar:</value>
+    <value>¿Está seguro que desea inactivar: </value>
+  </data>
+  <data name="MensajeMaterialEliminar" xml:space="preserve">
+    <value>¿Está seguro que desea eliminar el material?</value>
   </data>
   <data name="MensajeMaterialErrorActualizarId" xml:space="preserve">
     <value>No se pudieron actualizar los datos del material con id: {0}</value>

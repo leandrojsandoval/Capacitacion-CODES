@@ -439,11 +439,20 @@ namespace ARQ.Recursos {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a ¿Está seguro que desea inactivar:.
+        ///   Busca una cadena traducida similar a ¿Está seguro que desea inactivar: .
         /// </summary>
         public static string MensajeFuncionalidadInactivar {
             get {
                 return ResourceManager.GetString("MensajeFuncionalidadInactivar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro que desea eliminar el material?.
+        /// </summary>
+        public static string MensajeMaterialEliminar {
+            get {
+                return ResourceManager.GetString("MensajeMaterialEliminar", resourceCulture);
             }
         }
         
