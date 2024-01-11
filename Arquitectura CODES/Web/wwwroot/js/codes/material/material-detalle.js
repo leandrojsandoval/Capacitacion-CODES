@@ -1,15 +1,18 @@
 ﻿// Modelo
-vueAppParams.data.submiting = false;
-vueAppParams.data.isValid = false;
-vueAppParams.data.breadcrums = [];
-vueAppParams.data.itemCambio = "";
-vueAppParams.data.dialog = null;
+
 vueAppParams.data.activarMaterial = true;
+vueAppParams.data.breadcrums = [];
+vueAppParams.data.dialog = null;
+vueAppParams.data.isValid = false;
+vueAppParams.data.itemCambio = "";
+vueAppParams.data.submiting = false;
+
+//Mounted
 
 vueAppParams.mounted = function () {
     //Breadcrums
     this.breadcrums = [
-        {text: jsglobals.Materiales, disabled: false, href: '/Material/Listado'},
+        { text: jsglobals.Materiales, disabled: false, href: '/Material/Listado' },
         { text: this.model.idMaterial > 0 ? jsglobals.Editar : jsglobals.Nuevo, href: '/Material/Detalle', disabled: true }
     ];
 };
@@ -17,35 +20,26 @@ vueAppParams.mounted = function () {
 // Handlers
 
 vueAppParams.methods.isDisabled = function () {
-    if (this.model.idMaterial == null) {
-        return true
-    }
+    if (this.model.idMaterial == null)
+        return true;
 };
 
 vueAppParams.methods.onChangeCambioEstado = function () {
-
     vueAppParams.data.dialog = true;
     vueAppParams.data.itemCambio = this.model;
 };
 
+//Metodos
+
 vueAppParams.methods.onClickNoConfirma = function (itemCambio) {
-
-    if (itemCambio.activo) {
-        itemCambio.activo = false;
-        vueAppParams.data.dialog = false;
-    }
-    else {
-        itemCambio.activo = true;
-        vueAppParams.data.dialog = false;
-    }
-
+    itemCambio.activo = !itemCambio.activo;
+    vueAppParams.data.dialog = false;
 }
-vueAppParams.methods.onClickGuardar = function () {
 
+vueAppParams.methods.onClickGuardar = function () {
     vueApp.isValid = vueApp.$refs.form.validate();
-    if (!vueApp.isValid) {
+    if (!vueApp.isValid)
         return false;
-    }
 
     vueApp.clearErrors();
     vueApp.submiting = true;

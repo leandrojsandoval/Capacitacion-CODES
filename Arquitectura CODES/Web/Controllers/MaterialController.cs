@@ -18,8 +18,6 @@ namespace ARQ.Web.Controllers
     [Route("[controller]/[action]")]
     public class MaterialController : BaseController
     {
-        private const string EXTENSION_MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
         #region Propiedades de servicio
 
         private IServicioGenerico _servicioGenerico { get; set; }
@@ -77,6 +75,12 @@ namespace ARQ.Web.Controllers
             }
 
             return View(materialVM);
+        }
+
+        [HttpGet]
+        public IActionResult Prueba ()
+        {
+            return View();
         }
 
         #endregion
@@ -283,7 +287,7 @@ namespace ARQ.Web.Controllers
 
                 log.Info(Global.MetodoCrearExcelOk);
 
-                HttpContext.Response.ContentType = EXTENSION_MIME_XLSX;
+                HttpContext.Response.ContentType = Constantes.EXTENSION_MIME_XLSX;
                 HttpContext.Response.Headers.Add("content-disposition", "attachment");
 
                 return File(fileBytes, HttpContext.Response.ContentType);

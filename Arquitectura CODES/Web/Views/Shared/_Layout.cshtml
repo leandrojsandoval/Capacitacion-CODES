@@ -8,94 +8,93 @@
 
 	@await Html.PartialAsync("_AplicationStyles")
 	@await Html.PartialAsync("_ApplicationScripts")
-
 </head>
 
 <body>
-    <div id="ARQApp">
-        <v-app class="hide" v-bind:class="{show:readyForRender}">
+	<div id="ARQApp">
+		<v-app class="hide" v-bind:class="{show:readyForRender}">
 
-            @if (User.Identity.IsAuthenticated)
-            {
-                @await Html.PartialAsync("_Header")
-                @await Html.PartialAsync("_MenuLeft")
-            }
+			@if (User.Identity.IsAuthenticated)
+			{
+				@await Html.PartialAsync("_Header")
+				@await Html.PartialAsync("_MenuLeft")
+			}
 
-            <v-main :class="background">
-                <v-container fluid>
-                    <v-row v-if="breadcrums.length > 0" class="breadcrum-row">
-                        <v-breadcrumbs :items="breadcrums">
-                            <template v-slot:item="{ item }">
-                                <v-breadcrumbs-item :href="item.href"
-                                                    :disabled="item.disabled">
-                                    <span style="font-weight: bold;"> {{  item.text.toUpperCase() }}</span>
-                                </v-breadcrumbs-item>
-                            </template>
-                        </v-breadcrumbs>
+			<v-main :class="background">
+				<v-container fluid>
+					<v-row v-if="breadcrums.length > 0" class="breadcrum-row">
+						<v-breadcrumbs :items="breadcrums">
+							<template v-slot:item="{ item }">
+								<v-breadcrumbs-item :href="item.href"
+													:disabled="item.disabled">
+									<span style="font-weight: bold;"> {{  item.text.toUpperCase() }}</span>
+								</v-breadcrumbs-item>
+							</template>
+						</v-breadcrumbs>
 
-                    </v-row>
+					</v-row>
 
-                    @RenderBody()
+					@RenderBody()
 
-                    <v-snackbar v-model="notification.show"
-                                transition="scale-transition"
-                                :color="notification.type"
-                                :timeout="notification.timeout">
+					<v-snackbar v-model="notification.show"
+								transition="scale-transition"
+								:color="notification.type"
+								:timeout="notification.timeout">
 
-                        <v-icon :color="notification.iconColor">
-                            {{notification.icon}}
-                        </v-icon>
-                        {{notification.message}}
-                    </v-snackbar>
-                </v-container>
-            </v-main>
+						<v-icon :color="notification.iconColor">
+							{{notification.icon}}
+						</v-icon>
+						{{notification.message}}
+					</v-snackbar>
+				</v-container>
+			</v-main>
 
-            @if (User.Identity.IsAuthenticated)
-            {
-                <v-footer app style="font-size:13px">
-                    {{jsglobals.PieDeAplicacion}}
-                </v-footer>
-            }
-        </v-app>
+			@if (User.Identity.IsAuthenticated)
+			{
+				<v-footer app style="font-size:13px">
+					{{jsglobals.PieDeAplicacion}}
+				</v-footer>
+			}
+		</v-app>
 
-    </div>
+	</div>
 
-    <script type="text/javascript">
+	<script type="text/javascript">
 
-        var vueApp = null;
-        var vueAppParams = { vuetify: new Vuetify(), data: { errors: {} }, methods: {}, postInstanceCreated: function () { } };
+		var vueApp = null;
+		var vueAppParams = { vuetify: new Vuetify(), data: { errors: {} }, methods: {}, postInstanceCreated: function () { } };
 
-        vueAppParams.data.jsglobals = {};
-        vueAppParams.data.background = '';
-        vueAppParams.el = "#ARQApp";
-        vueAppParams.data.background = 'acerbrag-bg';
-        vueAppParams.data.readyForRender = true;
+		vueAppParams.data.jsglobals = {};
+		vueAppParams.data.background = '';
+		vueAppParams.el = "#ARQApp";
+		vueAppParams.data.background = 'acerbrag-bg';
+		vueAppParams.data.readyForRender = true;
 
-        //Menu
-        vueAppParams.data.drawer = false;
-        vueAppParams.data.group = null;
-        //Breadcrums
-        vueAppParams.data.breadcrums = [];
+		//Menu
+		vueAppParams.data.drawer = false;
+		vueAppParams.data.group = null;
+		//Breadcrums
+		vueAppParams.data.breadcrums = [];
 
-    </script>
+	</script>
 
-    <script src="~/js/site.js"></script>
-    <script src="~/js/errorHandler.js"></script>
-    <script src="~/js/notification.js"></script>
-    <script src="~/js/validation.js"></script>
-    <script src="~/js/dateUtils.js"></script>
-    <script src="~/js/numericUtils.js"></script>
-    <script src="~/js/account/logout.js"></script>
+	<script src="~/js/site.js"></script>
+	<script src="~/js/errorHandler.js"></script>
+	<script src="~/js/notification.js"></script>
+	<script src="~/js/validation.js"></script>
+	<script src="~/js/dateUtils.js"></script>
+	<script src="~/js/numericUtils.js"></script>
+	<script src="~/js/account/logout.js"></script>
 
 
-    @await Html.PartialAsync("_RecursosUI")
+	@await Html.PartialAsync("_RecursosUI")
 
-    @RenderSection("scripts", required: false)
+	@RenderSection("scripts", required: false)
 
-    <script type="text/javascript">
-        vueApp = new Vue(vueAppParams);
-        vueAppParams.postInstanceCreated(vueApp);
-    </script>
+	<script type="text/javascript">
+		vueApp = new Vue(vueAppParams);
+		vueAppParams.postInstanceCreated(vueApp);
+	</script>
 
 </body>
 </html>

@@ -39,5 +39,7 @@
 
         public const string SP_MATERIALES_OBTENER = "sp_materiales_obtener";
 
+        public const string EXTENSION_MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
     }
 }
